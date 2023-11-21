@@ -260,7 +260,9 @@ const deleteCita = async () => {
         label="Programar cita"
         icon="add"
       ></q-btn>
-      <q-btn color="primary" @click="prompt = true">Nueva cita</q-btn>
+      <q-btn color="primary" @click="prompt = true"
+        >Registrar cita actual</q-btn
+      >
     </div>
   </div>
   <div class="q-mt-sm">

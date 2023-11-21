@@ -23,7 +23,7 @@
             <div class="q-ml-md">
               <span
                 class="text-weight-bold q-mt-md"
-                style="display: block; font-size: 24px; color: #404040"
+                style="display: block; font-size: 20px; color: #404040"
                 >Jonathan Martinez Paz</span
               >
               <span
@@ -83,7 +83,7 @@
         <q-card flat class="q-px-lg q-py-lg" style="height: 310px">
           <h3
             class="text-weight-bold q-mt-none q-mb-sm"
-            style="font-size: 24px; color: #404040"
+            style="font-size: 20px; color: #404040"
           >
             Salud y estilo de vida
           </h3>
