@@ -365,7 +365,7 @@ const submit = async () => {
 };
 </script>
 <template>
-  <div class="q-mt-md">
+  <div class="q-mt-md q-mb-md">
     <span class="text-black text-bold text-h5"
       >Equivalencias nutricionales
       {{ fecha === null ? '' : ` del ${fecha}` }}</span

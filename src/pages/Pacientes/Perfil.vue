@@ -1,7 +1,7 @@
 <template>
   <q-page class="fondo-gris q-py-sm q-px-xl">
     <BotonBack :url="`/pacientes`" />
-    <div class="row justify-between items-center q-mx-md q-mt-sm">
+    <div class="row justify-between items-center q-mx-md q-mt-sm q-mb-md">
       <span class="text-black text-bold text-h5">Resumen del paciente</span>
       <q-btn
         color="primary"
@@ -14,144 +14,152 @@
       />
     </div>
     <div class="row q-mx-md q-mt-sm">
-      <div class="col-12 q-mb-md">
-        <q-card flat bordered class="row" style="height: 235px">
-          <q-card-section class="col-4" style="border-right: 1px solid #e2e8f0">
-            <div class="column items-center justify-center">
-              <q-avatar size="80px" class="q-mt-sm">
-                <img src="../../assets/images.png" />
-              </q-avatar>
-              <span class="text-weight-bold q-mt-xs" style="font-size: 18px">{{
-                paciente.nombre +
-                ' ' +
-                paciente.apellido_paterno +
-                ' ' +
-                paciente.apellido_materno
-              }}</span>
-              <span style="font-size: 12px; font-weight: 700; color: #94a3b8">{{
-                paciente.telefono
-              }}</span>
-              <span style="font-size: 12px; font-weight: 700; color: #94a3b8">{{
-                paciente.email
-              }}</span>
-              <q-toggle
-                v-model="acceso"
-                checked-icon="check"
-                color="primary"
-                :label="getAcceso ? 'Acceso' : 'Sin acceso'"
-                size="xl"
-                @click="handleAcceso"
-              />
-            </div>
-          </q-card-section>
-          <q-card-section
-            class="col-4 q-pl-xl"
-            style="border-right: 1px solid #e2e8f0"
-          >
-            <p class="text-weight-bold q-mt-md q-mb-sm">Datos generales</p>
-            <div class="row justify-between q-mb-sm" style="width: 210px">
-              <span class="text-weight-bold" style="font-size: 16px">Sexo</span>
+      <div class="col-12 col-md-6 q-mb-md q-pr-md">
+        <q-card flat style="height: 310px">
+          <div class="row q-px-xl q-pt-xl">
+            <q-avatar size="100px" class="q-mt-sm">
+              <img src="../../assets/images.png" />
+            </q-avatar>
+            <div class="q-ml-md">
               <span
-                class="text-weight-bold"
-                style="font-size: 16px; color: #94a3b8"
-                >{{ paciente.sexo == 'M' ? 'Hombre' : 'Mujer' }}</span
-              >
-            </div>
-            <div class="row justify-between q-mb-sm" style="width: 210px">
-              <span class="text-weight-bold" style="font-size: 16px">Edad</span>
-              <span
-                class="text-weight-bold"
-                style="font-size: 16px; color: #94a3b8"
-                >{{ getEdad }}</span
-              >
-            </div>
-            <div class="row justify-between q-mb-sm" style="width: 210px">
-              <span class="text-weight-bold" style="font-size: 16px"
-                >Altura</span
+                class="text-weight-bold q-mt-md"
+                style="display: block; font-size: 24px; color: #404040"
+                >Jonathan Martinez Paz</span
               >
               <span
-                class="text-weight-bold"
-                style="font-size: 16px; color: #94a3b8"
-                >{{ getAltura }}</span
-              >
-            </div>
-            <div class="row justify-between q-mb-sm" style="width: 210px">
-              <span class="text-weight-bold" style="font-size: 16px"
-                >Consultorio</span
-              >
-              <span
-                class="text-weight-bold"
-                style="font-size: 16px; color: #94a3b8"
-                >{{ paciente.consultorio?.nombre }}</span
-              >
-            </div>
-            <div class="row justify-between q-mb-sm" style="width: 210px">
-              <span class="text-weight-bold" style="font-size: 16px"
-                >Nutricionista</span
+                style="
+                  display: block;
+                  font-size: 16px;
+                  font-weight: 400;
+                  color: #737373;
+                "
+                >Paciente</span
               >
               <span
-                class="text-weight-bold"
-                style="font-size: 16px; color: #94a3b8"
-                >{{ paciente.nutricionista?.nombre }}</span
+                style="
+                  display: block;
+                  font-size: 16px;
+                  font-weight: 400;
+                  color: #737373;
+                "
+                >Hombre - 35 años</span
               >
             </div>
-          </q-card-section>
-
-          <q-card-section class="col-4 q-pl-xl">
-            <div class="row justify-between items-center q-mt-md q-mb-md">
-              <p class="text-weight-bold q-mb-none">Datos Adicionales</p>
-              <!--  -->
-            </div>
-            <div class="row justify-between q-mb-sm" style="width: 240px">
-              <span class="text-weight-bold" style="font-size: 16px"
-                >Condiciones médicas</span
+          </div>
+          <div class="row q-px-xl">
+            <div class="q-ml-md">
+              <span
+                class="text-weight-bold q-mt-md"
+                style="display: block; font-size: 18px; color: #404040"
+                >Detalles de contacto:</span
               >
               <span
-                class="text-weight-bold"
-                style="font-size: 16px; color: #94a3b8"
-                >{{
-                  paciente.condiciones_medicas
-                    ? paciente.condiciones_medicas
-                    : 'Ninguna'
-                }}</span
+                style="
+                  display: block;
+                  font-size: 16px;
+                  font-weight: 700;
+                  color: #737373;
+                "
               >
-            </div>
-            <div class="row justify-between q-mb-sm" style="width: 240px">
-              <span class="text-weight-bold" style="font-size: 16px"
-                >Actividad física</span
+                <q-icon name="call" left color="primary" size="16px" />
+                +52 444 444 4444</span
               >
               <span
-                class="text-weight-bold"
-                style="font-size: 16px; color: #94a3b8"
-                >{{ paciente.actividad_fisica?.nombre }}</span
+                style="
+                  display: block;
+                  font-size: 16px;
+                  font-weight: 700;
+                  color: #737373;
+                "
+              >
+                <q-icon name="mail" left color="primary" size="16px" />
+                jonathan.martinez@gmail.com</span
               >
             </div>
-            <div class="row justify-between q-mb-sm" style="width: 240px">
-              <span class="text-weight-bold" style="font-size: 16px"
-                >Alergias</span
-              >
-              <span
-                class="text-weight-bold"
-                style="font-size: 16px; color: #94a3b8"
-                >{{ paciente.alergias ? paciente.alergias : 'Ninguna' }}</span
-              >
-            </div>
-            <div class="row justify-between q-mb-sm" style="width: 240px">
-              <span class="text-weight-bold" style="font-size: 16px"
-                >Objetivo actual</span
-              >
-              <span
-                class="text-weight-bold"
-                style="font-size: 16px; color: #94a3b8"
-                >{{ paciente.objetivo?.nombre }}</span
-              >
-            </div>
-          </q-card-section>
+          </div>
         </q-card>
       </div>
-      <div class="col-6 q-mb-md q-pr-sm">
+      <div class="col-12 col-md-6 q-mb-md q-pl-md">
+        <q-card flat class="q-px-lg q-py-lg" style="height: 310px">
+          <h3
+            class="text-weight-bold q-mt-none q-mb-sm"
+            style="font-size: 24px; color: #404040"
+          >
+            Salud y estilo de vida
+          </h3>
+          <div class="row">
+            <div class="col-6">
+              <p
+                class="q-mb-none"
+                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
+              >
+                Actividad Fisica semanal
+              </p>
+              <p style="color: #404040; font-size: 16px; font-weight: 700">
+                Diario
+              </p>
+            </div>
+            <div class="col-6">
+              <p
+                class="q-mb-none"
+                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
+              >
+                Objetivo Actual
+              </p>
+              <p style="color: #404040; font-size: 16px; font-weight: 700">
+                Ganar musculo
+              </p>
+            </div>
+            <div class="col-6">
+              <p
+                class="q-mb-none"
+                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
+              >
+                Alergias
+              </p>
+              <p style="color: #404040; font-size: 16px; font-weight: 700">
+                Lactosa
+              </p>
+            </div>
+            <div class="col-6">
+              <p
+                class="q-mb-none"
+                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
+              >
+                Condiciones médicas
+              </p>
+              <p style="color: #404040; font-size: 16px; font-weight: 700">
+                Ninguna
+              </p>
+            </div>
+            <div class="col-6">
+              <p
+                class="q-mb-none"
+                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
+              >
+                Medicamentos
+              </p>
+              <p style="color: #404040; font-size: 16px; font-weight: 700">
+                Ninguno
+              </p>
+            </div>
+            <div class="col-6">
+              <p
+                class="q-mb-none"
+                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
+              >
+                Trastornos alimenticios
+              </p>
+              <p style="color: #404040; font-size: 16px; font-weight: 700">
+                Ninguno
+              </p>
+            </div>
+          </div>
+        </q-card>
+      </div>
+      <div class="col-6 q-mb-md q-pr-md">
         <q-expansion-item
-          class="shadow-1 overflow-hidden"
+          class="overflow-hidden"
           icon="description"
           label="Registro de consumo"
           header-class="bg-white text-black"
@@ -172,9 +180,9 @@
           </q-card>
         </q-expansion-item>
       </div>
-      <div class="col-6 q-mb-md q-pl-sm">
+      <div class="col-6 q-mb-md q-pl-md">
         <q-expansion-item
-          class="shadow-1 overflow-hidden"
+          class="overflow-hidden"
           icon="description"
           label="Antecedentes"
           header-class="bg-white text-black"
