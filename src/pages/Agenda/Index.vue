@@ -8,7 +8,7 @@
         <div class="row">
           <q-btn
             @click="prompt = true"
-            label="Nuevo cita"
+            label="Nueva cita"
             color="primary"
             :icon="'add'"
             class="text-capitalize"
