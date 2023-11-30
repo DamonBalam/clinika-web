@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <AgendaCalendar />
+    <AgendaCalendar :events="events" :is-loading="loading" />
 
     <q-dialog v-model="prompt" persistent>
       <q-card
@@ -33,17 +33,27 @@
 
         <q-form ref="myForm">
           <q-card-section class="row q-col-gutter-sm">
-            <div class="col-6">
+            <div class="col-6 q-mt-md">
               <label for="" class="c_label">Cliente</label>
               <q-select
                 filled
                 fill-input
                 input-debounce="0"
-                v-model="model"
+                v-model="form.cliente"
+                placeholder="Buscar cliente"
                 use-input
                 hide-selected
-                :options="options"
                 @filter="filterFn"
+                :options="
+                  options.map(item => {
+                    return {
+                      ...item,
+                      label: item.nombre_completo,
+                      value: item.id
+                    };
+                  })
+                "
+                map-options
                 dense
               >
                 <template v-slot:prepend>
@@ -52,34 +62,39 @@
                 <template v-slot:no-option>
                   <q-item>
                     <q-item-section class="text-grey">
-                      No results
+                      No se encuentra el cliente
+                    </q-item-section>
+                  </q-item>
+                </template>
+                <template v-slot:option="scope">
+                  <q-item v-bind="scope.itemProps">
+                    <q-item-section avatar>
+                      <q-avatar>
+                        <img :src="scope.opt.img" />
+                      </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label style="font-size: 14px">{{
+                        scope.opt.label
+                      }}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </template>
               </q-select>
             </div>
-            <div class="col-6">
+            <div class="col-6 q-mt-md">
               <label for="" class="c_label">Videoconferencia</label>
-              <q-input
-                filled
-                fill-input
-                input-debounce="0"
-                dense
-                v-model="form.peso"
-                autofocus
-                lazy-rules
-                :rules="[val => !!val || 'El peso es requerido']"
-              >
+              <q-input v-model="form.videoconferencia" filled dense disable>
                 <template v-slot:prepend>
                   <q-icon name="videocam" />
                 </template>
               </q-input>
             </div>
-            <div class="col-3">
+            <div class="col-3 q-mt-md">
               <label for="" class="c_label">Fecha de consulta</label>
               <q-input
                 filled
-                v-model="date"
+                v-model="form.fecha"
                 mask="date"
                 :rules="['date']"
                 dense
@@ -91,7 +106,7 @@
                       transition-show="scale"
                       transition-hide="scale"
                     >
-                      <q-date v-model="date">
+                      <q-date v-model="form.fecha">
                         <div class="row items-center justify-end">
                           <q-btn
                             v-close-popup
@@ -106,11 +121,11 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-3">
-              <label for="" class="c_label">Hora de consulta</label>
+            <div class="col-2 q-mt-md">
+              <label for="" class="c_label">Hora de inicio</label>
               <q-input
                 filled
-                v-model="time"
+                v-model="form.horaStart"
                 mask="time"
                 :rules="['time']"
                 dense
@@ -123,7 +138,7 @@
                       transition-hide="scale"
                     >
                       <q-time
-                        v-model="time"
+                        v-model="form.horaStart"
                         format24h
                         :options="optionsFnTime2"
                       >
@@ -141,90 +156,274 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-6">
-              <label for="" class="c_label">Lugar de consulta</label>
+            <div class="col-2 q-mt-md">
+              <label for="" class="c_label">Hora de terminación</label>
               <q-input
-                outlined
+                filled
+                v-model="form.horaEnd"
+                mask="time"
+                :rules="['time']"
                 dense
-                v-model="form.peso"
-                autofocus
-                lazy-rules
-                :rules="[val => !!val || 'El peso es requerido']"
               >
                 <template v-slot:prepend>
-                  <q-icon name="location_on" />
+                  <q-icon name="access_time" class="cursor-pointer">
+                    <q-popup-proxy
+                      cover
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-time
+                        v-model="form.horaEnd"
+                        format24h
+                        :options="optionsFnTime2"
+                      >
+                        <div class="row items-center justify-end">
+                          <q-btn
+                            v-close-popup
+                            label="Close"
+                            color="primary"
+                            flat
+                          />
+                        </div>
+                      </q-time>
+                    </q-popup-proxy>
+                  </q-icon>
                 </template>
               </q-input>
             </div>
-          </q-card-section>
-        </q-form>
+            <div class="col-5 q-mt-md">
+              <label for="" class="c_label">Lugar de consulta</label>
+              <q-select
+                filled
+                dense
+                v-model="form.lugar"
+                :options="
+                  consultorios.map(item => {
+                    return {
+                      ...item,
+                      label: item.nombre,
+                      value: item.id
+                    };
+                  })
+                "
+              >
+                <template v-slot:prepend>
+                  <q-icon name="manage_accounts" />
+                </template>
+              </q-select>
+            </div>
 
-        <q-card-actions align="right" class="text-primary q-mr-md">
-          <q-btn
-            outline
-            label="Cancelar"
-            @click="closeModal"
-            style="width: 175px"
-          />
-          <q-btn
-            color="primary"
-            :label="form.id === null ? 'Guardar' : 'Actualizar'"
-            v-close-popup
-            style="width: 175px"
-            @click="submit"
-          />
-        </q-card-actions>
+            <div class="col-12 q-mt-md">
+              <q-expansion-item
+                class="overflow-hidden"
+                icon="description"
+                label="Añadir notas de programación a la consulta"
+                header-class="bg-white text-black"
+                expand-icon-class="text-black"
+              >
+                <q-card>
+                  <q-card-section>
+                    <q-input filled color="white" dense v-model="form.notas">
+                    </q-input>
+                  </q-card-section>
+                </q-card>
+              </q-expansion-item>
+            </div>
+            <div class="col-12 q-mt-md">
+              <label for="" class="c_label">Estado de la consulta</label>
+              <q-select filled dense v-model="form.estado" :options="status">
+                <template v-slot:prepend>
+                  <q-icon name="manage_accounts" />
+                </template>
+              </q-select>
+            </div>
+            <div class="col-12 q-mt-md">
+              <div class="bg-white" style="width: 320px">
+                <q-checkbox
+                  v-model="form.sincronizar"
+                  checked-icon="check_circle_outline"
+                  unchecked-icon="radio_button_unchecked"
+                  label="Sincronizar consulta con Google Calendar"
+                  disable
+                />
+              </div>
+            </div>
+          </q-card-section>
+          <q-card-actions align="between" class="text-primary q-mr-md">
+            <q-btn
+              outline
+              label="Cancelar"
+              @click="closeModal"
+              class="full-width"
+              style="max-width: 48%"
+            />
+            <q-btn
+              color="primary"
+              :label="form.id === null ? 'Guardar' : 'Actualizar'"
+              @click="submit"
+              class="full-width"
+              style="max-width: 48%"
+              :disable="disabled"
+            />
+          </q-card-actions>
+        </q-form>
       </q-card>
     </q-dialog>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import Notification from '../../components/Notification.vue';
 import AgendaCalendar from 'src/components/AgendaCalendar.vue';
-const date = ref('2023/11/29');
-const time = ref('10:56');
 const prompt = ref(false);
-const confirm = ref(false);
+const loading = ref(false);
 const myForm = ref<HTMLFormElement | null>(null);
+
+const events = ref([
+  {
+    title: 'Arturo Saldivar',
+    with: 'Nutriologa Diana',
+    topic: 'Confirmada',
+    time: { start: '2023-11-30 08:00', end: '2023-11-30 09:00' },
+    colorScheme: 'confirmada',
+    id: '753944708f0f',
+    description: 'Descripcion prueba'
+  },
+  {
+    title: 'Pedro Lopez',
+    with: 'Nutriologa Diana',
+    topic: 'No confirmada',
+    time: { start: '2023-11-30 10:00', end: '2023-11-30 11:00' },
+    colorScheme: 'noConfirmada',
+    id: '753944708f0f',
+    description: 'Descripcion prueba'
+  },
+  {
+    title: 'Jose Hernandez',
+    with: 'Nutriologa Diana',
+    topic: 'Cancelada',
+    time: { start: '2023-11-30 12:00', end: '2023-11-30 13:00' },
+    colorScheme: 'cancelada',
+    id: '753944708f0f',
+    description: 'Descripcion prueba'
+  }
+]);
 
 const form = reactive({
   id: null,
-  peso: '',
-  musculo: '',
-  grasas: '',
-  porcentaje_grasa: '',
-  cc: '',
-  grasa_viceral: '',
-  evolucion: ''
+  cliente: null,
+  videoconferencia: null,
+  url: null,
+  fecha: null,
+  horaStart: null,
+  horaEnd: null,
+  lugar: null,
+  notas: null,
+  estado: null,
+  sincronizar: false
 });
 
 const submit = async () => {
   if (myForm.value?.validate()) {
+    loading.value = true;
+    const fechaStartFormateada = form.fecha.replace(/\//g, '-');
+    const event = {
+      title: form.cliente?.nombre_completo,
+      with: 'Nutriologa Diana',
+      topic: form.estado,
+      time: {
+        start: `${fechaStartFormateada} ${form.horaStart}`,
+        end: `${fechaStartFormateada} ${form.horaEnd}`
+      },
+      colorScheme:
+        form.estado.toLowerCase() === 'confirmada'
+          ? 'confirmada'
+          : form.estado.toLowerCase() === 'no confirmada'
+          ? 'noConfirmada'
+          : 'cancelada',
+      id: `${events.value.length + 1}`,
+      description: form.notas
+    };
+
+    if (form.id === null) {
+      events.value.push(event);
+      closeModal();
+    }
   }
+
+  setTimeout(() => {
+    loading.value = false;
+  }, 3000);
 };
 
 const closeModal = () => {
   prompt.value = false;
   form.id = null;
-  form.peso = '';
-  form.musculo = '';
-  form.grasas = '';
-  form.porcentaje_grasa = '';
-  form.cc = '';
-  form.grasa_viceral = '';
-  form.evolucion = '';
+  form.cliente = null;
+  form.videoconferencia = null;
+  form.url = null;
+  form.fecha = null;
+  form.horaStart = null;
+  form.horaEnd = null;
+  form.lugar = null;
+  form.notas = null;
+  form.estado = null;
+  form.sincronizar = false;
 };
-const stringOptions = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'];
+const stringOptions = [
+  {
+    id: 1,
+    nombre: 'Juan',
+    apellido: 'Perez',
+    nombre_completo: 'Juan Perez',
+    img: 'https://cdn.quasar.dev/img/avatar.png'
+  },
+  {
+    id: 2,
+    nombre: 'Pedro',
+    apellido: 'Perez',
+    nombre_completo: 'Pedro Perez',
+    img: 'https://cdn.quasar.dev/img/avatar.png'
+  },
+  {
+    id: 2,
+    nombre: 'Luis',
+    apellido: 'Perez',
+    nombre_completo: 'Luis Perez',
+    img: 'https://cdn.quasar.dev/img/avatar.png'
+  }
+];
+
+const consultorios = [
+  {
+    id: 1,
+    nombre: 'Consultorio 1',
+    direccion: 'Av. 1 de Mayo 123',
+    img: 'https://cdn.quasar.dev/img/avatar.png'
+  },
+  {
+    id: 2,
+    nombre: 'Consultorio 2',
+    direccion: 'Av. 1 de Mayo 123',
+    img: 'https://cdn.quasar.dev/img/avatar.png'
+  },
+  {
+    id: 3,
+    nombre: 'Consultorio 3',
+    direccion: 'Av. 1 de Mayo 123',
+    img: 'https://cdn.quasar.dev/img/avatar.png'
+  }
+];
+
+const status = ['Confirmada', 'No Confirmada', 'Cancelada'];
 const options = ref(stringOptions);
-const model = ref(null);
 
 function filterFn (val, update, abort) {
   update(() => {
     const needle = val.toLowerCase();
     options.value = stringOptions.filter(
-      v => v.toLowerCase().indexOf(needle) > -1
+      v => v.nombre_completo.toLowerCase().indexOf(needle) > -1
     );
   });
 }
@@ -238,6 +437,19 @@ function optionsFnTime2 (hr, min, sec) {
   }
   return true;
 }
+
+const disabled = computed(() => {
+  if (
+    form.cliente === null ||
+    form.fecha === null ||
+    form.horaStart === null ||
+    form.horaEnd === null ||
+    form.lugar === null ||
+    form.estado === null
+  ) {
+    return true;
+  }
+});
 </script>
 <style scoped lang="scss">
 .fondo-gris {
