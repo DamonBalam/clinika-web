@@ -244,9 +244,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import Notification from '../../components/Notification.vue';
 import AgendaCalendar from 'src/components/AgendaCalendar.vue';
+import { on } from 'events';
 const prompt = ref(false);
 const loading = ref(false);
 const myForm = ref<HTMLFormElement | null>(null);
@@ -293,11 +294,11 @@ const form = reactive({
   videoconferencia: null,
   url: null,
   fecha: null,
-  horaStart: null,
-  horaEnd: null,
+  horaStart: '08:00',
+  horaEnd: '09:00',
   lugar: null,
   notas: null,
-  estado: null,
+  estado: 'No Confirmada',
   sincronizar: false
 });
 
@@ -345,12 +346,12 @@ const closeModal = () => {
   form.cliente = null;
   form.videoconferencia = null;
   form.url = null;
-  form.fecha = null;
-  form.horaStart = null;
-  form.horaEnd = null;
+  form.fecha = fechaActual.value;
+  form.horaStart = '08:00';
+  form.horaEnd = '09:00';
   form.lugar = null;
   form.notas = null;
-  form.estado = null;
+  form.estado = 'No Confirmada';
   form.sincronizar = false;
 };
 
@@ -478,11 +479,24 @@ const validHoraEnd = computed(() => {
   return regex.test(form?.horaEnd);
 });
 
-// validarHora() {
-//       // Expresión regular para validar HH:mm (formato de 24 horas)
-//       const regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-//        = regex.test(this.hora24);
-// }
+const fechaActual = computed(() => {
+  const fecha = new Date();
+  const today = new Date();
+
+  // Extraer el año, mes y día de la fecha actual
+  const year = today.getFullYear();
+  // El mes es devuelto en base 0 (enero es 0, diciembre es 11), así que sumamos 1
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Agrega un 0 si es necesario
+  const day = String(today.getDate()).padStart(2, '0'); // Agrega un 0 si es necesario
+
+  // Formatear la fecha al formato "YYYY/MM/DD"
+  return `${year}/${month}/${day}`;
+});
+
+onMounted(() => {
+  console.log(fechaActual.value);
+  form.fecha = fechaActual.value;
+});
 </script>
 <style scoped lang="scss">
 .fondo-gris {
