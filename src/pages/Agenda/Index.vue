@@ -29,9 +29,15 @@
         class="q-pa-lg"
       >
         <q-card-section>
-          <div class="title">Programar nueva consulta</div>
+          <div class="title">
+            {{ !isEdit ? 'Programar nueva consulta' : 'Actualizar cita' }}
+          </div>
           <div class="subtitle">
-            Datos para la programación de una nueva consulta
+            {{
+              !isEdit
+                ? 'Datos para la programación de una nueva consulta'
+                : 'Datos para la actualización de la consulta'
+            }}
           </div>
         </q-card-section>
 
@@ -48,6 +54,7 @@
                 use-input
                 hide-selected
                 @filter="filterFn"
+                :disable="isEdit"
                 :options="
                   options.map(item => {
                     return {
@@ -441,6 +448,10 @@ const disabled = computed(() => {
   ) {
     return true;
   }
+});
+
+const isEdit = computed(() => {
+  return form.id !== null;
 });
 </script>
 <style scoped lang="scss">
