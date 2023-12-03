@@ -140,6 +140,7 @@
                 mask="time"
                 :rules="['time']"
                 dense
+                error-message="Hora invalida"
               >
                 <template v-slot:prepend>
                   <q-icon name="access_time"> </q-icon>
@@ -154,6 +155,7 @@
                 mask="time"
                 :rules="['time']"
                 dense
+                error-message="Hora invalida"
               >
                 <template v-slot:prepend>
                   <q-icon name="access_time"> </q-icon>
@@ -442,9 +444,13 @@ const disabled = computed(() => {
     form.cliente === null ||
     form.fecha === null ||
     form.horaStart === null ||
+    form.horaStart === '' ||
     form.horaEnd === null ||
+    form.horaEnd === '' ||
     form.lugar === null ||
-    form.estado === null
+    form.estado === null ||
+    validHoraStart.value === false ||
+    validHoraEnd.value === false
   ) {
     return true;
   }
@@ -453,6 +459,30 @@ const disabled = computed(() => {
 const isEdit = computed(() => {
   return form.id !== null;
 });
+
+const validHoraStart = computed(() => {
+  const regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+
+  if (form?.horaStart === null) {
+    return false;
+  }
+  return regex.test(form?.horaStart);
+});
+
+const validHoraEnd = computed(() => {
+  const regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+
+  if (form?.horaEnd === null) {
+    return false;
+  }
+  return regex.test(form?.horaEnd);
+});
+
+// validarHora() {
+//       // Expresión regular para validar HH:mm (formato de 24 horas)
+//       const regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+//        = regex.test(this.hora24);
+// }
 </script>
 <style scoped lang="scss">
 .fondo-gris {
