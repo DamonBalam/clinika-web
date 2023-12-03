@@ -17,7 +17,11 @@
       </div>
     </div>
 
-    <AgendaCalendar :events="events" :is-loading="loading" />
+    <AgendaCalendar
+      :events="events"
+      :is-loading="loading"
+      @event-edit="openModalEdit"
+    />
 
     <q-dialog v-model="prompt" persistent>
       <q-card
@@ -131,28 +135,7 @@
                 dense
               >
                 <template v-slot:prepend>
-                  <q-icon name="access_time" class="cursor-pointer">
-                    <q-popup-proxy
-                      cover
-                      transition-show="scale"
-                      transition-hide="scale"
-                    >
-                      <q-time
-                        v-model="form.horaStart"
-                        format24h
-                        :options="optionsFnTime2"
-                      >
-                        <div class="row items-center justify-end">
-                          <q-btn
-                            v-close-popup
-                            label="Close"
-                            color="primary"
-                            flat
-                          />
-                        </div>
-                      </q-time>
-                    </q-popup-proxy>
-                  </q-icon>
+                  <q-icon name="access_time"> </q-icon>
                 </template>
               </q-input>
             </div>
@@ -166,28 +149,7 @@
                 dense
               >
                 <template v-slot:prepend>
-                  <q-icon name="access_time" class="cursor-pointer">
-                    <q-popup-proxy
-                      cover
-                      transition-show="scale"
-                      transition-hide="scale"
-                    >
-                      <q-time
-                        v-model="form.horaEnd"
-                        format24h
-                        :options="optionsFnTime2"
-                      >
-                        <div class="row items-center justify-end">
-                          <q-btn
-                            v-close-popup
-                            label="Close"
-                            color="primary"
-                            flat
-                          />
-                        </div>
-                      </q-time>
-                    </q-popup-proxy>
-                  </q-icon>
+                  <q-icon name="access_time"> </q-icon>
                 </template>
               </q-input>
             </div>
@@ -286,6 +248,8 @@ const events = ref([
     with: 'Nutriologa Diana',
     topic: 'Confirmada',
     time: { start: '2023-11-30 08:00', end: '2023-11-30 09:00' },
+    isEditable: true,
+    lugar: 'Consultorio 1',
     colorScheme: 'confirmada',
     id: '753944708f0f',
     description: 'Descripcion prueba'
@@ -295,8 +259,10 @@ const events = ref([
     with: 'Nutriologa Diana',
     topic: 'No confirmada',
     time: { start: '2023-11-30 10:00', end: '2023-11-30 11:00' },
+    isEditable: true,
+    lugar: 'Consultorio 1',
     colorScheme: 'noConfirmada',
-    id: '753944708f0f',
+    id: '763944708f0f',
     description: 'Descripcion prueba'
   },
   {
@@ -304,8 +270,10 @@ const events = ref([
     with: 'Nutriologa Diana',
     topic: 'Cancelada',
     time: { start: '2023-11-30 12:00', end: '2023-11-30 13:00' },
+    isEditable: true,
+    lugar: 'Consultorio 1',
     colorScheme: 'cancelada',
-    id: '753944708f0f',
+    id: '773944708f0f',
     description: 'Descripcion prueba'
   }
 ]);
@@ -329,7 +297,7 @@ const submit = async () => {
     loading.value = true;
     const fechaStartFormateada = form.fecha.replace(/\//g, '-');
     const event = {
-      title: form.cliente?.nombre_completo,
+      title: form.cliente?.nombre_completo || form.cliente,
       with: 'Nutriologa Diana',
       topic: form.estado,
       time: {
@@ -343,11 +311,16 @@ const submit = async () => {
           ? 'noConfirmada'
           : 'cancelada',
       id: `${events.value.length + 1}`,
-      description: form.notas
+      description: form.notas,
+      isEditable: true
     };
 
     if (form.id === null) {
       events.value.push(event);
+      closeModal();
+    } else {
+      const index = events.value.findIndex(item => item.id === form.id);
+      events.value[index] = event;
       closeModal();
     }
   }
@@ -371,6 +344,25 @@ const closeModal = () => {
   form.estado = null;
   form.sincronizar = false;
 };
+
+const openModalEdit = id => {
+  const event = events.value.find(item => item.id === id);
+
+  form.id = event.id;
+  form.cliente = event.title;
+  form.videoconferencia = null;
+  form.url = null;
+  form.fecha = event.time.start.split(' ')[0];
+  form.horaStart = event.time.start.split(' ')[1];
+  form.horaEnd = event.time.end.split(' ')[1];
+  form.lugar = event.lugar;
+  form.notas = event.description;
+  form.estado = event.topic;
+  form.sincronizar = false;
+
+  prompt.value = true;
+};
+
 const stringOptions = [
   {
     id: 1,

@@ -4,6 +4,7 @@
       :events="eventsComputed"
       :config="config"
       :is-loading="isLoading"
+      @edit-event="eventEdit"
     />
   </div>
 </template>
@@ -27,7 +28,11 @@ export default {
       default: false
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
+    const eventEdit = event => {
+      emit('event-edit', event);
+    };
+
     const eventsComputed = computed(() => {
       return props.isLoading ? [] : props.events;
     });
@@ -65,7 +70,8 @@ export default {
 
     return {
       config,
-      eventsComputed
+      eventsComputed,
+      eventEdit
     };
   }
 };
