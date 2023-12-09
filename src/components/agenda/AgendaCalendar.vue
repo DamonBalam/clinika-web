@@ -15,21 +15,21 @@ import { ref, computed } from 'vue';
 export default {
   name: 'AgendaCalendar',
   components: {
-    Qalendar
+    Qalendar,
   },
   props: {
     events: {
       type: Array,
       default: () => [],
-      required: true
+      required: true,
     },
     isLoading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  setup (props, { emit }) {
-    const eventEdit = event => {
+  setup(props, { emit }) {
+    const eventEdit = (event) => {
       emit('event-edit', event);
     };
 
@@ -48,39 +48,36 @@ export default {
 
       dayBoundaries: {
         start: 6,
-        end: 18
+        end: 18,
       },
       style: {
         colorSchemes: {
           confirmada: {
             color: '#fff',
-            backgroundColor: '#16A34A'
+            backgroundColor: '#16A34A',
           },
           noConfirmada: {
             color: '#fff',
-            backgroundColor: '#F59E0B'
+            backgroundColor: '#F59E0B',
           },
           cancelada: {
             color: '#fff',
-            backgroundColor: '#EF4444'
-          }
-        }
-      }
+            backgroundColor: '#EF4444',
+          },
+        },
+      },
     });
 
     return {
       config,
       eventsComputed,
-      eventEdit
+      eventEdit,
     };
-  }
+  },
 };
 </script>
 
 <style scoped>
-/* @import '../assets/css/style.css'; */
-/* @import 'qalendar/dist/style.css'; */
-
 .calendar-container {
   width: 100%;
   height: 750px;
