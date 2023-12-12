@@ -146,7 +146,7 @@
                   return {
                     ...item,
                     label: item.nombre,
-                    value: item.id,
+                    value: item.nombre,
                   };
                 })
               "
@@ -224,13 +224,17 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  options: {
-    type: Array,
-    default: () => [],
-  },
   event: {
     type: Object,
     default: () => {},
+  },
+  clients: {
+    type: Array,
+    default: () => [],
+  },
+  idNewClient: {
+    type: Number,
+    default: null,
   },
 });
 
@@ -261,36 +265,7 @@ const consultorios = [
 
 const status = ['Confirmada', 'No Confirmada', 'Cancelada'];
 
-const stringOptions = [
-  {
-    id: 0,
-    nombre_completo: 'Nuevo cliente',
-    // img: 'https://cdn.quasar.dev/img/avatar.png',
-  },
-  {
-    id: 1,
-    nombre: 'Juan',
-    apellido: 'Perez',
-    nombre_completo: 'Juan Perez',
-    img: 'https://cdn.quasar.dev/img/avatar.png',
-  },
-  {
-    id: 2,
-    nombre: 'Pedro',
-    apellido: 'Perez',
-    nombre_completo: 'Pedro Perez',
-    img: 'https://cdn.quasar.dev/img/avatar.png',
-  },
-  {
-    id: 2,
-    nombre: 'Luis',
-    apellido: 'Perez',
-    nombre_completo: 'Luis Perez',
-    img: 'https://cdn.quasar.dev/img/avatar.png',
-  },
-];
-
-const options = ref(stringOptions);
+const options = ref(props.clients);
 
 /* DATA */
 const modal = ref(false);
@@ -348,6 +323,10 @@ const isEdit = computed(() => {
   return form.id !== null;
 });
 
+const clientes = computed(() => {
+  return props.clients;
+});
+
 const validHoraStart = computed(() => {
   const regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 
@@ -383,7 +362,7 @@ const fechaActual = computed(() => {
 function filterFn(val, update, abort) {
   update(() => {
     const needle = val.toLowerCase();
-    options.value = stringOptions.filter(
+    options.value = clientes.value.filter(
       (v) => v.nombre_completo.toLowerCase().indexOf(needle) > -1
     );
   });
@@ -404,8 +383,6 @@ onMounted(() => {
 });
 
 const submit = () => {
-  console.log(form);
-
   emit('submit', form);
 };
 
@@ -415,6 +392,41 @@ watch(
   () => {
     modal.value = props.prompt;
   }
+);
+
+watch(
+  () => props.idNewClient,
+  () => {
+    if (props.idNewClient !== null) {
+      const newClient = clientes.value.find(
+        (item) => item.id === props.idNewClient
+      );
+      newClient.label = newClient.nombre_completo;
+      newClient.value = newClient.id;
+      form.cliente = newClient;
+    }
+  }
+);
+
+watch(
+  () => props.event,
+  () => {
+    console.log(props.event);
+    if (props.event.id !== null) {
+      form.id = props.event.id;
+      form.cliente = props.event.title;
+      form.videoconferencia = null;
+      form.url = null;
+      form.fecha = props.event.time.start.split(' ')[0];
+      form.horaStart = props.event.time.start.split(' ')[1];
+      form.horaEnd = props.event.time.end.split(' ')[1];
+      form.lugar = props.event.lugar;
+      form.notas = props.event.description;
+      form.estado = props.event.topic;
+      form.sincronizar = false;
+    }
+  },
+  { immediate: true }
 );
 
 watch(

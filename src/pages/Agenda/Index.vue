@@ -25,8 +25,12 @@
 
     <FormularioNuevaCita
       :prompt="prompt"
+      :event="eventSelected"
+      :clients="clients"
+      :id-new-client="idNewClient"
       @close="closeModal"
       @new-patient="openModalClient"
+      @submit="submit"
     />
 
     <FormularioRegistroRapido
@@ -39,14 +43,44 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue';
-import Notification from '../../components/Notification.vue';
 import AgendaCalendar from 'src/components/agenda/AgendaCalendar.vue';
 import FormularioNuevaCita from 'src/components/agenda/FormularioNuevaCita.vue';
 import FormularioRegistroRapido from 'src/components/agenda/FormularioRegistroRapido.vue';
+import Notification from '../../components/Notification.vue';
 
+const loading = ref(false);
 const prompt = ref(false);
 const promptRegistroRapido = ref(false);
-const loading = ref(false);
+const idNewClient = ref(null);
+
+const clients = [
+  {
+    id: 0,
+    nombre_completo: 'Nuevo cliente',
+    // img: 'https://cdn.quasar.dev/img/avatar.png',
+  },
+  {
+    id: 1,
+    nombre: 'Juan',
+    apellido: 'Perez',
+    nombre_completo: 'Juan Perez',
+    img: 'https://cdn.quasar.dev/img/avatar.png',
+  },
+  {
+    id: 2,
+    nombre: 'Pedro',
+    apellido: 'Perez',
+    nombre_completo: 'Pedro Perez',
+    img: 'https://cdn.quasar.dev/img/avatar.png',
+  },
+  {
+    id: 2,
+    nombre: 'Luis',
+    apellido: 'Perez',
+    nombre_completo: 'Luis Perez',
+    img: 'https://cdn.quasar.dev/img/avatar.png',
+  },
+];
 
 const events = ref([
   {
@@ -84,37 +118,41 @@ const events = ref([
   },
 ]);
 
-const submit = async () => {
-  if (myForm.value?.validate()) {
-    loading.value = true;
-    const fechaStartFormateada = form.fecha.replace(/\//g, '-');
-    const event = {
-      title: form.cliente?.nombre_completo || form.cliente,
-      with: 'Nutriologa Diana',
-      topic: form.estado,
-      time: {
-        start: `${fechaStartFormateada} ${form.horaStart}`,
-        end: `${fechaStartFormateada} ${form.horaEnd}`,
-      },
-      colorScheme:
-        form.estado.toLowerCase() === 'confirmada'
-          ? 'confirmada'
-          : form.estado.toLowerCase() === 'no confirmada'
-          ? 'noConfirmada'
-          : 'cancelada',
-      id: `${events.value.length + 1}`,
-      description: form.notas,
-      isEditable: true,
-    };
+let eventSelected = reactive({
+  id: null,
+  cliente: null,
+});
 
-    if (form.id === null) {
-      events.value.push(event);
-      closeModal();
-    } else {
-      const index = events.value.findIndex((item) => item.id === form.id);
-      events.value[index] = event;
-      closeModal();
-    }
+const submit = async (form: any) => {
+  loading.value = true;
+  const fechaStartFormateada = form.fecha.replace(/\//g, '-');
+  const event = {
+    title: form.cliente?.nombre_completo || form.cliente,
+    with: 'Nutriologa Diana',
+    topic: form.estado,
+    time: {
+      start: `${fechaStartFormateada} ${form.horaStart}`,
+      end: `${fechaStartFormateada} ${form.horaEnd}`,
+    },
+    colorScheme:
+      form.estado.toLowerCase() === 'confirmada'
+        ? 'confirmada'
+        : form.estado.toLowerCase() === 'no confirmada'
+        ? 'noConfirmada'
+        : 'cancelada',
+    id: `${events.value.length + 1}`,
+    description: form.notas,
+    lugar: form.lugar,
+    isEditable: true,
+  };
+
+  if (form.id === null) {
+    events.value.push(event);
+    closeModal();
+  } else {
+    const index = events.value.findIndex((item) => item.id === form.id);
+    events.value[index] = event;
+    closeModal();
   }
 
   setTimeout(() => {
@@ -127,19 +165,7 @@ const closeModal = () => {
 };
 
 const openModalEdit = (id) => {
-  const event = events.value.find((item) => item.id === id);
-
-  form.id = event.id;
-  form.cliente = event.title;
-  form.videoconferencia = null;
-  form.url = null;
-  form.fecha = event.time.start.split(' ')[0];
-  form.horaStart = event.time.start.split(' ')[1];
-  form.horaEnd = event.time.end.split(' ')[1];
-  form.lugar = event.lugar;
-  form.notas = event.description;
-  form.estado = event.topic;
-  form.sincronizar = false;
+  eventSelected = events.value.find((item) => item.id === id);
 
   prompt.value = true;
 };
@@ -157,8 +183,20 @@ const closeModalClient = () => {
 
 const submitRegistroRapido = (form: any) => {
   console.log('submitRegistroRapido', form);
-  promptRegistroRapido.value = false;
-  prompt.value = true;
+  idNewClient.value = clients.length + 1;
+
+  clients.push({
+    id: clients.length + 1,
+    nombre: form.nombre,
+    apellido: form.apellido_paterno,
+    nombre_completo: `${form.nombre} ${form.apellido_paterno}`,
+    img: 'https://cdn.quasar.dev/img/avatar.png',
+  });
+
+  setTimeout(() => {
+    promptRegistroRapido.value = false;
+    prompt.value = true;
+  }, 3000);
 };
 </script>
 <style scoped lang="scss">

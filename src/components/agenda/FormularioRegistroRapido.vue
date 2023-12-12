@@ -191,10 +191,11 @@
           />
           <q-btn
             color="primary"
-            :label="form.id === null ? 'Guardar' : 'Actualizar'"
+            :label="formulario.id === null ? 'Guardar' : 'Actualizar'"
             @click="submit"
             class="full-width"
             style="max-width: 48%"
+            :disable="disabled"
           />
         </q-card-actions>
       </q-form>
@@ -203,6 +204,32 @@
 </template>
 
 <script setup lang="ts">
+interface IPaciente {
+  nombre: string;
+  apellido_paterno: string;
+  apellido_materno: string;
+  telefono: string;
+  email: string;
+  consultorio_id: number;
+  nutricionista_id: number;
+}
+
+interface IClinic {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+}
+
+interface INutri {
+  id: number;
+  nombre: string;
+  apellido_paterno: string;
+  apellido_materno: string;
+  email: string;
+  telefono: string;
+}
+
 import { ref, reactive, computed, watch } from 'vue';
 
 const props = defineProps({
@@ -213,30 +240,68 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close', 'submit']);
-const consultorios = ref<IClinic[]>([]);
-const nutricionistas = ref<INutri[]>([]);
+
+/* CATALOGOS */
+const consultorios = ref<IClinic[]>([
+  {
+    id: 1,
+    name: 'Consultorio 1',
+    address: 'Av. 1',
+    phone: '1234567890',
+  },
+  {
+    id: 2,
+    name: 'Consultorio 2',
+    address: 'Av. 2',
+    phone: '1234567890',
+  },
+  {
+    id: 3,
+    name: 'Consultorio 3',
+    address: 'Av. 3',
+    phone: '1234567890',
+  },
+]);
+
+const nutricionistas = ref<INutri[]>([
+  {
+    id: 1,
+    nombre: 'Nutriologa 1',
+    apellido_paterno: 'Apellido 1',
+    apellido_materno: 'Apellido 2',
+    email: 'nutriologa',
+    telefono: '1234567890',
+  },
+  {
+    id: 2,
+    nombre: 'Nutriologa 2',
+    apellido_paterno: 'Apellido 1',
+    apellido_materno: 'Apellido 2',
+    email: 'nutriologa',
+    telefono: '1234567890',
+  },
+  {
+    id: 3,
+    nombre: 'Nutriologa 3',
+    apellido_paterno: 'Apellido 1',
+    apellido_materno: 'Apellido 2',
+    email: 'nutriologa',
+    telefono: '1234567890',
+  },
+]);
+
 const formulario = reactive<IPaciente>({
+  id: null,
   nombre: '',
   apellido_paterno: '',
   apellido_materno: '',
-  fecha_nacimiento: '',
-  registro_consumo: '',
-  sexo: '',
-  estatura: 0,
-  telefono: null,
   email: '',
-  alergias: [],
-  condiciones_medicas: [],
-  actividad_fisica_id: null,
-  objetivo_id: null,
+  telefono: '',
   consultorio_id: null,
   nutricionista_id: null,
 });
+
 const modal = ref(false);
-const form = reactive({
-  id: null,
-  cliente: null,
-});
 
 /* WATCHERS */
 watch(
@@ -251,8 +316,22 @@ const closeModal = () => {
 };
 
 const submit = () => {
-  emit('submit', form);
+  emit('submit', formulario);
 };
+
+const disabled = computed(() => {
+  if (
+    formulario.nombre === '' ||
+    formulario.apellido_paterno === '' ||
+    formulario.apellido_materno === '' ||
+    formulario.email === '' ||
+    formulario.telefono === '' ||
+    formulario.consultorio_id === null ||
+    formulario.nutricionista_id === null
+  ) {
+    return true;
+  }
+});
 </script>
 
 <style scoped>

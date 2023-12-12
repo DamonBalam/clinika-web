@@ -6,6 +6,25 @@
       :is-loading="isLoading"
       @edit-event="eventEdit"
     />
+
+    <q-card style="width: 100%; height: 60px">
+      <q-card-section class="row justify-center items-center">
+        <div class="q-mr-md">
+          <q-badge
+            color="green"
+            class="q-mr-sm"
+            style="width: 20px"
+          />Confirmada
+        </div>
+        <div class="q-mr-md">
+          <q-badge color="orange" class="q-mr-sm" style="width: 20px" />No
+          Confirmada
+        </div>
+        <div class="q-mr-md">
+          <q-badge color="red" class="q-mr-sm" style="width: 20px" />Cancelada
+        </div>
+      </q-card-section>
+    </q-card>
   </div>
 </template>
 
@@ -80,7 +99,7 @@ export default {
 <style scoped>
 .calendar-container {
   width: 100%;
-  height: 750px;
+  height: 720px;
   background-color: white;
 }
 </style>
