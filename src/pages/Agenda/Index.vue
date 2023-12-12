@@ -192,11 +192,6 @@ const submitRegistroRapido = (form: any) => {
     nombre_completo: `${form.nombre} ${form.apellido_paterno}`,
     img: 'https://cdn.quasar.dev/img/avatar.png',
   });
-
-  setTimeout(() => {
-    promptRegistroRapido.value = false;
-    prompt.value = true;
-  }, 3000);
 };
 </script>
 <style scoped lang="scss">
