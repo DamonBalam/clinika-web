@@ -346,7 +346,6 @@ const validHoraEnd = computed(() => {
 });
 
 const fechaActual = computed(() => {
-  const fecha = new Date();
   const today = new Date();
 
   // Extraer el año, mes y día de la fecha actual
@@ -401,6 +400,7 @@ watch(
       const newClient = clientes.value.find(
         (item) => item.id === props.idNewClient
       );
+      form.fecha = fechaActual.value;
       newClient.label = newClient.nombre_completo;
       newClient.value = newClient.id;
       form.cliente = newClient;
