@@ -41,7 +41,7 @@ const props = defineProps({
     default: false,
   },
   id: {
-    type: Number,
+    type: Number || null,
     default: null,
   },
 });
