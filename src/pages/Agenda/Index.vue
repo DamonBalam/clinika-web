@@ -21,6 +21,7 @@
       :events="events"
       :is-loading="loading"
       @event-edit="openModalEdit"
+      @event-delete="openModalEliminacion"
     />
 
     <FormularioNuevaCita
@@ -38,6 +39,12 @@
       @close="closeModalClient"
       @submit="submitRegistroRapido"
     />
+
+    <ModalEliminacion
+      :prompt="promptEliminacion"
+      :id="idEventEliminate"
+      @close="promptEliminacion = false"
+    />
   </q-page>
 </template>
 
@@ -48,11 +55,14 @@ import FormularioNuevaCita from 'src/components/agenda/FormularioNuevaCita.vue';
 import FormularioRegistroRapido from 'src/components/agenda/FormularioRegistroRapido.vue';
 import Notification from '../../components/Notification.vue';
 
+import ModalEliminacion from 'src/components/agenda/ModalEliminacion.vue';
+
 const loading = ref(false);
 const prompt = ref(false);
+const promptEliminacion = ref(false);
 const promptRegistroRapido = ref(false);
 const idNewClient = ref(null);
-
+const idEventEliminate = ref(null);
 const clients = [
   {
     id: 0,
@@ -168,6 +178,13 @@ const openModalEdit = (id) => {
   eventSelected = events.value.find((item) => item.id === id);
 
   prompt.value = true;
+};
+
+const openModalEliminacion = (id) => {
+  console.log('openModalEliminacion', id);
+
+  idEventEliminate.value = id;
+  promptEliminacion.value = true;
 };
 
 const openModalClient = () => {

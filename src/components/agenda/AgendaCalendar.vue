@@ -5,6 +5,7 @@
       :config="config"
       :is-loading="isLoading"
       @edit-event="eventEdit"
+      @delete-event="eventDelete"
     />
 
     <q-card style="width: 100%; height: 60px">
@@ -52,6 +53,10 @@ export default {
       emit('event-edit', event);
     };
 
+    const eventDelete = (event) => {
+      emit('event-delete', event);
+    };
+
     const eventsComputed = computed(() => {
       return props.isLoading ? [] : props.events;
     });
@@ -90,6 +95,7 @@ export default {
     return {
       config,
       eventsComputed,
+      eventDelete,
       eventEdit,
     };
   },
