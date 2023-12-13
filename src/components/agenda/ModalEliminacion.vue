@@ -59,7 +59,7 @@ const closeModal = () => {
 };
 
 const submit = () => {
-  emits('submit');
+  emits('close');
 };
 
 /* WATCHERS */
