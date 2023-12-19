@@ -15,7 +15,7 @@
     </div>
     <div class="row q-mx-md q-mt-sm">
       <div class="col-12 col-md-6 q-mb-md q-pr-md">
-        <q-card flat style="min-height: 275px; max-width: 745px">
+        <q-card flat style="min-height: 240px; max-width: 745px">
           <div class="row q-pa-lg">
             <div class="col-4">
               <q-avatar size="168px" class="q-mt-sm">
@@ -99,54 +99,95 @@
         <q-card
           flat
           class="q-px-lg q-py-lg"
-          style="min-height: 260px; max-width: 745px"
+          style="min-height: 240px; max-width: 745px"
         >
           <h3
-            class="text-weight-bold q-mt-none q-mb-sm"
+            class="text-weight-bold q-mt-none q-mb-sm q-ml-md"
             style="font-size: 24px; color: #404040"
           >
             Análisis de bienestar
           </h3>
-          <div class="row">
-            <div class="col-3">
+
+          <div class="row q-ml-md">
+            <div class="col-4">
               <p class="q-mb-none text-title-analisis">
                 Actividad física semanal
               </p>
               <p class="text-subtitle-analisis">Diario</p>
             </div>
 
-            <div class="col-3">
+            <div class="col-4">
               <p class="q-mb-none text-title-analisis">
                 Horas de sueño diarias
               </p>
               <p class="text-subtitle-analisis">8 horas</p>
             </div>
 
-            <div class="col-3">
+            <div class="col-4">
               <p class="q-mb-none text-title-analisis">Objetivo actual</p>
               <p class="text-subtitle-analisis">Ganar masa muscular</p>
             </div>
-            <div class="col-3">
-              <p class="q-mb-none text-title-analisis">Alergias</p>
-              <p class="text-subtitle-analisis">Lactosa</p>
-            </div>
           </div>
+
           <div class="row">
             <div class="col-3">
-              <p class="q-mb-none text-title-analisis">
-                Trastornos Alimenticios
-              </p>
-              <p class="text-subtitle-analisis">Ninguno</p>
+              <q-expansion-item
+                class="overflow-hidden text-title2-analisis"
+                label="Trastornos alimenticios"
+                header-class="bg-white text-black"
+                default-opened
+              >
+                <ul>
+                  <li class="text-subtitle-analisis">Lactosa</li>
+                  <li class="text-subtitle-analisis">Huevo</li>
+                  <li class="text-subtitle-analisis">Nueces</li>
+                </ul>
+              </q-expansion-item>
             </div>
 
             <div class="col-3">
-              <p class="q-mb-none text-title-analisis">Condiciones Médicas</p>
-              <p class="text-subtitle-analisis">Ninguno</p>
+              <q-expansion-item
+                default-opened
+                class="overflow-hidden text-title2-analisis"
+                label="Condiciones médicas"
+                header-class="bg-white text-black"
+              >
+                <ul>
+                  <li class="text-subtitle-analisis">Lactosa</li>
+                  <li class="text-subtitle-analisis">Huevo</li>
+                  <li class="text-subtitle-analisis">Nueces</li>
+                </ul>
+              </q-expansion-item>
             </div>
 
             <div class="col-3">
-              <p class="q-mb-none text-title-analisis">Medicamentos</p>
-              <p class="text-subtitle-analisis">Ninguno</p>
+              <q-expansion-item
+                default-opened
+                class="overflow-hidden text-title2-analisis"
+                label="Medicamentos"
+                header-class="bg-white text-black"
+              >
+                <ul>
+                  <li class="text-subtitle-analisis">Lactosa</li>
+                  <li class="text-subtitle-analisis">Huevo</li>
+                  <li class="text-subtitle-analisis">Nueces</li>
+                </ul>
+              </q-expansion-item>
+            </div>
+
+            <div class="col-3">
+              <q-expansion-item
+                default-opened
+                class="overflow-hidden text-title2-analisis"
+                label="Alergias"
+                header-class="bg-white text-black"
+              >
+                <ul>
+                  <li class="text-subtitle-analisis">Lactosa</li>
+                  <li class="text-subtitle-analisis">Huevo</li>
+                  <li class="text-subtitle-analisis">Nueces</li>
+                </ul>
+              </q-expansion-item>
             </div>
           </div>
         </q-card>
@@ -227,6 +268,7 @@ const props = defineProps({
 
 const paciente = ref(new Paciente({} as IPaciente));
 const idCita = ref('');
+const open = ref(true);
 
 const handleCita = (id: string) => {
   idCita.value = id;
@@ -329,6 +371,11 @@ function isFechaEnRango(fecha: any, fechaInicio: any, fechaFin: any) {
 .text-title-analisis {
   font-size: 16px;
   font-weight: 700;
+  color: #404040;
+}
+.text-title2-analisis {
+  font-size: 14px;
+  font-weight: 600;
   color: #404040;
 }
 .text-subtitle-analisis {
