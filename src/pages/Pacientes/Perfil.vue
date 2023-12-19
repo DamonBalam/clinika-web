@@ -15,149 +15,144 @@
     </div>
     <div class="row q-mx-md q-mt-sm">
       <div class="col-12 col-md-6 q-mb-md q-pr-md">
-        <q-card flat style="height: 310px">
-          <div class="row q-px-xl q-pt-xl">
-            <q-avatar size="100px" class="q-mt-sm">
-              <img src="../../assets/images.png" />
-            </q-avatar>
-            <div class="q-ml-md">
-              <span
-                class="text-weight-bold q-mt-md"
-                style="display: block; font-size: 20px; color: #404040"
-                >Jonathan Martinez Paz</span
-              >
-              <span
-                style="
-                  display: block;
-                  font-size: 16px;
-                  font-weight: 400;
-                  color: #737373;
-                "
-                >Paciente</span
-              >
-              <span
-                style="
-                  display: block;
-                  font-size: 16px;
-                  font-weight: 400;
-                  color: #737373;
-                "
-                >Hombre - 35 años</span
-              >
+        <q-card flat style="min-height: 275px; max-width: 745px">
+          <div class="row q-pa-lg">
+            <div class="col-4">
+              <q-avatar size="168px" class="q-mt-sm">
+                <img src="../../assets/avatar.png" />
+              </q-avatar>
             </div>
-          </div>
-          <div class="row q-px-xl">
-            <div class="q-ml-md">
-              <span
-                class="text-weight-bold q-mt-md"
-                style="display: block; font-size: 18px; color: #404040"
-                >Detalles de contacto:</span
-              >
-              <span
-                style="
-                  display: block;
-                  font-size: 16px;
-                  font-weight: 700;
-                  color: #737373;
-                "
-              >
-                <q-icon name="call" left color="primary" size="16px" />
-                +52 444 444 4444</span
-              >
-              <span
-                style="
-                  display: block;
-                  font-size: 16px;
-                  font-weight: 700;
-                  color: #737373;
-                "
-              >
-                <q-icon name="mail" left color="primary" size="16px" />
-                jonathan.martinez@gmail.com</span
-              >
+            <div class="col-8">
+              <div class="row items-center">
+                <div class="col-12 q-mb-sm">
+                  <span
+                    class="text-weight-bold font-24 q-mt-md"
+                    style="display: block; color: #404040"
+                    >Jonathan Martinez Paz</span
+                  >
+                </div>
+                <div class="col-6">
+                  <span
+                    style="font-size: 16px; font-weight: 400; color: #737373"
+                  >
+                    <q-icon name="fact_check" color="primary" />
+                    Número identificación
+                  </span>
+                </div>
+                <div class="col-6">
+                  <span
+                    style="font-size: 16px; font-weight: 400; color: #737373"
+                  >
+                    <q-icon name="public" color="primary" size="16px" />
+                    México
+                  </span>
+                </div>
+
+                <div class="col-6">
+                  <span
+                    style="font-size: 16px; font-weight: 400; color: #737373"
+                  >
+                    <q-icon name="man" color="primary" />
+                    Hombre
+                  </span>
+                </div>
+                <div class="col-6">
+                  <span
+                    style="font-size: 16px; font-weight: 400; color: #737373"
+                  >
+                    <q-icon name="email" color="primary" size="16px" />
+                    user@email.com
+                  </span>
+                </div>
+
+                <div class="col-6">
+                  <span
+                    style="font-size: 16px; font-weight: 400; color: #737373"
+                  >
+                    <q-icon name="cake" color="primary" />
+                    35 años
+                  </span>
+                </div>
+                <div class="col-6">
+                  <span
+                    style="font-size: 16px; font-weight: 400; color: #737373"
+                  >
+                    <q-icon name="phone" color="primary" size="16px" />
+                    +52 123 456 7890
+                  </span>
+                </div>
+                <div class="col-6">
+                  <span
+                    style="font-size: 16px; font-weight: 400; color: #737373"
+                  >
+                    <q-icon name="work" color="primary" size="16px" />
+                    Psicólogo
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </q-card>
       </div>
+
       <div class="col-12 col-md-6 q-mb-md q-pl-md">
-        <q-card flat class="q-px-lg q-py-lg" style="height: 310px">
+        <q-card
+          flat
+          class="q-px-lg q-py-lg"
+          style="min-height: 260px; max-width: 745px"
+        >
           <h3
             class="text-weight-bold q-mt-none q-mb-sm"
-            style="font-size: 20px; color: #404040"
+            style="font-size: 24px; color: #404040"
           >
-            Salud y estilo de vida
+            Análisis de bienestar
           </h3>
           <div class="row">
-            <div class="col-6">
-              <p
-                class="q-mb-none"
-                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
-              >
-                Actividad Fisica semanal
+            <div class="col-3">
+              <p class="q-mb-none text-title-analisis">
+                Actividad física semanal
               </p>
-              <p style="color: #404040; font-size: 16px; font-weight: 700">
-                Diario
-              </p>
+              <p class="text-subtitle-analisis">Diario</p>
             </div>
-            <div class="col-6">
-              <p
-                class="q-mb-none"
-                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
-              >
-                Objetivo Actual
+
+            <div class="col-3">
+              <p class="q-mb-none text-title-analisis">
+                Horas de sueño diarias
               </p>
-              <p style="color: #404040; font-size: 16px; font-weight: 700">
-                Ganar musculo
-              </p>
+              <p class="text-subtitle-analisis">8 horas</p>
             </div>
-            <div class="col-6">
-              <p
-                class="q-mb-none"
-                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
-              >
-                Alergias
-              </p>
-              <p style="color: #404040; font-size: 16px; font-weight: 700">
-                Lactosa
-              </p>
+
+            <div class="col-3">
+              <p class="q-mb-none text-title-analisis">Objetivo actual</p>
+              <p class="text-subtitle-analisis">Ganar masa muscular</p>
             </div>
-            <div class="col-6">
-              <p
-                class="q-mb-none"
-                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
-              >
-                Condiciones médicas
-              </p>
-              <p style="color: #404040; font-size: 16px; font-weight: 700">
-                Ninguna
-              </p>
+            <div class="col-3">
+              <p class="q-mb-none text-title-analisis">Alergias</p>
+              <p class="text-subtitle-analisis">Lactosa</p>
             </div>
-            <div class="col-6">
-              <p
-                class="q-mb-none"
-                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
-              >
-                Medicamentos
+          </div>
+          <div class="row">
+            <div class="col-3">
+              <p class="q-mb-none text-title-analisis">
+                Trastornos Alimenticios
               </p>
-              <p style="color: #404040; font-size: 16px; font-weight: 700">
-                Ninguno
-              </p>
+              <p class="text-subtitle-analisis">Ninguno</p>
             </div>
-            <div class="col-6">
-              <p
-                class="q-mb-none"
-                style="color: #a3a3a3; font-size: 16px; font-weight: 600"
-              >
-                Trastornos alimenticios
-              </p>
-              <p style="color: #404040; font-size: 16px; font-weight: 700">
-                Ninguno
-              </p>
+
+            <div class="col-3">
+              <p class="q-mb-none text-title-analisis">Condiciones Médicas</p>
+              <p class="text-subtitle-analisis">Ninguno</p>
+            </div>
+
+            <div class="col-3">
+              <p class="q-mb-none text-title-analisis">Medicamentos</p>
+              <p class="text-subtitle-analisis">Ninguno</p>
             </div>
           </div>
         </q-card>
       </div>
-      <div class="col-6 q-mb-md q-pr-md">
+
+      <div class="col-12 col-md-6 q-mb-md q-pr-md" style="max-width: 745px">
         <q-expansion-item
           class="overflow-hidden"
           icon="description"
@@ -180,7 +175,8 @@
           </q-card>
         </q-expansion-item>
       </div>
-      <div class="col-6 q-mb-md q-pl-md">
+
+      <div class="col-12 col-md-6 q-mb-md q-pl-md" style="max-width: 745px">
         <q-expansion-item
           class="overflow-hidden"
           icon="description"
@@ -225,8 +221,8 @@ const $q = useQuasar();
 const props = defineProps({
   id: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const paciente = ref(new Paciente({} as IPaciente));
@@ -296,7 +292,7 @@ const handleAcceso = async () => {
         textColor: 'white',
         icon: 'check_circle',
         message: 'Se habilito el acceso correctamente',
-        position: 'top-right'
+        position: 'top-right',
       });
     } else {
       await pacienteDataServices.disabledAccess(props.id);
@@ -305,7 +301,7 @@ const handleAcceso = async () => {
         textColor: 'white',
         icon: 'check_circle',
         message: 'Se deshabilito el acceso correctamente',
-        position: 'top-right'
+        position: 'top-right',
       });
     }
   } catch (error) {
@@ -315,7 +311,7 @@ const handleAcceso = async () => {
       textColor: 'white',
       icon: 'error',
       message: 'Se produjo un error en el acceso',
-      position: 'top-right'
+      position: 'top-right',
     });
   }
 };
@@ -328,5 +324,16 @@ function isFechaEnRango(fecha: any, fechaInicio: any, fechaFin: any) {
 <style lang="scss" scoped>
 .fondo-gris {
   background-color: #f1f5f9;
+}
+
+.text-title-analisis {
+  font-size: 16px;
+  font-weight: 700;
+  color: #404040;
+}
+.text-subtitle-analisis {
+  font-size: 14px;
+  font-weight: 600;
+  color: #a3a3a3;
 }
 </style>

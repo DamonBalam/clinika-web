@@ -256,7 +256,7 @@ const deleteCita = async () => {
         color="primary"
         outline
         @click="prompt = true"
-        class="q-mr-md"
+        class="q-mr-md bg-white"
         label="Programar cita"
         icon="add"
       ></q-btn>
