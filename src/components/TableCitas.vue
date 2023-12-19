@@ -9,8 +9,8 @@ const $q = useQuasar();
 const props = defineProps({
   id: {
     type: String || Number,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const emits = defineEmits(['cita']);
@@ -20,51 +20,51 @@ const columns = [
     name: 'fecha_cita',
     label: 'Fecha',
     field: 'fecha_cita',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'peso',
     label: 'Peso (Kg)',
     field: 'peso',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'musculo',
     label: 'Músculo (Kg)',
     field: 'musculo',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'grasas',
     label: 'Grasas (Kg)',
     field: 'grasas',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'porcentaje_grasa',
     label: '% de Grasa',
     field: 'porcentaje_grasa',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'cc',
     label: 'CC',
     field: 'cc',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'grasa_viceral',
     label: 'Grasa visceral (Kg)',
     field: 'grasa_viceral',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'evolucion',
     label: 'Notas',
     field: 'evolucion',
-    align: 'center'
+    align: 'center',
   },
-  { name: 'accion', label: 'Acciones', align: 'center' }
+  { name: 'accion', label: 'Acciones', align: 'center' },
 ];
 
 const prompt = ref(false);
@@ -82,7 +82,7 @@ const form = reactive({
   porcentaje_grasa: '',
   cc: '',
   grasa_viceral: '',
-  evolucion: ''
+  evolucion: '',
 });
 
 onMounted(() => {
@@ -117,7 +117,7 @@ const submit = async () => {
           cc: form.cc,
           grasa_viceral: form.grasa_viceral,
           evolucion: form.evolucion,
-          cliente_id: props.id
+          cliente_id: props.id,
         });
         if (data.code === 200) {
           // console.log(data.data.cita.id)
@@ -127,7 +127,7 @@ const submit = async () => {
             textColor: 'white',
             icon: 'check_circle',
             message: 'Cita agregada correctamente',
-            position: 'top-right'
+            position: 'top-right',
           });
           await getItems();
           closeModal();
@@ -143,7 +143,7 @@ const submit = async () => {
           cc: form.cc,
           grasa_viceral: form.grasa_viceral,
           evolucion: form.evolucion,
-          cliente_id: props.id
+          cliente_id: props.id,
         });
         if (data.code === 200) {
           $q.notify({
@@ -151,7 +151,7 @@ const submit = async () => {
             textColor: 'white',
             icon: 'check_circle',
             message: 'Cita actualizada correctamente',
-            position: 'top-right'
+            position: 'top-right',
           });
           await getItems();
           closeModal();
@@ -163,7 +163,7 @@ const submit = async () => {
         textColor: 'white',
         icon: 'error',
         message: 'Ocurrió un error',
-        position: 'top-right'
+        position: 'top-right',
       });
       console.log(error);
     }
@@ -198,7 +198,7 @@ const handleCita = (id: number) => {
 };
 
 const edit = (id: number) => {
-  const item = items.value.find(item => item.id === id);
+  const item = items.value.find((item) => item.id === id);
   if (item) {
     form.id = item.id;
     form.peso = item.peso.toString();
@@ -230,7 +230,7 @@ const deleteCita = async () => {
         textColor: 'white',
         icon: 'check_circle',
         message: 'Se elimino correctamente',
-        position: 'top-right'
+        position: 'top-right',
       });
     }
   } catch (error) {
@@ -239,7 +239,7 @@ const deleteCita = async () => {
       textColor: 'white',
       icon: 'error',
       message: 'Ocurrió un error',
-      position: 'top-right'
+      position: 'top-right',
     });
     console.log(error);
   }
@@ -358,92 +358,135 @@ const deleteCita = async () => {
       </template>
     </q-table>
   </div>
+
   <q-dialog v-model="prompt" persistent>
     <q-card style="min-width: 775px; border-radius: 40px" class="q-pa-lg">
-      <q-card-section>
-        <div class="text-h6">
-          {{ form.id === null ? 'Nueva cita' : 'Actualizar Cita' }}
-        </div>
-      </q-card-section>
-
       <q-form ref="myForm">
-        <q-card-section class="row q-col-gutter-sm">
-          <div class="col-4">
-            <label for="">Peso (Kg)</label>
+        <q-card-section class="q-pb-none">
+          <div class="title">Medidas del paciente</div>
+          <div class="subtitle">
+            El paciente podrá ver estos datos en la aplicación
+          </div>
+        </q-card-section>
+        <q-card-section class="row q-col-gutter-sm q-mt-none q-pt-none">
+          <div class="col-4 q-mb-md">
+            <label for="">Altura (cm)</label>
             <q-input
               outlined
               dense
-              v-model="form.peso"
-              autofocus
-              lazy-rules
-              :rules="[val => !!val || 'El peso es requerido']"
+              v-model="form.altura"
+              placeholder="Altura"
             />
           </div>
-          <div class="col-4">
-            <label for="">Músculo (Kg)</label>
+
+          <div class="col-4 q-mb-md">
+            <label for="">Peso corporal (kg)</label>
             <q-input
               outlined
-              placeholder="Músculo"
               dense
-              v-model="form.musculo"
-              autofocus
-              lazy-rules
-              :rules="[val => !!val || 'El Músculo es requerido']"
+              v-model="form.peso_corporal"
+              placeholder="Peso corporal"
             />
           </div>
-          <div class="col-4">
-            <label for="">Grasas (Kg)</label>
+
+          <div class="col-4 q-mb-md">
+            <label for="">Masa muscular (kg)</label>
             <q-input
               outlined
-              placeholder="Grasas"
               dense
-              v-model="form.grasas"
-              autofocus
-              lazy-rules
-              :rules="[val => !!val || 'La grasa es requerido']"
+              v-model="form.masa_muscular"
+              placeholder="Masa muscular"
             />
           </div>
-          <div class="col-4">
+
+          <div class="col-4 q-mb-md">
+            <label for="">Grasa corporal (kg)</label>
+            <q-input
+              outlined
+              dense
+              v-model="form.grasa_corporal"
+              placeholder="Grasa corporal"
+            />
+          </div>
+
+          <div class="col-4 q-mb-md">
             <label for="">Porcentaje de grasa (%)</label>
             <q-input
               outlined
-              placeholder="Porcentaje de grasa"
               dense
               v-model="form.porcentaje_grasa"
-              autofocus
-              lazy-rules
-              :rules="[val => !!val || 'El porcentaje de grasa  es requerido']"
+              placeholder="Porcentaje de grasa"
             />
           </div>
-          <div class="col-4">
-            <label for="">Grasa visceral (Kg)</label>
+
+          <div class="col-4 q-mb-md">
+            <label for="">Grasa visceral (kg)</label>
             <q-input
               outlined
+              dense
+              v-model="form.grasa_visceral"
               placeholder="Grasa visceral"
-              dense
-              v-model="form.grasa_viceral"
-              autofocus
-              lazy-rules
-              :rules="[val => !!val || 'La grasa visceral es requerido']"
             />
           </div>
-          <div class="col-4">
-            <label for="">CC</label>
+
+          <div class="col-4 q-mb-md">
+            <label for="">Relación Cintura-Cadera</label>
             <q-input
               outlined
-              placeholder="CC"
               dense
-              v-model="form.cc"
-              autofocus
-              lazy-rules
-              :rules="[val => !!val || 'El CC  es requerido']"
+              v-model="form.cintura_cadera"
+              placeholder="Cintura-cadera"
+            />
+          </div>
+        </q-card-section>
+        <q-card-section class="q-pb-none">
+          <div class="title">Recomendaciones para el paciente</div>
+          <div class="subtitle">
+            El paciente podrá ver estos datos en la aplicación
+          </div>
+        </q-card-section>
+        <q-card-section class="row q-col-gutter-sm q-mt-none q-pt-none">
+          <div class="col-6 q-mb-md">
+            <label for="">Consumo de agua (lt)</label>
+            <q-select
+              outlined
+              dense
+              v-model="form.consumo_agua"
+              :options="['2.0', '2.25', '2.50', '2.75', '3.0', '4.0']"
+            />
+          </div>
+          <div class="col-6 q-mb-md">
+            <label for="">Ejercicio recomendado</label>
+            <q-input
+              outlined
+              dense
+              v-model="form.ejercicio_recomendado"
+              placeholder="4 días"
             />
           </div>
           <div class="col-12">
-            <label for="">Notas (Uso Interno)</label>
+            <label for="">Notas para el cliente</label>
             <q-input
               outlined
-              placeholder="Notas"
+              placeholder="Ej. recomendaciones acerca de la dieta, ejercicio, etc..."
+              v-model="form.evolucion"
+              autogrow
+              type="textarea"
+            />
+          </div>
+        </q-card-section>
+        <q-card-section class="q-pb-none">
+          <div class="title">Uso interno</div>
+          <div class="subtitle">
+            El paciente NO podrá ver estos datos en la aplicación
+          </div>
+        </q-card-section>
+        <q-card-section class="row q-col-gutter-sm q-mt-none q-pt-none">
+          <div class="col-12">
+            <label for="">Notas</label>
+            <q-input
+              outlined
+              placeholder="Aquí va una nota"
               v-model="form.evolucion"
               autogrow
               type="textarea"
@@ -486,5 +529,21 @@ const deleteCita = async () => {
 <style scoped lang="scss">
 .altura {
   height: 10px !important;
+}
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: black;
+  line-height: 22px;
+  text-align: start;
+}
+
+.subtitle {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #667085;
+  line-height: 20px;
+  text-align: start;
 }
 </style>
