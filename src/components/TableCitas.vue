@@ -24,38 +24,38 @@ const columns = [
   },
   {
     name: 'peso',
-    label: 'Peso (Kg)',
+    label: 'Peso corporal (Kg)',
     field: 'peso',
     align: 'center',
   },
   {
     name: 'musculo',
-    label: 'Músculo (Kg)',
+    label: 'Masa muscular (Kg)',
     field: 'musculo',
     align: 'center',
   },
   {
     name: 'grasas',
-    label: 'Grasas (Kg)',
+    label: 'Grasa corporal (Kg)',
     field: 'grasas',
     align: 'center',
   },
   {
     name: 'porcentaje_grasa',
-    label: '% de Grasa',
+    label: 'Porcentaje de Grasa(%)',
     field: 'porcentaje_grasa',
-    align: 'center',
-  },
-  {
-    name: 'cc',
-    label: 'CC',
-    field: 'cc',
     align: 'center',
   },
   {
     name: 'grasa_viceral',
     label: 'Grasa visceral (Kg)',
     field: 'grasa_viceral',
+    align: 'center',
+  },
+  {
+    name: 'cc',
+    label: 'Relación Cintura-Cadera',
+    field: 'cc',
     align: 'center',
   },
   {
@@ -447,10 +447,11 @@ const deleteCita = async () => {
         </q-card-section>
         <q-card-section class="row q-col-gutter-sm q-mt-none q-pt-none">
           <div class="col-6 q-mb-md">
-            <label for="">Consumo de agua (lt)</label>
+            <label for="">Consumo de agua (litros)</label>
             <q-select
               outlined
               dense
+              label="Seleccionar consumo de agua"
               v-model="form.consumo_agua"
               :options="['2.0', '2.25', '2.50', '2.75', '3.0', '4.0']"
             />
@@ -513,6 +514,7 @@ const deleteCita = async () => {
       </q-card-actions>
     </q-card>
   </q-dialog>
+
   <q-dialog v-model="confirm" persistent>
     <q-card class="q-pa-sm">
       <q-card-section class="row items-center">

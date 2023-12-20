@@ -107,7 +107,71 @@
           >
             Análisis de bienestar
           </h3>
+          <div class="row">
+            <div class="col-3">
+              <q-expansion-item
+                class="overflow-hidden text-title2-analisis"
+                label="Trastornos alimenticios"
+                header-class="bg-white text-black"
+                default-opened
+                v-model="open"
+              >
+                <ul>
+                  <li class="text-subtitle-analisis">Lactosa</li>
+                  <li class="text-subtitle-analisis">Huevo</li>
+                  <li class="text-subtitle-analisis">Nueces</li>
+                </ul>
+              </q-expansion-item>
+            </div>
 
+            <div class="col-3">
+              <q-expansion-item
+                default-opened
+                v-model="open"
+                class="overflow-hidden text-title2-analisis"
+                label="Condiciones médicas"
+                header-class="bg-white text-black"
+              >
+                <ul>
+                  <li class="text-subtitle-analisis">Lactosa</li>
+                  <li class="text-subtitle-analisis">Huevo</li>
+                  <li class="text-subtitle-analisis">Nueces</li>
+                </ul>
+              </q-expansion-item>
+            </div>
+
+            <div class="col-3">
+              <q-expansion-item
+                default-opened
+                v-model="open"
+                class="overflow-hidden text-title2-analisis"
+                label="Medicamentos"
+                header-class="bg-white text-black"
+              >
+                <ul>
+                  <li class="text-subtitle-analisis">Lactosa</li>
+                  <li class="text-subtitle-analisis">Huevo</li>
+                  <li class="text-subtitle-analisis">Nueces</li>
+                </ul>
+              </q-expansion-item>
+            </div>
+
+            <div class="col-3">
+              <q-expansion-item
+                default-opened
+                v-model="open"
+                class="overflow-hidden text-title2-analisis"
+                label="Alergias"
+                header-class="bg-white text-black"
+              >
+                <ul>
+                  <li class="text-subtitle-analisis">Lactosa</li>
+                  <li class="text-subtitle-analisis">Huevo</li>
+                  <li class="text-subtitle-analisis">Nueces</li>
+                </ul>
+              </q-expansion-item>
+            </div>
+          </div>
           <div class="row q-ml-md">
             <div class="col-4">
               <p class="q-mb-none text-title-analisis">
@@ -126,68 +190,6 @@
             <div class="col-4">
               <p class="q-mb-none text-title-analisis">Objetivo actual</p>
               <p class="text-subtitle-analisis">Ganar masa muscular</p>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-3">
-              <q-expansion-item
-                class="overflow-hidden text-title2-analisis"
-                label="Trastornos alimenticios"
-                header-class="bg-white text-black"
-                default-opened
-              >
-                <ul>
-                  <li class="text-subtitle-analisis">Lactosa</li>
-                  <li class="text-subtitle-analisis">Huevo</li>
-                  <li class="text-subtitle-analisis">Nueces</li>
-                </ul>
-              </q-expansion-item>
-            </div>
-
-            <div class="col-3">
-              <q-expansion-item
-                default-opened
-                class="overflow-hidden text-title2-analisis"
-                label="Condiciones médicas"
-                header-class="bg-white text-black"
-              >
-                <ul>
-                  <li class="text-subtitle-analisis">Lactosa</li>
-                  <li class="text-subtitle-analisis">Huevo</li>
-                  <li class="text-subtitle-analisis">Nueces</li>
-                </ul>
-              </q-expansion-item>
-            </div>
-
-            <div class="col-3">
-              <q-expansion-item
-                default-opened
-                class="overflow-hidden text-title2-analisis"
-                label="Medicamentos"
-                header-class="bg-white text-black"
-              >
-                <ul>
-                  <li class="text-subtitle-analisis">Lactosa</li>
-                  <li class="text-subtitle-analisis">Huevo</li>
-                  <li class="text-subtitle-analisis">Nueces</li>
-                </ul>
-              </q-expansion-item>
-            </div>
-
-            <div class="col-3">
-              <q-expansion-item
-                default-opened
-                class="overflow-hidden text-title2-analisis"
-                label="Alergias"
-                header-class="bg-white text-black"
-              >
-                <ul>
-                  <li class="text-subtitle-analisis">Lactosa</li>
-                  <li class="text-subtitle-analisis">Huevo</li>
-                  <li class="text-subtitle-analisis">Nueces</li>
-                </ul>
-              </q-expansion-item>
             </div>
           </div>
         </q-card>
@@ -369,8 +371,8 @@ function isFechaEnRango(fecha: any, fechaInicio: any, fechaFin: any) {
 }
 
 .text-title-analisis {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   color: #404040;
 }
 .text-title2-analisis {
