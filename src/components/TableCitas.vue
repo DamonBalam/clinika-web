@@ -257,7 +257,7 @@ const deleteCita = async () => {
         outline
         @click="prompt = true"
         class="q-mr-md bg-white"
-        label="Programar cita"
+        label="Programar siguiente cita"
         icon="add"
       ></q-btn>
       <q-btn color="primary" @click="prompt = true"
@@ -447,7 +447,7 @@ const deleteCita = async () => {
         </q-card-section>
         <q-card-section class="row q-col-gutter-sm q-mt-none q-pt-none">
           <div class="col-6 q-mb-md">
-            <label for="">Consumo de agua (litros)</label>
+            <label for="">Consumo de agua diario (litros)</label>
             <q-select
               outlined
               dense

@@ -8,7 +8,7 @@
       @delete-event="eventDelete"
     />
 
-    <q-card style="width: 100%; height: 60px">
+    <q-card style="width: 100%; height: 45px">
       <q-card-section class="row justify-center items-center">
         <div class="q-mr-md">
           <q-badge
@@ -66,12 +66,12 @@ export default {
       locale: 'es-ES',
       // if not set, the mode defaults to 'week'. The three available options are 'month', 'week' and 'day'
       // Please note, that only day and month modes are available for the calendar in mobile-sized wrappers (~700px wide or less, depending on your root font-size)
-      defaultMode: props.isLoading ? 'week' : 'day',
+      defaultMode: props.isLoading ? 'day' : 'week',
       showCurrentTime: true, // Display a line indicating the current time,
       isSilent: true,
 
       dayBoundaries: {
-        start: 6,
+        start: 8,
         end: 18,
       },
       style: {
@@ -102,10 +102,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .calendar-container {
   width: 100%;
-  height: 720px;
+  height: 75vh;
   background-color: white;
+}
+
+.day-timeline__hour-text,
+.week-timeline__day-name {
+  font-size: 14px !important;
 }
 </style>

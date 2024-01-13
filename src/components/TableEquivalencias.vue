@@ -7,13 +7,13 @@ const $q = useQuasar();
 const props = defineProps({
   id: {
     type: String || Number,
-    required: true
+    required: true,
   },
   cita: {
     type: Number || null,
     required: false,
-    default: null
-  }
+    default: null,
+  },
 });
 
 const columns = [
@@ -21,51 +21,51 @@ const columns = [
     name: 'alimentos',
     label: 'Alimentos',
     field: 'alimentos',
-    align: 'left'
+    align: 'left',
   },
   {
     name: 'desayuno',
     label: 'Desayuno',
     field: 'desayuno',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'media_manana',
     label: 'Media mañana',
     field: 'media_manana',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'almuerzo',
     label: 'Almuerzo',
     field: 'almuerzo',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'media_tarde',
     label: 'Media tarde',
     field: 'media_tarde',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'cena',
     label: 'Cena',
     field: 'cena',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'merienda_noche',
     label: 'Media noche',
     field: 'merienda_noche',
-    align: 'center'
+    align: 'center',
   },
 
   {
     name: 'total',
     label: 'Total',
     field: 'total',
-    align: 'center'
-  }
+    align: 'center',
+  },
 ];
 
 const loading = ref(false);
@@ -90,7 +90,7 @@ const items = ref<any[]>([
     almuerzo: '',
     media_tarde: '',
     cena: '',
-    media_noche: ''
+    media_noche: '',
   },
   {
     alimentos: 'Frutas',
@@ -99,7 +99,7 @@ const items = ref<any[]>([
     almuerzo: '',
     media_tarde: '',
     cena: '',
-    media_noche: ''
+    media_noche: '',
   },
   {
     alimentos: 'Vegetales',
@@ -108,7 +108,7 @@ const items = ref<any[]>([
     almuerzo: '',
     media_tarde: '',
     cena: '',
-    media_noche: ''
+    media_noche: '',
   },
   {
     alimentos: 'Lácteos',
@@ -117,7 +117,7 @@ const items = ref<any[]>([
     almuerzo: '',
     media_tarde: '',
     cena: '',
-    media_noche: ''
+    media_noche: '',
   },
   {
     alimentos: 'Proteínas',
@@ -126,7 +126,7 @@ const items = ref<any[]>([
     almuerzo: '',
     media_tarde: '',
     cena: '',
-    media_noche: ''
+    media_noche: '',
   },
   {
     alimentos: 'Grasas',
@@ -135,8 +135,8 @@ const items = ref<any[]>([
     almuerzo: '',
     media_tarde: '',
     cena: '',
-    media_noche: ''
-  }
+    media_noche: '',
+  },
 ]);
 
 onMounted(async () => {
@@ -283,7 +283,7 @@ const submit = async () => {
         vegetales: items.value[2].desayuno || 0,
         lacteos: items.value[3].desayuno || 0,
         proteinas: items.value[4].desayuno || 0,
-        grasas: items.value[5].desayuno || 0
+        grasas: items.value[5].desayuno || 0,
       },
       media_mañana: {
         carbohidratos: items.value[0].media_manana || 0,
@@ -291,7 +291,7 @@ const submit = async () => {
         vegetales: items.value[2].media_manana || 0,
         lacteos: items.value[3].media_manana || 0,
         proteinas: items.value[4].media_manana || 0,
-        grasas: items.value[5].media_manana || 0
+        grasas: items.value[5].media_manana || 0,
       },
       almuerzo: {
         carbohidratos: items.value[0].almuerzo || 0,
@@ -299,7 +299,7 @@ const submit = async () => {
         vegetales: items.value[2].almuerzo || 0,
         lacteos: items.value[3].almuerzo || 0,
         proteinas: items.value[4].almuerzo || 0,
-        grasas: items.value[5].almuerzo || 0
+        grasas: items.value[5].almuerzo || 0,
       },
       media_tarde: {
         carbohidratos: items.value[0].media_tarde || 0,
@@ -307,7 +307,7 @@ const submit = async () => {
         vegetales: items.value[2].media_tarde || 0,
         lacteos: items.value[3].media_tarde || 0,
         proteinas: items.value[4].media_tarde || 0,
-        grasas: items.value[5].media_tarde || 0
+        grasas: items.value[5].media_tarde || 0,
       },
       cena: {
         carbohidratos: items.value[0].cena || 0,
@@ -315,7 +315,7 @@ const submit = async () => {
         vegetales: items.value[2].cena || 0,
         lacteos: items.value[3].cena || 0,
         proteinas: items.value[4].cena || 0,
-        grasas: items.value[5].cena || 0
+        grasas: items.value[5].cena || 0,
       },
       merienda_noche: {
         carbohidratos: items.value[0].merienda_noche || 0,
@@ -323,8 +323,8 @@ const submit = async () => {
         vegetales: items.value[2].merienda_noche || 0,
         lacteos: items.value[3].merienda_noche || 0,
         proteinas: items.value[4].merienda_noche || 0,
-        grasas: items.value[5].merienda_noche || 0
-      }
+        grasas: items.value[5].merienda_noche || 0,
+      },
     };
 
     if (equivalencia_id.value === null) {
@@ -336,7 +336,7 @@ const submit = async () => {
           textColor: 'white',
           icon: 'check_circle',
           message: 'Equivalencia nutricional agregada correctamente',
-          position: 'top-right'
+          position: 'top-right',
         });
       }
     } else {
@@ -348,7 +348,7 @@ const submit = async () => {
           textColor: 'white',
           icon: 'check_circle',
           message: 'Equivalencia nutricional actualizada correctamente',
-          position: 'top-right'
+          position: 'top-right',
         });
       }
     }
@@ -358,7 +358,7 @@ const submit = async () => {
       textColor: 'white',
       icon: 'error',
       message: 'Ocurrió un error',
-      position: 'top-right'
+      position: 'top-right',
     });
     console.log(error);
   }
@@ -477,7 +477,9 @@ const submit = async () => {
       color="primary"
       @click="submit"
       :disable="cita_control_id === null"
-      >{{ equivalencia_id ? 'Actualizar' : 'Guardar' }}</q-btn
+      >{{
+        equivalencia_id ? 'Actualizar Equivalencias' : 'Guardar Equivalencias'
+      }}</q-btn
     >
   </div>
 </template>
