@@ -235,7 +235,7 @@
                   :options="
                     nutricionistas.map((item) => {
                       return {
-                        label: item.nombre,
+                        label: item.name,
                         value: item.id,
                       };
                     })
@@ -300,44 +300,62 @@
                 />
               </div>
 
+              <!-- medicamentos -->
+
               <div class="col-4 q-mb-md">
                 <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Medicamentos</label
                 >
-                <q-input
-                  v-model="formulario.medicamentos"
+                <q-select
                   outlined
                   dense
+                  v-model="formulario.medicinas"
+                  style="font-size: 14px !important"
                   placeholder="Ingrese algún medicamento"
+                  use-input
+                  use-chips
+                  multiple
+                  hide-dropdown-icon
+                  input-debounce="0"
+                  new-value-mode="add-unique"
                 />
               </div>
-
+              <!-- DESORDEN ALIMENTICIO -->
               <div class="col-4 q-mb-md">
                 <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Trastornos de la conducta alimenticia</label
                 >
-                <q-input
-                  v-model="formulario.trastorno_alimenticio"
+                <q-select
                   outlined
                   dense
-                  placeholder="Ingrese algún trastorno alimenticio"
+                  v-model="formulario.desordenes"
+                  style="font-size: 14px !important"
+                  placeholder="Ingrese alguna alergia"
+                  use-input
+                  use-chips
+                  multiple
+                  hide-dropdown-icon
+                  input-debounce="0"
+                  new-value-mode="add-unique"
                 />
               </div>
 
+              <!-- HORAS DE SUEÑO -->
               <div class="col-4 q-mb-md">
                 <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Horas de sueño diarias</label
                 >
                 <q-input
-                  v-model="formulario.trastorno_alimenticio"
+                  v-model="formulario.horas_dormidas"
                   outlined
                   dense
-                  placeholder="Ingrese algún trastorno alimenticio"
+                  placeholder="Ingresa las horas de sueño diarias"
                 />
               </div>
 
+              <!-- REGISTRO DE CONSUMO -->
               <div class="col-4 q-mb-md">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
+                <label for="consumo" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Registro de consumo</label
                 >
                 <q-input
@@ -348,8 +366,11 @@
                 />
               </div>
 
+              <!-- ACTIVIDAD FISICA SEMANAL -->
               <div class="col-4">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
+                <label
+                  for="actividad_fisica"
+                  class="q-ml-xs text-subtitle2 q-mb-none"
                   >Actividad física semanal</label
                 >
                 <q-select
@@ -361,9 +382,9 @@
                   :options="
                     actividades.map((item) => {
                       return {
-                        label: item.nombre,
+                        label: item.name,
                         value: item.id,
-                        description: item.descripcion,
+                        description: item.description,
                       };
                     })
                   "
@@ -389,8 +410,9 @@
                 </q-select>
               </div>
 
+              <!-- OBJETIVO -->
               <div class="col-4">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
+                <label for="objetivo" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Objetivo Actual</label
                 >
                 <q-select
@@ -402,9 +424,9 @@
                   :options="
                     objetivos.map((item) => {
                       return {
-                        label: item.nombre,
+                        label: item.name,
                         value: item.id,
-                        description: item.descripcion,
+                        description: item.description,
                       };
                     })
                   "
@@ -430,12 +452,15 @@
                 </q-select>
               </div>
 
+              <!-- HISTORIAL -->
               <div class="col-4">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
+                <label
+                  for="antecedentes"
+                  class="q-ml-xs text-subtitle2 q-mb-none"
                   >Antecedentes</label
                 >
                 <q-input
-                  v-model="formulario.antecedentes"
+                  v-model="formulario.historial"
                   outlined
                   dense
                   placeholder="Ingrese algún antecedente"
@@ -472,16 +497,16 @@
 <script lang="ts" setup>
 import { reactive, ref, computed, onMounted } from 'vue';
 import BotonBack from '../../components/common/BotonBack.vue';
-// import { clinicDataServices } from '../../services/ClinicDataService'
-// import { IClinic } from '../../interfaces/Clinic'
-// import { INutri } from '../../interfaces/Nutri'
-// import { nutriDataServices } from '../../services/NutriDataService'
-// import { actividadDataServices } from 'src/services/ActividadDataService'
-// import { IActividadFisica } from 'src/interfaces/ActividadFisica'
-// import { IObjetivo } from 'src/interfaces/Objetivo'
-// import { objetivoDataServices } from 'src/services/ObjetivoDataService'
-// import { pacienteDataServices } from '../../services/PacienteDataService'
-// import { IPaciente } from '../../interfaces/Paciente'
+import { clinicDataServices } from '../../services/ClinicDataService';
+import { IClinic } from '../../Interfaces/Clinic';
+import { INutri } from '../../Interfaces/Nutri';
+import { nutriDataServices } from '../../services/NutriDataService';
+import { actividadDataServices } from 'src/services/ActividadDataService';
+import { IActividadFisica } from 'src/Interfaces/ActividadFisica';
+import { IObjetivo } from 'src/Interfaces/Objetivo';
+import { objetivoDataServices } from 'src/services/ObjetivoDataService';
+import { pacienteDataServices } from '../../services/PacienteDataService';
+import { IPaciente } from '../../Interfaces/Paciente';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 const $q = useQuasar();
@@ -497,18 +522,22 @@ const formulario = reactive<IPaciente>({
   nombre: '',
   apellido_paterno: '',
   apellido_materno: '',
-  fecha_nacimiento: '',
-  registro_consumo: '',
-  sexo: '',
-  estatura: 0,
-  telefono: null,
   email: '',
+  telefono: null,
+  nutricionista_id: null,
+  consultorio_id: null,
+  sexo: '',
+  fecha_nacimiento: '',
   alergias: [],
   condiciones_medicas: [],
+  medicinas: [],
+  desordenes: [],
   actividad_fisica_id: null,
   objetivo_id: null,
-  consultorio_id: null,
-  nutricionista_id: null,
+  horas_dormidas: '',
+  registro_consumo: '',
+  estatura: 0,
+  historial: '',
 });
 
 const disabled = computed(() => {
@@ -548,6 +577,9 @@ const getConsultorios = async () => {
 
 const getNutris = async () => {
   const data = await nutriDataServices.getNutriologas();
+
+  console.log(data);
+
   if (data.code === 200) {
     nutricionistas.value = data.data;
   }
@@ -586,6 +618,10 @@ const submit = async () => {
         objetivo_id: formulario.objetivo_id,
         consultorio_id: formulario.consultorio_id,
         nutricionista_id: formulario.nutricionista_id,
+        medicinas: formulario.medicinas,
+        desordenes: formulario.desordenes,
+        horas_dormidas: formulario.horas_dormidas,
+        historial: formulario.historial,
       });
 
       if (data.code === 200) {

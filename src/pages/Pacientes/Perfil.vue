@@ -13,6 +13,7 @@
         :to="{ name: 'EditarPaciente', params: { id: paciente.id } }"
       />
     </div>
+
     <div class="row q-mx-md q-mt-sm">
       <div class="col-12 col-md-6 q-mb-md q-pr-md">
         <q-card flat style="min-height: 240px; max-width: 745px">
@@ -195,6 +196,8 @@
         </q-card>
       </div>
 
+      <!-- REGISTRO DE CONSUMO && ANTECEDENTES -->
+
       <div class="col-12 col-md-6 q-mb-md q-pr-md" style="max-width: 745px">
         <q-expansion-item
           class="overflow-hidden"
@@ -203,7 +206,7 @@
           header-class="bg-white text-black"
           expand-icon-class="text-black"
         >
-          <q-card>
+          <q-card flat>
             <q-card-section>
               <span
                 class="text-weight-bold"
@@ -227,7 +230,7 @@
           header-class="bg-white text-black"
           expand-icon-class="text-black"
         >
-          <q-card>
+          <q-card flat>
             <q-card-section>
               <span
                 class="text-weight-bold"
@@ -242,6 +245,10 @@
           </q-card>
         </q-expansion-item>
       </div>
+
+      <!-- END REGISTRO DE CONSUMO && ANTECEDENTES -->
+
+      <!-- TABLAS -->
       <div class="col-12">
         <TableCitas :id="id" @cita="handleCita" />
       </div>
@@ -257,8 +264,8 @@ import { ref, computed, onMounted, watch } from 'vue';
 import BotonBack from '../../components/common/BotonBack.vue';
 import TableCitas from '../../components/TableCitas.vue';
 import TableEquivalencias from '../../components/TableEquivalencias.vue';
-import { Paciente, IPaciente } from '../../interfaces/Paciente';
-// import { pacienteDataServices } from '../../services/PacienteDataService'
+import { Paciente, IPaciente } from '../../Interfaces/Paciente';
+import { pacienteDataServices } from '../../services/PacienteDataService';
 import { useQuasar } from 'quasar';
 const $q = useQuasar();
 const props = defineProps({
@@ -277,10 +284,10 @@ const handleCita = (id: string) => {
 };
 
 onMounted(async () => {
-  // let res = await pacienteDataServices.getById(props.id);
-  // if (res.code == 200) {
-  //   paciente.value = res.data.user;
-  // }
+  let res = await pacienteDataServices.getById(props.id);
+  if (res.code == 200) {
+    paciente.value = res.data.user;
+  }
 });
 
 function calcularEdad(fechaNacimiento: any) {

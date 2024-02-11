@@ -1,5 +1,7 @@
 import { route } from 'quasar/wrappers';
 import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from 'stores/auth';
+import { Cookies } from 'quasar';
 
 import routes from './routes';
 
@@ -24,7 +26,7 @@ export default route(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createWebHistory(process.env.VUE_ROUTER_BASE)
+    history: createWebHistory(process.env.VUE_ROUTER_BASE),
   });
 
   // Router.beforeEach((to, from, next) => {
@@ -33,17 +35,23 @@ export default route(function (/* { store, ssrContext } */) {
   //   const store = useAuthStore()
   //   const { setUser } = store
 
-  //   if (to.matched.some(record => record.meta.requiresAuth)) {
-  //     if (access_token_cookie != null) {
-  //       setUser({ user: user_cookie, token: access_token_cookie })
-  //       next()
-  //     } else {
-  //       next({ path: '/login' })
-  //     }
-  //   } else {
-  //     next()
-  //   }
-  // })
+  Router.beforeEach((to, from, next) => {
+    const access_token_cookie = Cookies.get('access_token');
+    const user_cookie = Cookies.get('user');
+    const store = useAuthStore();
+    const { setUser } = store;
+
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
+      if (access_token_cookie != null) {
+        setUser({ user: user_cookie, token: access_token_cookie });
+        next();
+      } else {
+        next({ path: '/login' });
+      }
+    } else {
+      next();
+    }
+  });
 
   return Router;
 });

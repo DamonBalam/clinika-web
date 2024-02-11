@@ -2,12 +2,12 @@
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { computed } from '@vue/reactivity';
-// import { IPaciente } from '../interfaces/Paciente'
-// import { pacienteDataServices } from 'src/services/PacienteDataService'
-// import { nutriDataServices } from '../services/NutriDataService'
-// import { clinicDataServices } from '../services/ClinicDataService'
-// import { userDataServices } from 'src/services/userDataService'
+import { pacienteDataServices } from 'src/services/PacienteDataService';
+import { nutriDataServices } from '../services/NutriDataService';
+import { clinicDataServices } from '../services/ClinicDataService';
+import { userDataServices } from 'src/services/userDataService';
 import { useQuasar } from 'quasar';
+import { IPaciente } from 'src/interfaces/Paciente';
 const $q = useQuasar();
 const router = useRouter();
 const columns = [
@@ -15,39 +15,39 @@ const columns = [
     name: 'nombre',
     label: 'Nombre completo',
     field: 'nombre',
-    align: 'left'
+    align: 'left',
   },
   {
-    name: 'last_date',
+    name: 'cita',
     label: 'Última cita',
-    field: 'last_date',
-    align: 'center'
+    field: 'cita',
+    align: 'center',
   },
   {
     name: 'consultorio',
     label: 'Consultorio',
     field: 'consultorio',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'nutricionista',
     label: 'Nutricionista',
     field: 'nutricionista',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'telefono',
     label: 'Teléfono',
     field: 'telefono',
-    align: 'center'
+    align: 'center',
   },
   {
     name: 'email',
     label: 'Correo electrónico',
     field: 'email',
-    align: 'center'
+    align: 'center',
   },
-  { name: 'accion', label: '', align: 'center' }
+  { name: 'accion', label: '', align: 'center' },
 ];
 
 const search = ref('');
@@ -61,79 +61,60 @@ const idPaciente = ref('');
 const options = [
   { label: 'Todos', value: null },
   { label: 'Activos', value: true },
-  { label: 'Inactivos', value: false }
+  { label: 'Inactivos', value: false },
 ];
 
 const loading = ref(false);
-const items = ref<any[]>([
-  {
-    id: '1',
-    nombre: 'Juan Perez',
-    last_date: '2021-09-01',
-    consultorio: 'Consultorio 1',
-    nutricionista: 'Nutricionista 1',
-    telefono: '123456789',
-    email: 'juan.perez@gmail.com'
-  },
-  {
-    id: '2',
-    nombre: 'Jonatan Perez',
-    last_date: '2021-09-01',
-    consultorio: 'Consultorio 1',
-    nutricionista: 'Nutricionista 1',
-    telefono: '123456789',
-    email: 'jona.perez@gmail.com'
-  }
-]);
+const items = ref<IPaciente[]>([]);
 const nutricionistas = ref<any[]>([]);
 const consultorios = ref<any[]>([]);
 
-// onMounted(async () => {
-//   await getItems();
-//   await getNutricionistas();
-//   await getConsultorios();
-// });
+onMounted(async () => {
+  await getItems();
+  // await getNutricionistas();
+  // await getConsultorios();
+});
 
-// const getItems = async () => {
-//   loading.value = true;
-//   try {
-//     const data = await pacienteDataServices.getAll();
+const getItems = async () => {
+  loading.value = true;
+  try {
+    const data = await pacienteDataServices.getAll();
 
-//     if (data.code === 200) {
-//       items.value = data.data;
-//       // console.log(data.data)
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-//   loading.value = false;
-// };
+    if (data.code === 200) {
+      items.value = data.data;
+      // console.log(data.data)
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  loading.value = false;
+};
 
-// const getNutricionistas = async () => {
-//   try {
-//     const data = await nutriDataServices.getNutriologas();
+const getNutricionistas = async () => {
+  try {
+    const data = await nutriDataServices.getNutriologas();
 
-//     if (data.code === 200) {
-//       nutricionistas.value = data.data;
-//       // console.log(data.data)
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+    if (data.code === 200) {
+      nutricionistas.value = data.data;
+      // console.log(data.data)
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-// const getConsultorios = async () => {
-//   try {
-//     const data = await clinicDataServices.getClinics();
+const getConsultorios = async () => {
+  try {
+    const data = await clinicDataServices.getClinics();
 
-//     if (data.code === 200) {
-//       consultorios.value = data.data;
-//       // console.log(data.data)
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+    if (data.code === 200) {
+      consultorios.value = data.data;
+      // console.log(data.data)
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // const fechaActual = computed(() => {
 //   const fechaActual = new Date().toISOString().substr(0, 10);
@@ -188,39 +169,38 @@ const getPerfil = (id: string) => {
   router.push({ name: 'PerfilPaciente', params: { id } });
 };
 
-// const getDelete = (id: string) => {
-//   confirm.value = true;
-//   idPaciente.value = id;
-// };
+const getDelete = (id: string) => {
+  confirm.value = true;
+  idPaciente.value = id;
+};
 
-// const deleteUser = async () => {
-//   try {
-//     const data = await userDataServices.deleteUser(idPaciente.value);
+const deleteUser = async () => {
+  try {
+    // const data = await userDataServices.deleteUser(idPaciente.value);
+    // if (data.code === 200) {
+    //   await getItems();
+    //   $q.notify({
+    //     color: 'green-4',
+    //     textColor: 'white',
+    //     icon: 'check_circle',
+    //     message: 'Se elimino correctamente',
+    //     position: 'top-right',
+    //   });
+    // }
+  } catch (error) {
+    $q.notify({
+      color: 'red-4',
+      textColor: 'white',
+      icon: 'error',
+      message: 'Ocurrió un error',
+      position: 'top-right',
+    });
+    console.log(error);
+  }
 
-//     if (data.code === 200) {
-//       await getItems();
-//       $q.notify({
-//         color: 'green-4',
-//         textColor: 'white',
-//         icon: 'check_circle',
-//         message: 'Se elimino correctamente',
-//         position: 'top-right'
-//       });
-//     }
-//   } catch (error) {
-//     $q.notify({
-//       color: 'red-4',
-//       textColor: 'white',
-//       icon: 'error',
-//       message: 'Ocurrió un error',
-//       position: 'top-right'
-//     });
-//     console.log(error);
-//   }
-
-//   confirm.value = false;
-//   idPaciente.value = '';
-// };
+  confirm.value = false;
+  idPaciente.value = '';
+};
 </script>
 <template>
   <div class="q-mt-lg q-pt-lg">
@@ -275,10 +255,10 @@ const getPerfil = (id: string) => {
           bg-color="white"
           label="Consultorio"
           :options="
-            consultorios.map(item => {
+            consultorios.map((item) => {
               return {
                 label: item.name,
-                value: item.name
+                value: item.name,
               };
             })
           "
@@ -295,10 +275,10 @@ const getPerfil = (id: string) => {
           bg-color="white"
           label="Nutricionistas"
           :options="
-            nutricionistas.map(item => {
+            nutricionistas.map((item) => {
               return {
                 label: item.nombre,
-                value: item.nombre
+                value: item.nombre,
               };
             })
           "
@@ -323,16 +303,26 @@ const getPerfil = (id: string) => {
       :rows-per-page-options="[10, 15, 30, 50]"
     >
       <template v-slot:body-cell-nombre="props">
-        <q-td key="cita" :props="props">
+        <q-td key="nombre" :props="props">
           {{ props.row.nombre }}
+        </q-td>
+      </template>
+      <template v-slot:body-cell-consultorio="props">
+        <q-td key="consultorio" :props="props">
+          {{ props.row.consultorio?.nombre }}
+        </q-td>
+      </template>
+      <template v-slot:body-cell-nutricionista="props">
+        <q-td key="nutricionista" :props="props">
+          {{ props.row.nutricionista?.nombre }}
         </q-td>
       </template>
       <template v-slot:body-cell-cita="props">
         <q-td key="cita" :props="props">
           {{
-            props.row.cita.fecha !== null
-              ? props.row.cita.fecha
-              : 'No hay registro'
+            props.row.cita?.fecha === null
+              ? 'No hay registro'
+              : props.row.cita.fecha
           }}
         </q-td>
       </template>

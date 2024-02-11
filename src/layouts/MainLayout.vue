@@ -33,34 +33,34 @@
 
 <script setup lang="ts">
 import EssentialLink, {
-  EssentialLinkProps
+  EssentialLinkProps,
 } from 'components/EssentialLink.vue';
-// import { useAuthStore } from 'stores/auth';
+import { useAuthStore } from 'stores/auth';
 import { onMounted, ref } from 'vue';
 
-// const store = useAuthStore();
-// const { logout } = store;
+const store = useAuthStore();
+const { logout } = store;
 const essentialLinks: EssentialLinkProps[] = [
   {
     title: 'Página Principal',
     icon: 'o_home',
-    link: '/inicio'
+    link: '/inicio',
   },
   {
     title: 'Agenda',
     icon: 'o_calendar_today',
-    link: '/agenda'
+    link: '/agenda',
   },
   {
     title: 'Pacientes',
     icon: 'o_people',
-    link: '/pacientes'
+    link: '/pacientes',
   },
   {
     title: 'Ajustes',
     icon: 'o_settings',
-    link: '/ajustes'
-  }
+    link: '/ajustes',
+  },
 ];
 
 const leftDrawerOpen = ref(true);
@@ -70,6 +70,6 @@ onMounted(() => {
   // await getItems()
 });
 function handleSubmit() {
-  // logout();
+  logout();
 }
 </script>
