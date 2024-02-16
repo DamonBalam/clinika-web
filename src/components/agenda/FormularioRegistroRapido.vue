@@ -163,7 +163,7 @@
                   :options="
                     nutricionistas.map((item) => {
                       return {
-                        label: item.nombre,
+                        label: item.name,
                         value: item.id,
                       };
                     })
@@ -204,33 +204,12 @@
 </template>
 
 <script setup lang="ts">
-interface IPaciente {
-  nombre: string;
-  apellido_paterno: string;
-  apellido_materno: string;
-  telefono: string;
-  email: string;
-  consultorio_id: number;
-  nutricionista_id: number;
-}
-
-interface IClinic {
-  id: number;
-  name: string;
-  address: string;
-  phone: string;
-}
-
-interface INutri {
-  id: number;
-  nombre: string;
-  apellido_paterno: string;
-  apellido_materno: string;
-  email: string;
-  telefono: string;
-}
-
-import { ref, reactive, computed, watch } from 'vue';
+import { IClinic } from 'src/Interfaces/Clinic';
+import { INutri } from 'src/Interfaces/Nutri';
+import { IPaciente } from 'src/Interfaces/Paciente';
+import { clinicDataServices } from 'src/services/ClinicDataService';
+import { nutriDataServices } from 'src/services/NutriDataService';
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 
 const props = defineProps({
   prompt: {
@@ -242,53 +221,8 @@ const props = defineProps({
 const emit = defineEmits(['close', 'submit']);
 
 /* CATALOGOS */
-const consultorios = ref<IClinic[]>([
-  {
-    id: 1,
-    name: 'Consultorio 1',
-    address: 'Av. 1',
-    phone: '1234567890',
-  },
-  {
-    id: 2,
-    name: 'Consultorio 2',
-    address: 'Av. 2',
-    phone: '1234567890',
-  },
-  {
-    id: 3,
-    name: 'Consultorio 3',
-    address: 'Av. 3',
-    phone: '1234567890',
-  },
-]);
-
-const nutricionistas = ref<INutri[]>([
-  {
-    id: 1,
-    nombre: 'Nutriologa 1',
-    apellido_paterno: 'Apellido 1',
-    apellido_materno: 'Apellido 2',
-    email: 'nutriologa',
-    telefono: '1234567890',
-  },
-  {
-    id: 2,
-    nombre: 'Nutriologa 2',
-    apellido_paterno: 'Apellido 1',
-    apellido_materno: 'Apellido 2',
-    email: 'nutriologa',
-    telefono: '1234567890',
-  },
-  {
-    id: 3,
-    nombre: 'Nutriologa 3',
-    apellido_paterno: 'Apellido 1',
-    apellido_materno: 'Apellido 2',
-    email: 'nutriologa',
-    telefono: '1234567890',
-  },
-]);
+const consultorios = ref<IClinic[]>([]);
+const nutricionistas = ref<INutri[]>([]);
 
 const formulario = reactive<IPaciente>({
   id: null,
@@ -296,7 +230,7 @@ const formulario = reactive<IPaciente>({
   apellido_paterno: '',
   apellido_materno: '',
   email: '',
-  telefono: '',
+  telefono: null,
   consultorio_id: null,
   nutricionista_id: null,
 });
@@ -331,6 +265,26 @@ const disabled = computed(() => {
   ) {
     return true;
   }
+});
+
+const getConsultorios = async () => {
+  const data = await clinicDataServices.getClinics();
+  if (data.code === 200) {
+    consultorios.value = data.data;
+  }
+};
+
+const getNutris = async () => {
+  const data = await nutriDataServices.getNutriologas();
+
+  if (data.code === 200) {
+    nutricionistas.value = data.data;
+  }
+};
+
+onMounted(() => {
+  getConsultorios();
+  getNutris();
 });
 </script>
 

@@ -11,7 +11,6 @@
           :key="link.title"
           v-bind="link"
         />
-        <!-- <q-separator spaced /> -->
       </q-list>
       <div class="row justify-center">
         <q-btn
@@ -42,19 +41,19 @@ const store = useAuthStore();
 const { logout } = store;
 const essentialLinks: EssentialLinkProps[] = [
   {
-    title: 'Página Principal',
+    title: 'Inicio',
     icon: 'o_home',
     link: '/inicio',
-  },
-  {
-    title: 'Agenda',
-    icon: 'o_calendar_today',
-    link: '/agenda',
   },
   {
     title: 'Pacientes',
     icon: 'o_people',
     link: '/pacientes',
+  },
+  {
+    title: 'Agenda',
+    icon: 'o_calendar_today',
+    link: '/agenda',
   },
   {
     title: 'Ajustes',
@@ -66,8 +65,8 @@ const essentialLinks: EssentialLinkProps[] = [
 const leftDrawerOpen = ref(true);
 
 onMounted(() => {
+
   leftDrawerOpen.value = true;
-  // await getItems()
 });
 function handleSubmit() {
   logout();

@@ -2,7 +2,7 @@
   "name": "clinika",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "Clinika App",
+  "productName": "Clinika",
   "author": "Arturo Saldivar <damonbalam@gmail.com>",
   "private": true,
   "scripts": {
