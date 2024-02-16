@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="title">Tu resumen mensual</h2>
-    <q-card flat style="min-height: 240px; max-width: 90%"> </q-card>
+    <q-card flat style="min-height: 240px; max-width: 100%"> </q-card>
   </div>
 </template>
 

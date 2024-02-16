@@ -78,6 +78,14 @@ const lista_consultas = ref([
     tipo_consulta: 'Seguimiento',
   },
 ]);
+
+const verConsulta = (id: number) => {
+  console.log('Ver consulta', id);
+};
+
+const verTodasConsultas = () => {
+  console.log('Ver todas las consultas');
+};
 </script>
 
 <style scoped>

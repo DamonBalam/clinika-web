@@ -8,13 +8,13 @@
         </p>
       </div>
 
-      <div class="col-6 q-pr-md">
+      <div class="col-lg-6 col-12 q-pr-none q-pr-lg-md">
         <card-consultas />
       </div>
-      <div class="col-3 q-pr-md">
+      <div class="col-lg-3 col-6 q-pr-sm">
         <card-resumen-semanal />
       </div>
-      <div class="col-3 q-pr-md">
+      <div class="col-lg-3 col-6 q-pl-sm">
         <card-resumen-mensual />
       </div>
     </div>
