@@ -1,39 +1,77 @@
 <template>
-  <q-page class="fondo-gris"> PAGE MAIN </q-page>
+  <q-page class="fondo-gris">
+    <div class="row q-px-lg">
+      <div class="col-12">
+        <h2 class="title">{{ msgLabel }}</h2>
+        <p class="subtitle">
+          Abre el panel y visualiza el progreso de la salud de tus pacientes
+        </p>
+      </div>
+
+      <div class="col-6 q-pr-md">
+        <card-consultas />
+      </div>
+      <div class="col-3 q-pr-md">
+        <card-resumen-semanal />
+      </div>
+      <div class="col-3 q-pr-md">
+        <card-resumen-mensual />
+      </div>
+    </div>
+  </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { Todo, Meta } from 'components/models';
+import { computed } from 'vue';
 
-const todos = ref<Todo[]>([
-  {
-    id: 1,
-    content: 'ct1'
-  },
-  {
-    id: 2,
-    content: 'ct2'
-  },
-  {
-    id: 3,
-    content: 'ct3'
-  },
-  {
-    id: 4,
-    content: 'ct4'
-  },
-  {
-    id: 5,
-    content: 'ct5'
+/* COMPONENTES */
+import CardConsultas from 'components/inicio/CardConsultas.vue';
+import CardResumenMensual from 'components/inicio/CardResumenMensual.vue';
+import CardResumenSemanal from 'components/inicio/CardResumenSemanal.vue';
+
+/* STORE */
+import { useAuthStore } from 'stores/auth';
+const store = useAuthStore();
+
+const { getUser } = store;
+
+const userNameLabel = computed(() => {
+  return `${getUser.name} ${getUser.first_lastname}`;
+});
+
+const msgLabel = computed(() => {
+  const horaActual = new Date().getHours();
+
+  // Definir los límites para determinar si es de día, tarde o noche
+  const limiteDia = 6; // 6 AM
+  const limiteTarde = 18; // 6 PM
+
+  // Determinar si es de día, tarde o noche
+  let periodoDelDia;
+
+  if (horaActual < limiteDia) {
+    periodoDelDia = 'Buenas noches';
+  } else if (horaActual < limiteTarde) {
+    periodoDelDia = 'Buenos días';
+  } else {
+    periodoDelDia = 'Buenas tardes';
   }
-]);
-const meta = ref<Meta>({
-  totalCount: 1200
+
+  return `${periodoDelDia} ${userNameLabel.value}!`;
 });
 </script>
 <style scoped lang="scss">
-.fondo-gris {
-  background-color: #f1f5f9;
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 29.05px;
+}
+
+.subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  margin-bottom: 10px;
 }
 </style>

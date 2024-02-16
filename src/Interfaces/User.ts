@@ -3,7 +3,9 @@ import { IRole } from './Role'
 
 export interface IUser extends IAuditable {
   id?: number | null
-  nombre: string
+  name?: string
+  first_lastname?: string
+  last_lastname?: string
   apellidos: string
   email: string
   telefono: string
@@ -18,7 +20,9 @@ export interface IUser extends IAuditable {
 
 export class Usuario implements IUser {
   id?: number | null
-  nombre: string
+  name: string
+  first_lastname: string
+  last_lastname: string
   apellidos: string
   email: string
   telefono: string
@@ -32,7 +36,9 @@ export class Usuario implements IUser {
 
   constructor (user: IUser) {
     this.id = user.id || null
-    this.nombre = user.nombre || ''
+    this.name = user.name || ''
+    this.first_lastname = user.first_lastname || ''
+    this.last_lastname = user.last_lastname || ''
     this.apellidos = user.apellidos || ''
     this.email = user.email || ''
     this.telefono = user.telefono || ''

@@ -1,13 +1,22 @@
 import { defineStore } from 'pinia';
 import { authDataServices } from 'src/services/AuthDataService';
 import { Cookies } from 'quasar';
+import { IUser } from 'src/Interfaces/User';
+
+export interface AuthState {
+  counter: number;
+  user: IUser;
+  token: string;
+  initLoader: boolean;
+}
+
+
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    counter: 0,
     user: {},
     token: '',
     initLoader: false,
-  }),
+  }) as AuthState,
 
   getters: {
     isAuth: (state) => state.token !== '',
