@@ -3,7 +3,6 @@ import { ref, computed } from 'vue';
 import { useAuthStore } from 'stores/auth';
 import { authDataServices } from '../../services/AuthDataService';
 import { useQuasar } from 'quasar';
-import axios from 'axios';
 const $q = useQuasar();
 const store = useAuthStore();
 const { login, loginWithCookies } = store;
@@ -153,7 +152,7 @@ function handleClick() {
         v-if="!showRecovery"
         class="row justify-center q-my-xs-none q-my-xl-xl"
       >
-        <h3 class="text-primary text-bold">¡Bienvenida!</h3>
+        <h3 class="text-primary text-bold">¡Bienvenido!</h3>
       </div>
 
       <q-form
