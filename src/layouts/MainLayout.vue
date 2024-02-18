@@ -12,16 +12,6 @@
           v-bind="link"
         />
       </q-list>
-      <div class="row justify-center">
-        <q-btn
-          style="position: absolute; top: 90%"
-          flat
-          icon="o_power_settings_new"
-          label="Cerrar Sesión"
-          class="text-bold"
-          @click="handleSubmit"
-        />
-      </div>
     </q-drawer>
 
     <q-page-container>
@@ -31,14 +21,10 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import EssentialLink, {
   EssentialLinkProps,
 } from 'components/EssentialLink.vue';
-import { useAuthStore } from 'stores/auth';
-import { onMounted, ref } from 'vue';
-
-const store = useAuthStore();
-const { logout } = store;
 const essentialLinks: EssentialLinkProps[] = [
   {
     title: 'Inicio',
@@ -65,10 +51,6 @@ const essentialLinks: EssentialLinkProps[] = [
 const leftDrawerOpen = ref(true);
 
 onMounted(() => {
-
   leftDrawerOpen.value = true;
 });
-function handleSubmit() {
-  logout();
-}
 </script>

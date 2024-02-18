@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import TablePacientes from 'src/components/TablePacientes.vue';
-import Notification from '../../components/Notification.vue';
+import Notification from 'components/common/Notification.vue';
 </script>
 <style scoped lang="scss">
 .fondo-gris {

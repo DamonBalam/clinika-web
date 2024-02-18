@@ -2,47 +2,58 @@
   <div>
     <h2 class="title">Tus consultas para hoy</h2>
     <q-card flat style="min-height: 300px; max-width: 100%">
-      <div class="row q-pa-md">
-        <div class="col-3 header">Nombre completo</div>
-        <div class="col-3 header">Tipo de Consulta</div>
-        <div class="col-2 header">Tipo</div>
-        <div class="col-2 header">Hora</div>
-      </div>
-      <div class="row q-px-md q-py-sm" v-for="consulta in lista_consultas">
-        <div class="col-3">{{ consulta.nombre }}</div>
-        <div class="col-3">{{ consulta.tipo_consulta }}</div>
-        <div class="col-2">{{ consulta.tipo }}</div>
-        <div class="col-2">{{ consulta.hora }}</div>
-        <div class="col-2">
-          <q-btn
-            color="primary"
-            label="Ver paciente"
-            size="sm"
-            flat
-            dense
-            class="q-mr-md"
-            @click="verConsulta(consulta.id)"
-          />
+      <template v-if="hasConsultas">
+        <div class="row q-pa-md">
+          <div class="col-3 header">Nombre completo</div>
+          <div class="col-3 header">Tipo de Consulta</div>
+          <div class="col-2 header">Tipo</div>
+          <div class="col-2 header">Hora</div>
         </div>
-      </div>
-      <div class="row q-pa-lg">
-        <div class="col-12">
-          <q-btn
-            color="primary"
-            label="Ver todas las consultas"
-            size="md"
-            outline
-            class="full-width"
-            @click="verTodasConsultas"
-          />
+        <div class="row q-px-md q-py-sm" v-for="consulta in lista_consultas">
+          <div class="col-3">{{ consulta.nombre }}</div>
+          <div class="col-3">{{ consulta.tipo_consulta }}</div>
+          <div class="col-2">{{ consulta.tipo }}</div>
+          <div class="col-2">{{ consulta.hora }}</div>
+          <div class="col-2">
+            <q-btn
+              color="primary"
+              label="Ver paciente"
+              size="sm"
+              flat
+              dense
+              class="q-mr-md"
+              @click="verConsulta(consulta.id)"
+            />
+          </div>
         </div>
-      </div>
+        <div class="row q-pa-lg">
+          <div class="col-12">
+            <q-btn
+              color="primary"
+              label="Ver todas las consultas"
+              size="md"
+              outline
+              class="full-width"
+              @click="verTodasConsultas"
+            />
+          </div>
+        </div>
+      </template>
+      <template v-else>
+        <div class="row q-pa-lg">
+          <div class="col-12">
+            <q-card flat class="text-center text-uppercase">
+              <div class="text-h6">No tienes consultas para hoy</div>
+            </q-card>
+          </div>
+        </div>
+      </template>
     </q-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const lista_consultas = ref([
   {
@@ -78,6 +89,10 @@ const lista_consultas = ref([
     tipo_consulta: 'Seguimiento',
   },
 ]);
+
+const hasConsultas = computed(() => {
+  return lista_consultas.value.length > 0;
+});
 
 const verConsulta = (id: number) => {
   console.log('Ver consulta', id);

@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-end">
-    <!-- <q-btn flat round color="black" icon="notifications" /> -->
-    <q-btn flat round color="black" icon="notifications">
+    <btn-user-menu />
+    <q-btn class="q-ml-md" flat round color="black" icon="notifications">
       <q-menu>
         <q-list style="min-width: 100px">
           <q-item clickable v-close-popup>
@@ -13,6 +13,8 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import BtnUserMenu from 'components/common/BtnUserMenu.vue';
+</script>
 
 <style lang="scss" scoped></style>
