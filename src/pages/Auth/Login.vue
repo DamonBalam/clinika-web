@@ -50,11 +50,7 @@ async function handleSubmit() {
             message: 'Inicio sesión correctamente',
             position: 'top-right',
           });
-          if (accept.value) {
-            loginWithCookies(data);
-          } else {
-            login(data);
-          }
+          loginWithCookies(data);
         } else {
           message.value = msg || 'Error al iniciar sesión';
           $q.notify({
