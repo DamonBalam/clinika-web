@@ -1,6 +1,5 @@
 <template>
-  <q-page class="fondo-gris q-py-md q-px-xl">
-    <Notification />
+  <q-page>
     <div class="q-mt-sm q-pt-sm">
       <div class="row justify-between items-center">
         <p class="text-black text-bold text-h5">Agenda</p>
@@ -53,8 +52,6 @@ import { ref, reactive, computed, onMounted } from 'vue';
 import AgendaCalendar from 'src/components/agenda/AgendaCalendar.vue';
 import FormularioNuevaCita from 'src/components/agenda/FormularioNuevaCita.vue';
 import FormularioRegistroRapido from 'src/components/agenda/FormularioRegistroRapido.vue';
-import Notification from '../../components/Notification.vue';
-
 import ModalEliminacion from 'src/components/agenda/ModalEliminacion.vue';
 
 const loading = ref(false);

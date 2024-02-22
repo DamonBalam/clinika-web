@@ -1,5 +1,5 @@
 <template>
-  <q-page class="fondo-gris q-py-sm q-px-xl">
+  <q-page>
     <BotonBack :url="`/pacientes`" />
     <div class="row justify-between items-center q-mx-md q-mt-sm q-mb-md">
       <span class="text-black text-bold text-h5">Resumen del paciente</span>
@@ -15,15 +15,15 @@
     </div>
 
     <div class="row q-mx-md q-mt-sm">
-      <div class="col-12 col-md-6 q-mb-md q-pr-md">
-        <q-card flat style="min-height: 240px; max-width: 745px">
-          <div class="row q-pa-lg">
+      <div class="col-12 col-md-6 q-mb-md q-pr-lg-md">
+        <q-card flat style="min-height: 310px">
+          <div class="row q-pa-lg q-pt-xl">
             <div class="col-4">
               <q-avatar size="168px" class="q-mt-sm">
                 <img src="../../assets/avatar.png" />
               </q-avatar>
             </div>
-            <div class="col-8">
+            <div class="col-8 q-px-md">
               <div class="row items-center">
                 <div class="col-12 q-mb-sm">
                   <span
@@ -96,12 +96,8 @@
         </q-card>
       </div>
 
-      <div class="col-12 col-md-6 q-mb-md q-pl-md">
-        <q-card
-          flat
-          class="q-px-lg q-py-lg"
-          style="min-height: 240px; max-width: 745px"
-        >
+      <div class="col-12 col-md-6 q-mb-md q-pl-lg-md">
+        <q-card flat class="q-px-lg q-py-lg" style="min-height: 310px">
           <h3
             class="text-weight-bold q-mt-none q-mb-sm q-ml-md"
             style="font-size: 24px; color: #404040"
@@ -198,13 +194,14 @@
 
       <!-- REGISTRO DE CONSUMO && ANTECEDENTES -->
 
-      <div class="col-12 col-md-6 q-mb-md q-pr-md" style="max-width: 745px">
+      <div class="col-12 col-md-6 q-mb-md q-pr-lg-md">
         <q-expansion-item
           class="overflow-hidden"
           icon="description"
           label="Registro de consumo"
           header-class="bg-white text-black"
           expand-icon-class="text-black"
+          v-model="openRA"
         >
           <q-card flat>
             <q-card-section>
@@ -222,13 +219,14 @@
         </q-expansion-item>
       </div>
 
-      <div class="col-12 col-md-6 q-mb-md q-pl-md" style="max-width: 745px">
+      <div class="col-12 col-md-6 q-mb-md q-pl-lg-md">
         <q-expansion-item
           class="overflow-hidden"
           icon="description"
           label="Antecedentes"
           header-class="bg-white text-black"
           expand-icon-class="text-black"
+          v-model="openRA"
         >
           <q-card flat>
             <q-card-section>
@@ -278,6 +276,7 @@ const props = defineProps({
 const paciente = ref(new Paciente({} as IPaciente));
 const idCita = ref('');
 const open = ref(true);
+const openRA = ref(true);
 
 const handleCita = (id: string) => {
   idCita.value = id;

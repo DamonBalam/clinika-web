@@ -1,9 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-drawer v-model="leftDrawerOpen" bordered>
+    <q-drawer v-model="leftDrawerOpen" :width="240" bordered>
       <q-list>
         <q-item-label header class="row justify-center q-mt-md">
-          <q-img src="../assets/logo.png" width="240px" />
+          <q-img src="../assets/logo.png" width="180px" />
         </q-item-label>
 
         <EssentialLink
@@ -15,7 +15,29 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <q-toolbar class="fondo-gris q-pt-md justify-between">
+        <div>
+          <q-btn
+            flat
+            round
+            dense
+            icon="menu"
+            class="q-mr-sm"
+            @click="leftDrawerOpen = !leftDrawerOpen"
+          />
+
+          <q-img
+            v-if="!leftDrawerOpen"
+            src="../assets/logo.png"
+            width="180px"
+          />
+        </div>
+
+        <Notification />
+      </q-toolbar>
+      <div class="fondo-gris q-py-md q-px-lg">
+        <router-view />
+      </div>
     </q-page-container>
   </q-layout>
 </template>
@@ -25,6 +47,7 @@ import { onMounted, ref } from 'vue';
 import EssentialLink, {
   EssentialLinkProps,
 } from 'components/EssentialLink.vue';
+import Notification from 'src/components/common/Notification.vue';
 const essentialLinks: EssentialLinkProps[] = [
   {
     title: 'Inicio',
@@ -54,3 +77,13 @@ onMounted(() => {
   leftDrawerOpen.value = true;
 });
 </script>
+
+<style scoped lang="scss">
+.fondo-gris {
+  background-color: #f1f5f9;
+}
+
+.menu-aside {
+  width: 200px !important;
+}
+</style>

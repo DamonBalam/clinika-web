@@ -36,6 +36,9 @@ export interface IPaciente {
   medicinas?: string[];
   desordenes?: string[];
   historial?: string;
+  lugar_residencia?: string;
+  profesion?: string;
+  num_identificacion?: string;
 }
 
 export class Paciente implements IPaciente {
@@ -60,6 +63,7 @@ export class Paciente implements IPaciente {
   consultorio?: IClinic | null;
   nutricionista?: INutri | null;
   suscripcion?: ISuscripcion | null;
+
 
   constructor(data: Paciente) {
     (this.id = data.id || null),

@@ -106,7 +106,7 @@
                   id="numero_identificacion"
                   outlined
                   dense
-                  v-model="formulario.numero_identificacion"
+                  v-model="formulario.num_identificacion"
                   placeholder="[Formato de identificación ej. XX XYX XXYY]"
                 />
               </div>
@@ -131,7 +131,7 @@
                   id="residencia"
                   outlined
                   dense
-                  v-model="formulario.residencia"
+                  v-model="formulario.lugar_residencia"
                 />
               </div>
             </div>
@@ -538,6 +538,9 @@ const formulario = reactive<IPaciente>({
   registro_consumo: '',
   estatura: 0,
   historial: '',
+  lugar_residencia: '',
+  profesion: '',
+  num_identificacion: '',
 });
 
 const disabled = computed(() => {
@@ -622,6 +625,9 @@ const submit = async () => {
         desordenes: formulario.desordenes,
         horas_dormidas: formulario.horas_dormidas,
         historial: formulario.historial,
+        // lugar_residencia: formulario.lugar_residencia,
+        // profesion: formulario.profesion,
+        // num_identificacion: formulario.num_identificacion,
       });
 
       if (data.code === 200) {

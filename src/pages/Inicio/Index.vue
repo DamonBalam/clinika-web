@@ -1,7 +1,5 @@
 <template>
-  <q-page class="fondo-gris q-py-md q-px-lg">
-    <Notification />
-
+  <q-page>
     <div class="row">
       <div class="col-12">
         <h2 class="title">{{ msgLabel }}</h2>
@@ -30,7 +28,6 @@ import { computed } from 'vue';
 import CardConsultas from 'components/inicio/CardConsultas.vue';
 import CardResumenMensual from 'components/inicio/CardResumenMensual.vue';
 import CardResumenSemanal from 'components/inicio/CardResumenSemanal.vue';
-import Notification from 'components/common/Notification.vue';
 
 /* STORE */
 import { useAuthStore } from 'stores/auth';

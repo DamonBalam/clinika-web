@@ -1,13 +1,11 @@
 <template>
-  <q-page class="fondo-gris q-py-md q-px-xl">
-    <Notification />
+  <q-page>
     <TablePacientes />
   </q-page>
 </template>
 
 <script setup lang="ts">
 import TablePacientes from 'src/components/TablePacientes.vue';
-import Notification from 'components/common/Notification.vue';
 </script>
 <style scoped lang="scss">
 .fondo-gris {
