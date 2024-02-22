@@ -142,7 +142,7 @@ function handleRegister() {
     color: 'red-4',
     textColor: 'white',
     icon: 'error',
-    message: 'modulo de registro en desarrollo',
+    message: 'Módulo de registro en desarrollo',
     position: 'top-right',
   });
 }
