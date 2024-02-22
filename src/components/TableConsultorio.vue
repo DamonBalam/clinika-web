@@ -170,8 +170,8 @@ const deleteConsultorio = async () => {
 
   <div class="q-mt-lg">
     <q-table
-      :rows="items"
       flat
+      :rows="items"
       :columns="columns"
       row-key="name"
       :hide-pagination="true"

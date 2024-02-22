@@ -2,7 +2,9 @@
   <q-btn class="btn-menu" color="white" dense text-color="black" unelevated>
     <q-icon left>
       <q-avatar size="32px">
-        <img src="https://cdn.quasar.dev/img/avatar2.jpg" />
+        <img
+          src="https://www.nicepng.com/png/detail/115-1150821_default-avatar-comments-sign-in-icon-png.png"
+        />
       </q-avatar>
     </q-icon>
     <div class="q-ml-md">{{ userNameLabel }}</div>

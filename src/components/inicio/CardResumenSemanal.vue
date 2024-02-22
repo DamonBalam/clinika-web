@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="title">Tu resumen semanal</h2>
-    <q-card flat style="min-height: 300px; max-width: 100%">
+    <q-card flat style="height: 320px; max-width: 100%">
       <div class="row q-pa-md">
         <div class="col-12">
           <span class="card-title">Esta semana( {{ fechaLabel }} )</span>
@@ -53,14 +53,14 @@ const data = ref([
 
 .card-title {
   display: block;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   margin-bottom: 2px;
   line-height: 25px;
 }
 
 .card-subtitle {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 300;
   line-height: 19px;
 }

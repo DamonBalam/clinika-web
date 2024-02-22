@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="title">Tus consultas para hoy</h2>
-    <q-card flat style="min-height: 300px; max-width: 100%">
+    <q-card flat style="height: 320px; max-width: 100%">
       <template v-if="hasConsultas">
         <div class="row q-pa-md">
           <div class="col-3 header">Nombre completo</div>
