@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="fondo">
+  <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -9,7 +9,7 @@
 <style scoped lang="scss">
 .fondo {
   position: absolute;
-  background-image: url("../assets/fondo.jpg");
+  background-image: url('../assets/fondo.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
