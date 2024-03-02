@@ -41,6 +41,37 @@ export interface IPaciente {
   num_identificacion?: string;
 }
 
+export interface IPacientePayload {
+  nombre: string;
+  apellido_paterno: string;
+  apellido_materno: string;
+  sexo: string;
+  email: string;
+  telefono?: number | string | null;
+  fecha_nacimiento: string;
+
+  nutricionista_id?: number | null;
+  consultorio_id?: number | null;
+
+  estatura?: number | string;
+
+  registro_consumo?: string;
+  alergias?: string[];
+  condiciones_medicas?: string[];
+  medicinas?: string[];
+  desordenes?: string[];
+
+  historial?: string;
+  horas_dormidas?: string;
+
+  actividad_fisica_id: number | null;
+  objetivo_id: number | null;
+
+  num_identificacion?: string;
+  profesion?: string;
+  lugar_residencia?: string;
+}
+
 export class Paciente implements IPaciente {
   id?: number | null;
   nombre: string;
@@ -63,7 +94,6 @@ export class Paciente implements IPaciente {
   consultorio?: IClinic | null;
   nutricionista?: INutri | null;
   suscripcion?: ISuscripcion | null;
-
 
   constructor(data: Paciente) {
     (this.id = data.id || null),

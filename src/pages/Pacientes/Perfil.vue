@@ -10,13 +10,13 @@
         size="md"
         :icon="'o_edit'"
         class="text-capitalize"
-        :to="{ name: 'EditarPaciente', params: { id: paciente.id } }"
+        :to="{ name: 'PerfilEditarPaciente', params: { id: paciente.id } }"
       />
     </div>
 
     <div class="row q-mx-md q-mt-sm">
       <div class="col-12 col-md-6 q-mb-md q-pr-lg-md">
-        <q-card flat style="min-height: 310px">
+        <q-card flat style="min-height: 320px">
           <div class="row q-pa-lg q-pt-xl">
             <div class="col-4">
               <q-avatar size="168px" class="q-mt-sm">
@@ -29,7 +29,7 @@
                   <span
                     class="text-weight-bold font-24 q-mt-md"
                     style="display: block; color: #404040"
-                    >Jonathan Martinez Paz</span
+                    >{{ pacienteComputed.nombre_completo }}</span
                   >
                 </div>
                 <div class="col-6">
@@ -37,7 +37,7 @@
                     style="font-size: 16px; font-weight: 400; color: #737373"
                   >
                     <q-icon name="fact_check" color="primary" />
-                    Número identificación
+                    {{ pacienteComputed.num_identificacion || 'N/A' }}
                   </span>
                 </div>
                 <div class="col-6">
@@ -45,7 +45,7 @@
                     style="font-size: 16px; font-weight: 400; color: #737373"
                   >
                     <q-icon name="public" color="primary" size="16px" />
-                    México
+                    {{ 'N/A' }}
                   </span>
                 </div>
 
@@ -53,16 +53,15 @@
                   <span
                     style="font-size: 16px; font-weight: 400; color: #737373"
                   >
-                    <q-icon name="man" color="primary" />
-                    Hombre
-                  </span>
-                </div>
-                <div class="col-6">
-                  <span
-                    style="font-size: 16px; font-weight: 400; color: #737373"
-                  >
-                    <q-icon name="email" color="primary" size="16px" />
-                    user@email.com
+                    <q-icon
+                      :name="pacienteComputed.sexo === 'M' ? 'man' : 'woman'"
+                      color="primary"
+                    />
+                    {{
+                      pacienteComputed.sexo === 'M'
+                        ? 'Masculino'
+                        : 'Femenino' || 'N/A'
+                    }}
                   </span>
                 </div>
 
@@ -71,7 +70,11 @@
                     style="font-size: 16px; font-weight: 400; color: #737373"
                   >
                     <q-icon name="cake" color="primary" />
-                    35 años
+                    {{
+                      pacienteComputed.fecha_nacimiento
+                        ? getEdad + ' años'
+                        : 'N/A'
+                    }}
                   </span>
                 </div>
                 <div class="col-6">
@@ -79,7 +82,7 @@
                     style="font-size: 16px; font-weight: 400; color: #737373"
                   >
                     <q-icon name="phone" color="primary" size="16px" />
-                    +52 123 456 7890
+                    {{ pacienteComputed.telefono || 'N/A' }}
                   </span>
                 </div>
                 <div class="col-6">
@@ -87,7 +90,15 @@
                     style="font-size: 16px; font-weight: 400; color: #737373"
                   >
                     <q-icon name="work" color="primary" size="16px" />
-                    Psicólogo
+                    {{ pacienteComputed.profesion || 'N/A' }}
+                  </span>
+                </div>
+                <div class="col-12">
+                  <span
+                    style="font-size: 16px; font-weight: 400; color: #737373"
+                  >
+                    <q-icon name="email" color="primary" size="16px" />
+                    {{ pacienteComputed.email || 'N/A' }}
                   </span>
                 </div>
               </div>
@@ -96,8 +107,9 @@
         </q-card>
       </div>
 
+      <!-- ANALISIS DEL BIENESTAR -->
       <div class="col-12 col-md-6 q-mb-md q-pl-lg-md">
-        <q-card flat class="q-px-lg q-py-lg" style="min-height: 310px">
+        <q-card flat class="q-px-lg q-py-lg" style="min-height: 320px">
           <h3
             class="text-weight-bold q-mt-none q-mb-sm q-ml-md"
             style="font-size: 24px; color: #404040"
@@ -114,9 +126,18 @@
                 v-model="open"
               >
                 <ul>
-                  <li class="text-subtitle-analisis">Lactosa</li>
-                  <li class="text-subtitle-analisis">Huevo</li>
-                  <li class="text-subtitle-analisis">Nueces</li>
+                  <li
+                    class="text-subtitle-analisis"
+                    v-for="item in pacienteComputed.desordenes"
+                  >
+                    {{ item }}
+                  </li>
+                  <li
+                    class="text-subtitle-analisis"
+                    v-if="!pacienteComputed.desordenes"
+                  >
+                    {{ 'N/A' }}
+                  </li>
                 </ul>
               </q-expansion-item>
             </div>
@@ -130,9 +151,18 @@
                 header-class="bg-white text-black"
               >
                 <ul>
-                  <li class="text-subtitle-analisis">Lactosa</li>
-                  <li class="text-subtitle-analisis">Huevo</li>
-                  <li class="text-subtitle-analisis">Nueces</li>
+                  <li
+                    class="text-subtitle-analisis"
+                    v-for="item in pacienteComputed.condiciones_medicas"
+                  >
+                    {{ item }}
+                  </li>
+                  <li
+                    class="text-subtitle-analisis"
+                    v-if="!pacienteComputed.condiciones_medicas"
+                  >
+                    {{ 'N/A' }}
+                  </li>
                 </ul>
               </q-expansion-item>
             </div>
@@ -282,8 +312,14 @@ const handleCita = (id: string) => {
   idCita.value = id;
 };
 
+const pacienteComputed = computed(() => {
+  return paciente.value;
+});
+
 onMounted(async () => {
   let res = await pacienteDataServices.getById(props.id);
+  console.log(res);
+
   if (res.code == 200) {
     paciente.value = res.data.user;
   }
@@ -369,6 +405,18 @@ const handleAcceso = async () => {
 function isFechaEnRango(fecha: any, fechaInicio: any, fechaFin: any) {
   return fecha >= fechaInicio && fecha <= fechaFin;
 }
+
+// const condicionesMedicas = computed(() => {
+//   const condi = paciente.value.condiciones_medicas.replace(/"/g, "'");
+
+//   console.log(condi);
+
+//   return JSON.parse(condi);
+// });
+
+// const desordenes = computed(() => {
+//   return JSON.parse(paciente.value.desordenes || {});
+// });
 </script>
 
 <style lang="scss" scoped>

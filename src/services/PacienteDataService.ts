@@ -1,5 +1,5 @@
 import { API } from 'src/common/api';
-import { IPaciente } from 'src/Interfaces/Paciente';
+import { IPaciente, IPacientePayload } from 'src/Interfaces/Paciente';
 import { IResponse } from 'src/Interfaces/Response';
 import { useAuthStore } from 'src/stores/auth';
 const store = useAuthStore();
@@ -26,7 +26,7 @@ class PacienteDataService {
     return response!.data;
   }
 
-  async savePaciente(data: IPaciente): Promise<IResponse<IPaciente>> {
+  async savePaciente(data: IPacientePayload): Promise<IResponse<IPaciente>> {
     let response = await API.post('create/user', {
       data: data,
     });

@@ -10,9 +10,9 @@ const { login, loginWithCookies } = store;
 const myForm = ref(null);
 const myFormRecovery = ref(null);
 const isPwd = ref(true);
-const usuario = ref('');
+const usuario = ref('admin@gmail.com');
 const usuarioRecovery = ref('');
-const password = ref('');
+const password = ref('admin01');
 const message = ref<string>('');
 
 const messageRecovery = ref<string>('');
@@ -222,7 +222,18 @@ function handleRegister() {
                 </q-banner>
               </div>
 
-              <div class="row justify-end">
+              <div class="row justify-center">
+                <q-btn
+                  label="Iniciar Sesión"
+                  style="text-transform: inherit"
+                  type="submit"
+                  class="full-width"
+                  color="primary"
+                  :disabled="disabled"
+                />
+              </div>
+
+              <div class="row justify-center">
                 <q-btn
                   flat
                   class="text-gray"
@@ -234,17 +245,6 @@ function handleRegister() {
                   "
                   >¿Has olvidado tu contraseña?</q-btn
                 >
-              </div>
-
-              <div class="row justify-center">
-                <q-btn
-                  label="Iniciar Sesión"
-                  style="text-transform: inherit"
-                  type="submit"
-                  class="full-width"
-                  color="primary"
-                  :disabled="disabled"
-                />
               </div>
 
               <div class="row justify-center">

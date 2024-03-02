@@ -7,7 +7,7 @@ import { nutriDataServices } from '../services/NutriDataService';
 import { clinicDataServices } from '../services/ClinicDataService';
 import { userDataServices } from 'src/services/userDataService';
 import { useQuasar } from 'quasar';
-import { IPaciente } from 'src/interfaces/Paciente';
+import { IPaciente } from 'src/Interfaces/Paciente';
 const $q = useQuasar();
 const router = useRouter();
 const columns = [

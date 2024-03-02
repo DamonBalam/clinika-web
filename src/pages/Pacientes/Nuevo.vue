@@ -168,7 +168,7 @@
                   >Teléfono</label
                 >
                 <q-input
-                  type="phone"
+                  type="tel"
                   outlined
                   v-model="formulario.telefono"
                   dense
@@ -506,7 +506,7 @@ import { IActividadFisica } from 'src/Interfaces/ActividadFisica';
 import { IObjetivo } from 'src/Interfaces/Objetivo';
 import { objetivoDataServices } from 'src/services/ObjetivoDataService';
 import { pacienteDataServices } from '../../services/PacienteDataService';
-import { IPaciente } from '../../Interfaces/Paciente';
+import { IPaciente, IPacientePayload } from '../../Interfaces/Paciente';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 const $q = useQuasar();
@@ -518,12 +518,12 @@ const nutricionistas = ref<INutri[]>([]);
 const actividades = ref<IActividadFisica[]>([]);
 const objetivos = ref<IObjetivo[]>([]);
 
-const formulario = reactive<IPaciente>({
+const formulario = reactive<IPacientePayload>({
   nombre: '',
   apellido_paterno: '',
   apellido_materno: '',
   email: '',
-  telefono: null,
+  telefono: '',
   nutricionista_id: null,
   consultorio_id: null,
   sexo: '',
@@ -536,7 +536,7 @@ const formulario = reactive<IPaciente>({
   objetivo_id: null,
   horas_dormidas: '',
   registro_consumo: '',
-  estatura: 0,
+  estatura: 160,
   historial: '',
   lugar_residencia: '',
   profesion: '',
@@ -580,9 +580,6 @@ const getConsultorios = async () => {
 
 const getNutris = async () => {
   const data = await nutriDataServices.getNutriologas();
-
-  console.log(data);
-
   if (data.code === 200) {
     nutricionistas.value = data.data;
   }
@@ -605,14 +602,13 @@ const getObjetivos = async () => {
 const submit = async () => {
   if (myForm.value?.validate()) {
     try {
-      const data = await pacienteDataServices.savePaciente({
+      const payload = {
         nombre: formulario.nombre,
         apellido_paterno: formulario.apellido_paterno,
         apellido_materno: formulario.apellido_materno,
         fecha_nacimiento: formulario.fecha_nacimiento,
         registro_consumo: formulario.registro_consumo,
         sexo: formulario.sexo,
-        estatura: Number(formulario.estatura),
         telefono: Number(formulario.telefono),
         email: formulario.email,
         alergias: formulario.alergias,
@@ -625,10 +621,12 @@ const submit = async () => {
         desordenes: formulario.desordenes,
         horas_dormidas: formulario.horas_dormidas,
         historial: formulario.historial,
-        // lugar_residencia: formulario.lugar_residencia,
-        // profesion: formulario.profesion,
-        // num_identificacion: formulario.num_identificacion,
-      });
+        lugar_residencia: formulario.lugar_residencia,
+        profesion: formulario.profesion,
+        num_identificacion: formulario.num_identificacion,
+      };
+
+      const data = await pacienteDataServices.savePaciente({ ...payload });
 
       if (data.code === 200) {
         $q.notify({

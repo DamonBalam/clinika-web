@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="title">Tus consultas para hoy</h2>
-    <q-card flat style="height: 320px; max-width: 100%">
+    <q-card flat style="min-height: 320px; max-width: 100%">
       <template v-if="hasConsultas">
         <div class="row q-pa-md">
           <div class="col-3 header">Nombre completo</div>
@@ -9,7 +9,11 @@
           <div class="col-2 header">Tipo</div>
           <div class="col-2 header">Hora</div>
         </div>
-        <div class="row q-px-md q-py-sm" v-for="consulta in lista_consultas">
+        <div
+          class="row q-px-md q-py-sm"
+          v-for="consulta in lista_consultas"
+          style="min-height: 60px; align-items: center"
+        >
           <div class="col-3">{{ consulta.nombre }}</div>
           <div class="col-3">{{ consulta.tipo_consulta }}</div>
           <div class="col-2">{{ consulta.tipo }}</div>
@@ -22,6 +26,7 @@
               flat
               dense
               class="q-mr-md"
+              style="font-size: 14px"
               @click="verConsulta(consulta.id)"
             />
           </div>
@@ -54,7 +59,9 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const lista_consultas = ref([
   {
     id: 1,
@@ -100,6 +107,8 @@ const verConsulta = (id: number) => {
 
 const verTodasConsultas = () => {
   console.log('Ver todas las consultas');
+
+  router.push('/agenda');
 };
 </script>
 

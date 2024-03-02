@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="title">Tu resumen semanal</h2>
-    <q-card flat style="height: 320px; max-width: 100%">
+    <q-card flat style="min-height: 320px; max-width: 100%">
       <div class="row q-pa-md">
         <div class="col-12">
           <span class="card-title">Esta semana( {{ fechaLabel }} )</span>
