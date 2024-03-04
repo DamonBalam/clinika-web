@@ -5,6 +5,7 @@
       <q-btn
         color="primary"
         label="Editar paciente"
+        :disable="true"
         text-color="white"
         size="md"
         :icon="'o_edit'"
