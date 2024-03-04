@@ -25,11 +25,11 @@
           expand-icon-class="text-black"
           v-model="openRA"
         >
-          <q-card flat style="height: 210px; overflow-y: scroll">
+          <q-card flat style="height: 210px">
             <q-card-section>
               <div class="row">
                 <div class="col-3">
-                  <q-avatar size="70px" class="q-mt-sm">
+                  <q-avatar size="80px" class="q-mt-sm">
                     <img src="../../assets/avatar.png" />
                   </q-avatar>
                 </div>
@@ -100,7 +100,7 @@
           expand-icon-class="text-black"
           v-model="openRA"
         >
-          <q-card flat style="height: 210px; overflow-y: scroll">
+          <q-card flat style="height: 210px">
             <q-card-section>
               <div class="row q-ml-md">
                 <div class="col-6">
@@ -150,7 +150,7 @@
           expand-icon-class="text-black"
           v-model="openRA"
         >
-          <q-card flat style="height: 210px; overflow-y: scroll">
+          <q-card flat style="height: 210px">
             <q-card-section>
               <div class="row q-ml-md">
                 <div class="col-6">
@@ -258,13 +258,13 @@
       <div class="col-12 col-md-6 col-lg-4 q-mt-md">
         <q-expansion-item
           class="q-px-sm"
-          icon="description"
+          icon="attach_file"
           label="Últimos archivos"
           header-class="bg-white text-black"
           expand-icon-class="text-black"
           v-model="openRA"
         >
-          <q-card flat style="height: 210px; overflow-y: scroll">
+          <q-card flat style="height: 210px">
             <q-card-section>
               <div class="row">
                 <div class="col-12 text-center">

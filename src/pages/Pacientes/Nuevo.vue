@@ -335,7 +335,7 @@
               </div>
 
               <!-- HORAS DE SUEÑO -->
-              <div class="col-4">
+              <div class="col-lg-4 col-6">
                 <label
                   for="consultorio"
                   class="q-ml-xs text-subtitle2 q-mb-none"
@@ -356,7 +356,7 @@
               </div>
 
               <!-- ACTIVIDAD FISICA SEMANAL -->
-              <div class="col-4">
+              <div class="col-lg-4 col-6">
                 <label
                   for="consultorio"
                   class="q-ml-xs text-subtitle2 q-mb-none"
@@ -377,7 +377,7 @@
               </div>
 
               <!-- Consumo de alcohol -->
-              <div class="col-4">
+              <div class="col-lg-4 col-6">
                 <label
                   for="consultorio"
                   class="q-ml-xs text-subtitle2 q-mb-none"
@@ -398,7 +398,7 @@
               </div>
 
               <!--Fumador-->
-              <div class="col-4">
+              <div class="col-lg-4 col-6">
                 <label
                   for="consultorio"
                   class="q-ml-xs text-subtitle2 q-mb-none"
@@ -419,7 +419,7 @@
               </div>
 
               <!-- Ingesta diaria del agua -->
-              <div class="col-4">
+              <div class="col-lg-4 col-6">
                 <label
                   for="consultorio"
                   class="q-ml-xs text-subtitle2 q-mb-none"
@@ -440,7 +440,7 @@
               </div>
 
               <!-- Estres -->
-              <div class="col-4">
+              <div class="col-lg-4 col-6">
                 <label
                   for="consultorio"
                   class="q-ml-xs text-subtitle2 q-mb-none"

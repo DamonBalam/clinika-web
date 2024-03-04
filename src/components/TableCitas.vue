@@ -259,6 +259,7 @@ const deleteCita = async () => {
         class="q-mr-md bg-white"
         label="Programar siguiente cita"
         icon="add"
+        :disable="true"
       ></q-btn>
       <q-btn color="primary" @click="prompt = true"
         >Registrar cita actual</q-btn
