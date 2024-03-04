@@ -15,7 +15,7 @@
     </q-drawer>
 
     <q-page-container>
-      <q-toolbar class="fondo-gris q-pt-md justify-between">
+      <q-toolbar class="fondo-gris q-pt-md q-px-lg justify-between">
         <div>
           <q-btn
             flat

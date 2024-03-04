@@ -1,6 +1,5 @@
 <template>
   <q-page>
-    <BotonBack :url="`/pacientes`" />
     <div class="row justify-between items-center q-mx-md q-mt-sm q-mb-md">
       <span class="text-black text-bold text-h5">Resumen del paciente</span>
       <q-btn
@@ -14,234 +13,216 @@
       />
     </div>
 
-    <div class="row q-mx-md q-mt-sm">
-      <div class="col-12 col-md-6 q-mb-md q-pr-lg-md">
-        <q-card flat style="min-height: 320px">
-          <div class="row q-pa-lg q-pt-xl">
-            <div class="col-4">
-              <q-avatar size="168px" class="q-mt-sm">
-                <img src="../../assets/avatar.png" />
-              </q-avatar>
-            </div>
-            <div class="col-8 q-px-md">
-              <div class="row items-center">
-                <div class="col-12 q-mb-sm">
-                  <span
-                    class="text-weight-bold font-24 q-mt-md"
-                    style="display: block; color: #404040"
-                    >{{ pacienteComputed.nombre_completo }}</span
-                  >
+    <!-- CONTAINER -->
+    <div class="row q-mx-sm q-mt-sm">
+      <!-- INFORMACIÓN DEL PACIENTE -->
+      <div class="col-12 col-md-6 col-lg-4 q-mt-md">
+        <q-expansion-item
+          class="q-px-sm"
+          icon="contact_page"
+          label="Datos generales"
+          header-class="bg-white text-black"
+          expand-icon-class="text-black"
+          v-model="openRA"
+        >
+          <q-card flat style="height: 210px; overflow-y: scroll">
+            <q-card-section>
+              <div class="row">
+                <div class="col-3">
+                  <q-avatar size="70px" class="q-mt-sm">
+                    <img src="../../assets/avatar.png" />
+                  </q-avatar>
                 </div>
-                <div class="col-6">
-                  <span
-                    style="font-size: 16px; font-weight: 400; color: #737373"
-                  >
-                    <q-icon name="fact_check" color="primary" />
-                    {{ pacienteComputed.num_identificacion || 'N/A' }}
-                  </span>
+                <div class="col-9">
+                  <div class="row">
+                    <div class="col-12 q-mb-sm">
+                      <span class="text-weight-bold text-title-analisis">
+                        {{ infoPaciente.nombre }}
+                      </span>
+                    </div>
+                    <div class="col-4">
+                      <span class="label-info">
+                        <q-icon name="fact_check" color="primary" />
+                        {{ infoPaciente.num_identificacion }}
+                      </span>
+                      <span class="label-info">
+                        <q-icon
+                          :name="
+                            infoPaciente.sexo === 'Hombre' ? 'man' : 'woman'
+                          "
+                          color="primary"
+                        />
+                        {{ infoPaciente.sexo }}
+                      </span>
+                      <span class="label-info">
+                        <q-icon name="cake" color="primary" />
+                        {{ getEdad }}
+                      </span>
+                      <span class="label-info">
+                        <q-icon name="work" color="primary" />
+                        {{ infoPaciente.profesion }}
+                      </span>
+                    </div>
+                    <div class="col-8">
+                      <span class="label-info">
+                        <q-icon name="public" color="primary" />
+                        {{ infoPaciente.lugar_residencia }}
+                      </span>
+
+                      <span class="label-info">
+                        <q-icon name="phone" color="primary" />
+                        {{ infoPaciente.telefono }}
+                      </span>
+                      <span class="label-info">
+                        <q-icon name="emoji_events" color="primary" />
+                        {{ infoPaciente.objetivo }}
+                      </span>
+                      <span class="label-info" style="font-size: 13px">
+                        <q-icon name="email" color="primary" />
+                        {{ infoPaciente.email }}
+                      </span>
+                    </div>
+                  </div>
                 </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+      </div>
+
+      <!-- PERFIL MEDICO -->
+      <div class="col-12 col-md-6 col-lg-4 q-mt-md">
+        <q-expansion-item
+          class="q-px-sm"
+          icon="medical_services"
+          label="Perfil Médico"
+          header-class="bg-white text-black"
+          expand-icon-class="text-black"
+          v-model="openRA"
+        >
+          <q-card flat style="height: 210px; overflow-y: scroll">
+            <q-card-section>
+              <div class="row q-ml-md">
                 <div class="col-6">
-                  <span
-                    style="font-size: 16px; font-weight: 400; color: #737373"
+                  <span class="text-title2-analisis">
+                    Alergias o intolerancias</span
                   >
-                    <q-icon name="public" color="primary" size="16px" />
-                    {{ 'N/A' }}
+                  <span class="label-info font-bold">
+                    {{ 'Lactosa' }}
                   </span>
                 </div>
 
                 <div class="col-6">
-                  <span
-                    style="font-size: 16px; font-weight: 400; color: #737373"
+                  <span class="text-title2-analisis">
+                    Trastornos alimenticios</span
                   >
-                    <q-icon
-                      :name="pacienteComputed.sexo === 'M' ? 'man' : 'woman'"
-                      color="primary"
-                    />
-                    {{
-                      pacienteComputed.sexo === 'M'
-                        ? 'Masculino'
-                        : 'Femenino' || 'N/A'
-                    }}
+                  <span class="label-info font-bold">
+                    {{ 'Ninguno' }}
                   </span>
                 </div>
 
-                <div class="col-6">
-                  <span
-                    style="font-size: 16px; font-weight: 400; color: #737373"
-                  >
-                    <q-icon name="cake" color="primary" />
-                    {{
-                      pacienteComputed.fecha_nacimiento
-                        ? getEdad + ' años'
-                        : 'N/A'
-                    }}
+                <div class="col-6 q-mt-md">
+                  <span class="text-title2-analisis">Condiciones médicas</span>
+                  <span class="label-info font-bold">
+                    {{ 'Ninguna' }}
                   </span>
                 </div>
-                <div class="col-6">
-                  <span
-                    style="font-size: 16px; font-weight: 400; color: #737373"
-                  >
-                    <q-icon name="phone" color="primary" size="16px" />
-                    {{ pacienteComputed.telefono || 'N/A' }}
-                  </span>
-                </div>
-                <div class="col-6">
-                  <span
-                    style="font-size: 16px; font-weight: 400; color: #737373"
-                  >
-                    <q-icon name="work" color="primary" size="16px" />
-                    {{ pacienteComputed.profesion || 'N/A' }}
-                  </span>
-                </div>
-                <div class="col-12">
-                  <span
-                    style="font-size: 16px; font-weight: 400; color: #737373"
-                  >
-                    <q-icon name="email" color="primary" size="16px" />
-                    {{ pacienteComputed.email || 'N/A' }}
+
+                <div class="col-6 q-mt-md">
+                  <span class="text-title2-analisis">Medicamentos</span>
+                  <span class="label-info font-bold">
+                    {{ 'Ninguno' }}
                   </span>
                 </div>
               </div>
-            </div>
-          </div>
-        </q-card>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
       </div>
 
-      <!-- ANALISIS DEL BIENESTAR -->
-      <div class="col-12 col-md-6 q-mb-md q-pl-lg-md">
-        <q-card flat class="q-px-lg q-py-lg" style="min-height: 320px">
-          <h3
-            class="text-weight-bold q-mt-none q-mb-sm q-ml-md"
-            style="font-size: 24px; color: #404040"
-          >
-            Análisis de bienestar
-          </h3>
-          <div class="row">
-            <div class="col-3">
-              <q-expansion-item
-                class="overflow-hidden text-title2-analisis"
-                label="Trastornos alimenticios"
-                header-class="bg-white text-black"
-                default-opened
-                v-model="open"
-              >
-                <ul>
-                  <li
-                    class="text-subtitle-analisis"
-                    v-for="item in pacienteComputed.desordenes"
-                  >
-                    {{ item }}
-                  </li>
-                  <li
-                    class="text-subtitle-analisis"
-                    v-if="!pacienteComputed.desordenes"
-                  >
-                    {{ 'N/A' }}
-                  </li>
-                </ul>
-              </q-expansion-item>
-            </div>
-
-            <div class="col-3">
-              <q-expansion-item
-                default-opened
-                v-model="open"
-                class="overflow-hidden text-title2-analisis"
-                label="Condiciones médicas"
-                header-class="bg-white text-black"
-              >
-                <ul>
-                  <li
-                    class="text-subtitle-analisis"
-                    v-for="item in pacienteComputed.condiciones_medicas"
-                  >
-                    {{ item }}
-                  </li>
-                  <li
-                    class="text-subtitle-analisis"
-                    v-if="!pacienteComputed.condiciones_medicas"
-                  >
-                    {{ 'N/A' }}
-                  </li>
-                </ul>
-              </q-expansion-item>
-            </div>
-
-            <div class="col-3">
-              <q-expansion-item
-                default-opened
-                v-model="open"
-                class="overflow-hidden text-title2-analisis"
-                label="Medicamentos"
-                header-class="bg-white text-black"
-              >
-                <ul>
-                  <li class="text-subtitle-analisis">Lactosa</li>
-                  <li class="text-subtitle-analisis">Huevo</li>
-                  <li class="text-subtitle-analisis">Nueces</li>
-                </ul>
-              </q-expansion-item>
-            </div>
-
-            <div class="col-3">
-              <q-expansion-item
-                default-opened
-                v-model="open"
-                class="overflow-hidden text-title2-analisis"
-                label="Alergias"
-                header-class="bg-white text-black"
-              >
-                <ul>
-                  <li class="text-subtitle-analisis">Lactosa</li>
-                  <li class="text-subtitle-analisis">Huevo</li>
-                  <li class="text-subtitle-analisis">Nueces</li>
-                </ul>
-              </q-expansion-item>
-            </div>
-          </div>
-          <div class="row q-ml-md">
-            <div class="col-4">
-              <p class="q-mb-none text-title-analisis">
-                Actividad física semanal
-              </p>
-              <p class="text-subtitle-analisis">Diario</p>
-            </div>
-
-            <div class="col-4">
-              <p class="q-mb-none text-title-analisis">
-                Horas de sueño diarias
-              </p>
-              <p class="text-subtitle-analisis">8 horas</p>
-            </div>
-
-            <div class="col-4">
-              <p class="q-mb-none text-title-analisis">Objetivo actual</p>
-              <p class="text-subtitle-analisis">Ganar masa muscular</p>
-            </div>
-          </div>
-        </q-card>
-      </div>
-
-      <!-- REGISTRO DE CONSUMO && ANTECEDENTES -->
-
-      <div class="col-12 col-md-6 q-mb-md q-pr-lg-md">
+      <!-- HÁBITOS -->
+      <div class="col-12 col-md-6 col-lg-4 q-mt-md">
         <q-expansion-item
-          class="overflow-hidden"
+          class="q-px-sm"
+          icon="self_improvement"
+          label="Hábitos"
+          header-class="bg-white text-black"
+          expand-icon-class="text-black"
+          v-model="openRA"
+        >
+          <q-card flat style="height: 210px; overflow-y: scroll">
+            <q-card-section>
+              <div class="row q-ml-md">
+                <div class="col-6">
+                  <span class="text-title2-analisis">
+                    Horas de sueño diarias</span
+                  >
+                  <span class="label-info font-bold">
+                    {{ '8 horas' }}
+                  </span>
+                </div>
+
+                <div class="col-6">
+                  <span class="text-title2-analisis">
+                    Actividad física semanal</span
+                  >
+                  <span class="label-info font-bold">
+                    {{ 'Diario' }}
+                  </span>
+                </div>
+
+                <div class="col-6 q-mt-sm">
+                  <span class="text-title2-analisis"> Consumo de alcohol</span>
+                  <span class="label-info font-bold">
+                    {{ 'Nunca' }}
+                  </span>
+                </div>
+
+                <div class="col-6 q-mt-sm">
+                  <span class="text-title2-analisis">Fumador</span>
+                  <span class="label-info font-bold">
+                    {{ 'No' }}
+                  </span>
+                </div>
+
+                <div class="col-6 q-mt-sm">
+                  <span class="text-title2-analisis"
+                    >Ingesta diaria del agua</span
+                  >
+                  <span class="label-info font-bold">
+                    {{ '2.5 litros' }}
+                  </span>
+                </div>
+
+                <div class="col-6 q-mt-sm">
+                  <span class="text-title2-analisis">Estrés</span>
+                  <span class="label-info font-bold">
+                    {{ 'Periodico' }}
+                  </span>
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+      </div>
+
+      <!-- REGISTRO DE CONSUMO -->
+      <div class="col-12 col-md-6 col-lg-4 q-mt-md">
+        <q-expansion-item
+          class="q-px-sm"
           icon="description"
           label="Registro de consumo"
           header-class="bg-white text-black"
           expand-icon-class="text-black"
           v-model="openRA"
         >
-          <q-card flat>
+          <q-card flat style="height: 210px; overflow-y: scroll">
             <q-card-section>
               <span
                 class="text-weight-bold"
-                style="font-size: 16px; color: #94a3b8"
+                style="font-size: 14px; color: #94a3b8; height: 180px"
                 >{{
-                  paciente.registro_consumo
-                    ? paciente.registro_consumo
-                    : 'No registrado'
+                  registroConsumoText ? registroConsumoText : 'No registrado'
                 }}</span
               >
             </q-card-section>
@@ -249,24 +230,23 @@
         </q-expansion-item>
       </div>
 
-      <div class="col-12 col-md-6 q-mb-md q-pl-lg-md">
+      <!-- ANTECEDENTES -->
+      <div class="col-12 col-md-6 col-lg-4 q-mt-md">
         <q-expansion-item
-          class="overflow-hidden"
+          class="q-px-sm"
           icon="description"
           label="Antecedentes"
           header-class="bg-white text-black"
           expand-icon-class="text-black"
           v-model="openRA"
         >
-          <q-card flat>
+          <q-card flat style="height: 210px; overflow-y: scroll">
             <q-card-section>
               <span
                 class="text-weight-bold"
-                style="font-size: 16px; color: #94a3b8"
+                style="font-size: 14px; color: #94a3b8"
                 >{{
-                  paciente.registro_consumo
-                    ? paciente.registro_consumo
-                    : 'No registrado'
+                  registroConsumoText ? registroConsumoText : 'No registrado'
                 }}</span
               >
             </q-card-section>
@@ -274,28 +254,102 @@
         </q-expansion-item>
       </div>
 
-      <!-- END REGISTRO DE CONSUMO && ANTECEDENTES -->
+      <!-- ÚLTIMOS ARCHIVOS -->
+      <div class="col-12 col-md-6 col-lg-4 q-mt-md">
+        <q-expansion-item
+          class="q-px-sm"
+          icon="description"
+          label="Últimos archivos"
+          header-class="bg-white text-black"
+          expand-icon-class="text-black"
+          v-model="openRA"
+        >
+          <q-card flat style="height: 210px; overflow-y: scroll">
+            <q-card-section>
+              <div class="row">
+                <div class="col-12 text-center">
+                  <q-icon
+                    name="inventory"
+                    size="60px"
+                    class="q-mt-md"
+                    color="primary"
+                  ></q-icon>
+                  <span
+                    class="text-weight-bold"
+                    style="font-size: 14px; color: #94a3b8; display: block"
+                    >{{ 'No hay archivos' }}</span
+                  >
+                </div>
+              </div>
+            </q-card-section>
+            <q-card-actions class="absolute-bottom" align="center">
+              <q-btn
+                outline
+                color="primary"
+                icon="upload"
+                style="text-transform: inherit"
+                >Subir archivo</q-btn
+              >
+              <q-btn flat color="primary" style="text-transform: inherit"
+                >Ver todos</q-btn
+              >
+            </q-card-actions>
+          </q-card>
+        </q-expansion-item>
+      </div>
 
+      <!-- END REGISTRO DE CONSUMO && ANTECEDENTES -->
       <!-- TABLAS -->
-      <div class="col-12">
+      <div class="col-12 q-mt-md q-px-sm">
         <TableCitas :id="id" @cita="handleCita" />
       </div>
-      <div class="col-12 q-mb-xs">
+      <div class="col-12 col-md-8 q-mt-md q-px-sm q-mb-xs">
         <TableEquivalencias :id="id" :cita="idCita" />
+      </div>
+      <div class="col-12 col-md-4 q-mt-md q-px-sm q-mb-xs">
+        <div class="row">
+          <div class="col-12 q-my-md">
+            <span class="text-black text-bold text-h5">Prueba Gráfica</span>
+          </div>
+          <div class="col-12">
+            <q-card flat class="text-center">
+              <q-knob
+                v-model="porcent"
+                size="305px"
+                :thickness="0.3"
+                color="blue-5"
+                center-color="primary"
+                track-color="blue-1"
+                class="q-ma-md"
+              />
+            </q-card>
+          </div>
+        </div>
       </div>
     </div>
   </q-page>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, watch } from 'vue';
-import BotonBack from '../../components/common/BotonBack.vue';
-import TableCitas from '../../components/TableCitas.vue';
-import TableEquivalencias from '../../components/TableEquivalencias.vue';
-import { Paciente, IPaciente } from '../../Interfaces/Paciente';
-import { pacienteDataServices } from '../../services/PacienteDataService';
-import { useQuasar } from 'quasar';
-const $q = useQuasar();
+import { ref, computed, onMounted, watch, reactive } from 'vue';
+
+/* COMPONENTES */
+import TableCitas from 'src/components/TableCitas.vue';
+import TableEquivalencias from 'src/components/TableEquivalencias.vue';
+
+/* INTERFACES */
+import { IObjetivo } from 'src/Interfaces/Objetivo';
+import { IPacienteResponse } from 'src/Interfaces/Paciente';
+import { IActividadFisica } from 'src/Interfaces/ActividadFisica';
+
+/* SERVICIOS */
+import { pacienteDataServices } from 'src/services/PacienteDataService';
+import { objetivoDataServices } from 'src/services/ObjetivoDataService';
+import { actividadDataServices } from 'src/services/ActividadDataService';
+
+// import { useQuasar } from 'quasar';
+// const $q = useQuasar();
+
 const props = defineProps({
   id: {
     type: String,
@@ -303,27 +357,110 @@ const props = defineProps({
   },
 });
 
-const paciente = ref(new Paciente({} as IPaciente));
+/* CATÁLOGOS */
+const objetivos = ref<IObjetivo[]>([]);
+const actividades = ref<IActividadFisica[]>([]);
+/* DATA */
 const idCita = ref('');
 const open = ref(true);
 const openRA = ref(true);
+
+const porcent = ref(50);
+
+const paciente = ref<IPacienteResponse>({
+  id: null,
+  nombre: '',
+  apellido_paterno: '',
+  apellido_materno: '',
+  nombre_completo: '',
+  email: '',
+  telefono: '',
+  nutricionista_id: null,
+  consultorio_id: null,
+  sexo: '',
+  fecha_nacimiento: '',
+  alergias: [],
+  condiciones_medicas: [],
+  medicinas: [],
+  desordenes: [],
+  actividad_fisica_id: null,
+  objetivo_id: null,
+  horas_dormidas: '',
+  registro_consumo: '',
+  estatura: 160,
+  historial: '',
+  lugar_residencia: '',
+  profesion: '',
+  num_identificacion: '',
+
+  estado_civil_id: null,
+  consumo_alcohol_id: null,
+  tipo_fumador_id: null,
+  consumo_agua_id: null,
+  nivel_estres_id: null,
+});
 
 const handleCita = (id: string) => {
   idCita.value = id;
 };
 
-const pacienteComputed = computed(() => {
-  return paciente.value;
+const registroConsumoText = computed(() => {
+  return 'lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum ';
+});
+
+const objetivoLabel = computed(() => {
+  return (
+    objetivos.value.find((o) => o.id === paciente.value.objetivo_id)?.name ||
+    'N/A'
+  );
+});
+
+const actividadLabel = computed(() => {
+  return (
+    actividades.value.find((a) => a.id === paciente.value.actividad_fisica_id)
+      ?.name || 'N/A'
+  );
+});
+
+const infoPaciente = computed(() => {
+  return {
+    nombre: paciente.value.nombre_completo || 'N/A',
+    lugar_residencia: paciente.value.lugar_residencia || 'N/A',
+    profesion: paciente.value.profesion || 'N/A',
+    num_identificacion: paciente.value.num_identificacion || 'N/A',
+    email: paciente.value.email || 'N/A',
+    telefono: paciente.value.telefono || 'N/A',
+    sexo: paciente.value.sexo === 'M' ? 'Hombre' : 'Mujer' || 'N/A',
+    fecha_nacimiento: getEdad || 'N/A',
+    objetivo: objetivoLabel,
+  };
 });
 
 onMounted(async () => {
+  getObjetivos();
+  getActividades();
+
   let res = await pacienteDataServices.getById(props.id);
   console.log(res);
 
   if (res.code == 200) {
-    paciente.value = res.data.user;
+    paciente.value = res.data.user as IPacienteResponse;
   }
 });
+
+const getObjetivos = async () => {
+  const data = await objetivoDataServices.getObjetivos();
+  if (data.code === 200) {
+    objetivos.value = data.data;
+  }
+};
+
+const getActividades = async () => {
+  const data = await actividadDataServices.getActividades();
+  if (data.code === 200) {
+    actividades.value = data.data;
+  }
+};
 
 function calcularEdad(fechaNacimiento: any) {
   var fechaActual = new Date();
@@ -338,85 +475,15 @@ function calcularEdad(fechaNacimiento: any) {
     edad--;
   }
 
-  return edad;
+  return `${edad} años`;
 }
 
 const getEdad = computed(() => {
-  const fechaNacimiento = new Date(paciente.value.fecha_nacimiento);
-
-  return calcularEdad(fechaNacimiento);
-});
-const getAltura = computed(() => {
-  return paciente.value.estatura || 'NA';
-});
-
-const acceso = ref(false);
-
-const getAcceso = computed(() => {
-  const fechaActual = new Date().toISOString().substr(0, 10);
-
-  return isFechaEnRango(
-    fechaActual,
-    paciente.value.suscripcion?.empieza,
-    paciente.value.suscripcion?.termina
-  );
-});
-
-watch(
-  () => getAcceso.value,
-  (newVal, oldVal) => {
-    acceso.value = newVal;
+  if (paciente.value.fecha_nacimiento) {
+    return calcularEdad(new Date(paciente.value.fecha_nacimiento));
   }
-);
-
-const handleAcceso = async () => {
-  try {
-    if (acceso.value) {
-      await pacienteDataServices.enabledAccess(props.id);
-      $q.notify({
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'check_circle',
-        message: 'Se habilito el acceso correctamente',
-        position: 'top-right',
-      });
-    } else {
-      await pacienteDataServices.disabledAccess(props.id);
-      $q.notify({
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'check_circle',
-        message: 'Se deshabilito el acceso correctamente',
-        position: 'top-right',
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    $q.notify({
-      color: 'red-4',
-      textColor: 'white',
-      icon: 'error',
-      message: 'Se produjo un error en el acceso',
-      position: 'top-right',
-    });
-  }
-};
-
-function isFechaEnRango(fecha: any, fechaInicio: any, fechaFin: any) {
-  return fecha >= fechaInicio && fecha <= fechaFin;
-}
-
-// const condicionesMedicas = computed(() => {
-//   const condi = paciente.value.condiciones_medicas.replace(/"/g, "'");
-
-//   console.log(condi);
-
-//   return JSON.parse(condi);
-// });
-
-// const desordenes = computed(() => {
-//   return JSON.parse(paciente.value.desordenes || {});
-// });
+  return 'N/A';
+});
 </script>
 
 <style lang="scss" scoped>
@@ -425,7 +492,7 @@ function isFechaEnRango(fecha: any, fechaInicio: any, fechaFin: any) {
 }
 
 .text-title-analisis {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
   color: #404040;
 }
@@ -438,5 +505,13 @@ function isFechaEnRango(fecha: any, fechaInicio: any, fechaFin: any) {
   font-size: 14px;
   font-weight: 600;
   color: #a3a3a3;
+}
+
+.label-info {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #737373;
 }
 </style>

@@ -70,6 +70,52 @@ export interface IPacientePayload {
   num_identificacion?: string;
   profesion?: string;
   lugar_residencia?: string;
+
+  /* NUEVOS */
+  estado_civil_id?: number | null;
+  consumo_agua_id?: number | null;
+  tipo_fumador_id?: number | null;
+  consumo_alcohol_id?: number | null;
+  nivel_estres_id?: number | null;
+}
+export interface IPacienteResponse {
+  id: number | null;
+  nombre: string;
+  apellido_paterno: string;
+  apellido_materno: string;
+  nombre_completo?: string;
+  sexo: string;
+  email: string;
+  telefono?: number | string | null;
+  fecha_nacimiento: string;
+
+  nutricionista_id?: number | null;
+  consultorio_id?: number | null;
+
+  estatura?: number | string;
+
+  registro_consumo?: string;
+  alergias?: string[];
+  condiciones_medicas?: string[];
+  medicinas?: string[];
+  desordenes?: string[];
+
+  historial?: string;
+  horas_dormidas?: string;
+
+  actividad_fisica_id: number | null;
+  objetivo_id: number | null;
+
+  num_identificacion?: string;
+  profesion?: string;
+  lugar_residencia?: string;
+
+  /* NUEVOS */
+  estado_civil_id?: number | null;
+  consumo_agua_id?: number | null;
+  tipo_fumador_id?: number | null;
+  consumo_alcohol_id?: number | null;
+  nivel_estres_id?: number | null;
 }
 
 export class Paciente implements IPaciente {

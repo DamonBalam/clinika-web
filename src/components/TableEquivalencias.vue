@@ -10,7 +10,7 @@ const props = defineProps({
     required: true,
   },
   cita: {
-    type: Number || null,
+    type: String || Number || null,
     required: false,
     default: null,
   },

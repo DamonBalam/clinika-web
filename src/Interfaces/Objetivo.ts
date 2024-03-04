@@ -1,8 +1,8 @@
-import IAuditable from './Auditable'
+import IAuditable from './Auditable';
 
 export interface IObjetivo extends IAuditable {
-  id: number
-  nombre: string
-  sku: string
-  descripcion: string
+  id: number;
+  name: string;
+  sku: string;
+  description: string;
 }

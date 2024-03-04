@@ -1,6 +1,6 @@
 <template>
   <q-page class="fondo-gris q-py-md q-px-xl">
-    <!-- <BotonBack url="/pacientes" /> -->
+    <BotonBack url="/pacientes" />
     <div class="q-my-md">
       <span class="text-black text-bold text-h5 font-24">Nuevo Paciente</span>
     </div>
@@ -15,7 +15,7 @@
                   >Datos personales</span
                 >
               </div>
-              <div class="col-lg-3 col-6">
+              <div class="col-3">
                 <label for="nombre" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Nombre(s)</label
                 >
@@ -28,7 +28,7 @@
                   :rules="[(val) => !!val || 'Este campo es obligatorio']"
                 />
               </div>
-              <div class="col-lg-3 col-6">
+              <div class="col-3">
                 <label
                   for="apellido_paterno"
                   class="q-ml-xs text-subtitle2 q-mb-none"
@@ -44,7 +44,7 @@
                   :rules="[(val) => !!val || 'Este campo es obligatorio']"
                 />
               </div>
-              <div class="col-lg-3 col-6">
+              <div class="col-3">
                 <label
                   for="apellido_materno"
                   class="q-ml-xs text-subtitle2 q-mb-none"
@@ -60,7 +60,7 @@
                   :rules="[(val) => !!val || 'Este campo es obligatorio']"
                 />
               </div>
-              <div class="col-lg-3 col-6">
+              <div class="col-3">
                 <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Sexo</label
                 >
@@ -70,7 +70,7 @@
                   v-model="formulario.sexo"
                   hide-hint
                   label="Selecciona el sexo"
-                  class="font-14"
+                  style="font-size: 14px !important"
                   :options="[
                     { label: 'Masculino', value: 'M' },
                     { label: 'Femenino', value: 'F' },
@@ -81,7 +81,7 @@
                   :rules="[(val) => !!val || 'Este campo es obligatorio']"
                 />
               </div>
-              <div class="col-lg-3 col-6">
+              <div class="col-3">
                 <label for="nombre" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Fecha de nacimiento</label
                 >
@@ -96,7 +96,7 @@
                 />
               </div>
 
-              <div class="col-lg-3 col-6">
+              <div class="col-3">
                 <label
                   for="numero_identificacion"
                   class="q-ml-xs text-subtitle2 q-mb-none"
@@ -111,7 +111,7 @@
                 />
               </div>
 
-              <div class="col-lg-3 col-6">
+              <div class="col-3">
                 <label for="profesion" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Profesión</label
                 >
@@ -123,7 +123,7 @@
                 />
               </div>
 
-              <div class="col-lg-3 col-6">
+              <div class="col-3">
                 <label for="residencia" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Lugar de residencia</label
                 >
@@ -134,46 +134,20 @@
                   v-model="formulario.lugar_residencia"
                 />
               </div>
+            </div>
+          </q-card>
+        </div>
 
-              <div class="col-lg-3 col-6">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Estado civil</label
+        <!-- DATOS DE CONTACTO -->
+        <div class="col-6 q-mb-md">
+          <q-card style="border-radius: 15px" flat bordered class="q-pa-lg">
+            <div class="row q-col-gutter-sm">
+              <div class="col-12">
+                <span class="text-weight-bold font-18" style="color: #1e293b"
+                  >Datos de contacto</span
                 >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.estado_civil_id"
-                  hide-hint
-                  label="Seleccione una opción"
-                  class="font-14"
-                  :options="lista_estados_civiles"
-                  map-options
-                  emit-value
-                  lazy-rules
-                  :rules="[(val) => !!val || 'Este campo es obligatorio']"
-                />
               </div>
-
-              <div class="col-lg-3 col-6">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Objetivo actual</label
-                >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.objetivo_id"
-                  hide-hint
-                  label="Seleccione una opción"
-                  class="font-14"
-                  :options="lista_objetivos"
-                  map-options
-                  emit-value
-                  lazy-rules
-                  :rules="[(val) => !!val || 'Este campo es obligatorio']"
-                />
-              </div>
-
-              <div class="col-lg-3 col-6">
+              <div class="col-6">
                 <label for="email" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Correo electrónico</label
                 >
@@ -189,7 +163,7 @@
                   ]"
                 />
               </div>
-              <div class="col-lg-3 col-6">
+              <div class="col-6">
                 <label for="telefono" class="q-ml-xs text-subtitle2 q-mb-none"
                   >Teléfono</label
                 >
@@ -198,7 +172,7 @@
                   outlined
                   v-model="formulario.telefono"
                   dense
-                  placeholder="Escribe el teléfono"
+                  placeholder="Escribe el telefono(s)"
                   lazy-rules
                   :rules="[
                     (val) => val.length > 0 || 'El teléfono es requerido',
@@ -209,262 +183,8 @@
           </q-card>
         </div>
 
-        <!-- PERFIL MÉDICO -->
-        <div class="col-12 q-mb-md">
-          <q-card style="border-radius: 15px" flat bordered class="q-pa-lg">
-            <div class="row q-col-gutter-sm">
-              <div class="col-12">
-                <span class="text-weight-bold font-18" style="color: #1e293b"
-                  >Perfil médico</span
-                >
-              </div>
-
-              <!-- ALERGIAS -->
-              <div class="col-lg-3 col-6 q-mb-md">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Alergias o intolerancias</label
-                >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.alergias"
-                  class="font-14"
-                  use-input
-                  use-chips
-                  multiple
-                  hide-dropdown-icon
-                  input-debounce="0"
-                  new-value-mode="add-unique"
-                />
-              </div>
-
-              <!-- CONDICIONES MEDICAS -->
-              <div class="col-lg-3 col-6 q-mb-md">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Condiciones médicas</label
-                >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.condiciones_medicas"
-                  class="font-14"
-                  use-input
-                  use-chips
-                  multiple
-                  hide-dropdown-icon
-                  input-debounce="0"
-                  new-value-mode="add-unique"
-                />
-              </div>
-
-              <!-- Medicamentos -->
-              <div class="col-lg-3 col-6 q-mb-md">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Medicamentos</label
-                >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.medicinas"
-                  class="font-14"
-                  use-input
-                  use-chips
-                  multiple
-                  hide-dropdown-icon
-                  input-debounce="0"
-                  new-value-mode="add-unique"
-                />
-              </div>
-
-              <!-- TRASTORNOS DE LA CONDUCTA ALIMENTARIA -->
-              <div class="col-lg-3 col-6 q-mb-md">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Trastornos de la conducta alimentaria</label
-                >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.desordenes"
-                  class="font-14"
-                  use-input
-                  use-chips
-                  multiple
-                  hide-dropdown-icon
-                  input-debounce="0"
-                  new-value-mode="add-unique"
-                />
-              </div>
-
-              <!-- ANTECEDENTES MÉDICOS -->
-              <div class="col-6 q-mb-md">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Antecedentes médicos</label
-                >
-                <q-input
-                  type="textarea"
-                  v-model="formulario.registro_consumo"
-                  outlined
-                  dense
-                />
-              </div>
-
-              <!-- Registro de consumo -->
-              <div class="col-6 q-mb-md">
-                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Registro de consumo</label
-                >
-                <q-input
-                  type="textarea"
-                  v-model="formulario.registro_consumo"
-                  outlined
-                  dense
-                />
-              </div>
-            </div>
-          </q-card>
-        </div>
-
-        <!-- HÁBITOS -->
-        <div class="col-12 col-lg-8 q-mb-md">
-          <q-card style="border-radius: 15px" flat bordered class="q-pa-lg">
-            <div class="row q-col-gutter-sm">
-              <div class="col-12">
-                <span class="text-weight-bold font-18" style="color: #1e293b"
-                  >Hábitos</span
-                >
-              </div>
-
-              <!-- HORAS DE SUEÑO -->
-              <div class="col-4">
-                <label
-                  for="consultorio"
-                  class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Horas de sueño diarias</label
-                >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.horas_dormidas"
-                  label="Selecciona una opción"
-                  class="font-14"
-                  :options="lista_horas_sueno"
-                  map-options
-                  emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
-                />
-              </div>
-
-              <!-- ACTIVIDAD FISICA SEMANAL -->
-              <div class="col-4">
-                <label
-                  for="consultorio"
-                  class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Actividad física semanal</label
-                >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.actividad_fisica_id"
-                  label="Selecciona una opción"
-                  class="font-14"
-                  :options="lista_actividades"
-                  map-options
-                  emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
-                />
-              </div>
-
-              <!-- Consumo de alcohol -->
-              <div class="col-4">
-                <label
-                  for="consultorio"
-                  class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Consumo de alcohol</label
-                >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.consumo_alcohol_id"
-                  label="Selecciona una opción"
-                  class="font-14"
-                  :options="consumo_alcohol"
-                  map-options
-                  emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
-                />
-              </div>
-
-              <!--Fumador-->
-              <div class="col-4">
-                <label
-                  for="consultorio"
-                  class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Fumador</label
-                >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.tipo_fumador_id"
-                  label="Selecciona una opción"
-                  class="font-14"
-                  :options="tipo_fumador"
-                  map-options
-                  emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
-                />
-              </div>
-
-              <!-- Ingesta diaria del agua -->
-              <div class="col-4">
-                <label
-                  for="consultorio"
-                  class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Ingesta diaria del agua</label
-                >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.consumo_agua_id"
-                  label="Selecciona una opción"
-                  class="font-14"
-                  :options="ingesta_agua"
-                  map-options
-                  emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
-                />
-              </div>
-
-              <!-- Estres -->
-              <div class="col-4">
-                <label
-                  for="consultorio"
-                  class="q-ml-xs text-subtitle2 q-mb-none"
-                  >Estrés</label
-                >
-                <q-select
-                  outlined
-                  dense
-                  v-model="formulario.nivel_estres_id"
-                  label="Selecciona una opción"
-                  class="font-14"
-                  :options="estres"
-                  map-options
-                  emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
-                />
-              </div>
-            </div>
-          </q-card>
-        </div>
-
         <!-- USO INTERNO -->
-        <div class="col-12 col-lg-4 q-mb-md">
+        <div class="col-6 q-mb-md">
           <q-card style="border-radius: 15px" flat bordered class="q-pa-lg">
             <div class="row q-col-gutter-sm">
               <div class="col-12">
@@ -472,7 +192,7 @@
                   >Uso interno</span
                 >
               </div>
-              <div class="col-6 col-lg-12">
+              <div class="col-6">
                 <label
                   for="consultorio"
                   class="q-ml-xs text-subtitle2 q-mb-none"
@@ -483,8 +203,15 @@
                   dense
                   v-model="formulario.consultorio_id"
                   label="Selecciona el consultorio"
-                  class="font-14"
-                  :options="lista_consultorios"
+                  style="font-size: 14px !important"
+                  :options="
+                    consultorios.map((item) => {
+                      return {
+                        label: item.name,
+                        value: item.id,
+                      };
+                    })
+                  "
                   map-options
                   emit-value
                   lazy-rules
@@ -493,8 +220,7 @@
                   ]"
                 />
               </div>
-
-              <div class="col-6 col-lg-12">
+              <div class="col-6">
                 <label
                   for="nutricionista"
                   class="q-ml-xs text-subtitle2 q-mb-none"
@@ -504,15 +230,240 @@
                   outlined
                   dense
                   v-model="formulario.nutricionista_id"
-                  class="font-14"
+                  style="font-size: 14px !important"
                   label="Elegir nutricionista"
-                  :options="lista_nutricionistas"
+                  :options="
+                    nutricionistas.map((item) => {
+                      return {
+                        label: item.name,
+                        value: item.id,
+                      };
+                    })
+                  "
                   map-options
                   emit-value
                   lazy-rules
                   :rules="[
                     (val) => val !== null || 'La nutricionista es requerida',
                   ]"
+                />
+              </div>
+            </div>
+          </q-card>
+        </div>
+
+        <!-- Análisis del bienestar -->
+        <div class="col-12 q-mb-md">
+          <q-card style="border-radius: 15px" flat bordered class="q-pa-lg">
+            <div class="row q-col-gutter-sm">
+              <div class="col-12">
+                <span class="text-weight-bold font-18" style="color: #1e293b"
+                  >Análisis del bienestar</span
+                >
+              </div>
+
+              <div class="col-4 q-mb-md">
+                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
+                  >Alergias</label
+                >
+                <q-select
+                  outlined
+                  dense
+                  v-model="formulario.alergias"
+                  style="font-size: 14px !important"
+                  placeholder="Ingrese alguna alergia"
+                  use-input
+                  use-chips
+                  multiple
+                  hide-dropdown-icon
+                  input-debounce="0"
+                  new-value-mode="add-unique"
+                />
+              </div>
+
+              <div class="col-4 q-mb-md">
+                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
+                  >Condiciones médicas</label
+                >
+                <q-select
+                  outlined
+                  dense
+                  v-model="formulario.condiciones_medicas"
+                  placeholder="Ingrese alguna condición médica"
+                  style="font-size: 14px !important"
+                  use-input
+                  use-chips
+                  multiple
+                  hide-dropdown-icon
+                  input-debounce="0"
+                  new-value-mode="add-unique"
+                />
+              </div>
+
+              <!-- medicamentos -->
+
+              <div class="col-4 q-mb-md">
+                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
+                  >Medicamentos</label
+                >
+                <q-select
+                  outlined
+                  dense
+                  v-model="formulario.medicinas"
+                  style="font-size: 14px !important"
+                  placeholder="Ingrese algún medicamento"
+                  use-input
+                  use-chips
+                  multiple
+                  hide-dropdown-icon
+                  input-debounce="0"
+                  new-value-mode="add-unique"
+                />
+              </div>
+              <!-- DESORDEN ALIMENTICIO -->
+              <div class="col-4 q-mb-md">
+                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
+                  >Trastornos de la conducta alimenticia</label
+                >
+                <q-select
+                  outlined
+                  dense
+                  v-model="formulario.desordenes"
+                  style="font-size: 14px !important"
+                  placeholder="Ingrese alguna alergia"
+                  use-input
+                  use-chips
+                  multiple
+                  hide-dropdown-icon
+                  input-debounce="0"
+                  new-value-mode="add-unique"
+                />
+              </div>
+
+              <!-- HORAS DE SUEÑO -->
+              <div class="col-4 q-mb-md">
+                <label for="apellido" class="q-ml-xs text-subtitle2 q-mb-none"
+                  >Horas de sueño diarias</label
+                >
+                <q-input
+                  v-model="formulario.horas_dormidas"
+                  outlined
+                  dense
+                  placeholder="Ingresa las horas de sueño diarias"
+                />
+              </div>
+
+              <!-- REGISTRO DE CONSUMO -->
+              <div class="col-4 q-mb-md">
+                <label for="consumo" class="q-ml-xs text-subtitle2 q-mb-none"
+                  >Registro de consumo</label
+                >
+                <q-input
+                  v-model="formulario.registro_consumo"
+                  outlined
+                  placeholder="Ingrese el registro de consumo"
+                  dense
+                />
+              </div>
+
+              <!-- ACTIVIDAD FISICA SEMANAL -->
+              <div class="col-4">
+                <label
+                  for="actividad_fisica"
+                  class="q-ml-xs text-subtitle2 q-mb-none"
+                  >Actividad física semanal</label
+                >
+                <q-select
+                  outlined
+                  dense
+                  v-model="formulario.actividad_fisica_id"
+                  label="Seleccione la cantidad de actividad física semanal"
+                  style="font-size: 14px !important"
+                  :options="
+                    actividades.map((item) => {
+                      return {
+                        label: item.name,
+                        value: item.id,
+                        description: item.description,
+                      };
+                    })
+                  "
+                  emit-value
+                  map-options
+                  lazy-rules
+                  :rules="[
+                    (val) => val !== null || 'El actividad física es requerida',
+                  ]"
+                >
+                  <template v-slot:option="scope">
+                    <q-item v-bind="scope.itemProps">
+                      <q-item-section>
+                        <q-item-label style="font-size: 14px">{{
+                          scope.opt.label
+                        }}</q-item-label>
+                        <q-item-label style="font-size: 14px" caption>{{
+                          scope.opt.description
+                        }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+              </div>
+
+              <!-- OBJETIVO -->
+              <div class="col-4">
+                <label for="objetivo" class="q-ml-xs text-subtitle2 q-mb-none"
+                  >Objetivo Actual</label
+                >
+                <q-select
+                  outlined
+                  dense
+                  v-model="formulario.objetivo_id"
+                  label="Seleccione el objetivo actual"
+                  style="font-size: 14px !important"
+                  :options="
+                    objetivos.map((item) => {
+                      return {
+                        label: item.name,
+                        value: item.id,
+                        description: item.description,
+                      };
+                    })
+                  "
+                  emit-value
+                  map-options
+                  lazy-rules
+                  :rules="[
+                    (val) => val !== null || 'El objetivo actual es requerido',
+                  ]"
+                >
+                  <template v-slot:option="scope">
+                    <q-item v-bind="scope.itemProps">
+                      <q-item-section>
+                        <q-item-label style="font-size: 14px">{{
+                          scope.opt.label
+                        }}</q-item-label>
+                        <q-item-label caption style="font-size: 14px">{{
+                          scope.opt.description
+                        }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+              </div>
+
+              <!-- HISTORIAL -->
+              <div class="col-4">
+                <label
+                  for="antecedentes"
+                  class="q-ml-xs text-subtitle2 q-mb-none"
+                  >Antecedentes</label
+                >
+                <q-input
+                  v-model="formulario.historial"
+                  outlined
+                  dense
+                  placeholder="Ingrese algún antecedente"
                 />
               </div>
             </div>
@@ -544,116 +495,23 @@
 </template>
 
 <script lang="ts" setup>
-import { useQuasar } from 'quasar';
-import { useRouter } from 'vue-router';
 import { reactive, ref, computed, onMounted } from 'vue';
-
-/* COMPONENTES */
-import BotonBack from 'src/components/common/BotonBack.vue';
-
-/* INTERFACES */
-import { INutri } from 'src/Interfaces/Nutri';
-import { IClinic } from 'src/Interfaces/Clinic';
-import { IObjetivo } from 'src/Interfaces/Objetivo';
-import { IActividadFisica } from 'src/Interfaces/ActividadFisica';
-import { IPacientePayload } from 'src/Interfaces/Paciente';
-
-/* SERVICIOS */
-import { clinicDataServices } from 'src/services/ClinicDataService';
-import { nutriDataServices } from 'src/services/NutriDataService';
+import BotonBack from '../../components/common/BotonBack.vue';
+import { clinicDataServices } from '../../services/ClinicDataService';
+import { IClinic } from '../../Interfaces/Clinic';
+import { INutri } from '../../Interfaces/Nutri';
+import { nutriDataServices } from '../../services/NutriDataService';
 import { actividadDataServices } from 'src/services/ActividadDataService';
+import { IActividadFisica } from 'src/Interfaces/ActividadFisica';
+import { IObjetivo } from 'src/Interfaces/Objetivo';
 import { objetivoDataServices } from 'src/services/ObjetivoDataService';
-import { pacienteDataServices } from 'src/services/PacienteDataService';
-
-/* COMPOSITIONS */
+import { pacienteDataServices } from '../../services/PacienteDataService';
+import { IPaciente, IPacientePayload } from '../../Interfaces/Paciente';
+import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
 const $q = useQuasar();
 const router = useRouter();
 
-/* CATÁLOGOS */
-const lista_estados_civiles = [
-  { label: 'Soltero/a', value: 1 },
-  { label: 'Casado/a', value: 2 },
-  { label: 'Viudo/a', value: 3 },
-  { label: 'Divorciado/a', value: 4 },
-  { label: 'Unión libre', value: 5 },
-];
-
-const lista_horas_sueno = [
-  { label: 'Menos de 5 horas', value: 1 },
-  { label: '5 - 6 horas', value: 2 },
-  { label: '6 - 7 horas', value: 3 },
-  { label: '7 - 8 horas', value: 4 },
-  { label: 'Más de 8 horas', value: 5 },
-];
-
-const consumo_alcohol = [
-  { label: 'Nunca', value: 1 },
-  { label: 'Ocasionalmente', value: 2 },
-  { label: 'Socialmente', value: 3 },
-  { label: 'Semanalmente', value: 4 },
-  { label: 'Diariamente', value: 5 },
-];
-
-const tipo_fumador = [
-  { label: 'No fumador', value: 1 },
-  { label: 'Ex fumador', value: 2 },
-  { label: 'Fumador ocasional', value: 3 },
-  { label: 'Fumador moderado', value: 4 },
-  { label: 'Fumador empedernido', value: 5 },
-];
-
-const ingesta_agua = [
-  { label: 'Menos de 1 litro', value: 1 },
-  { label: '1 - 2 litro', value: 2 },
-  { label: '2 - 3 litros', value: 3 },
-  { label: 'Más de 3 litros', value: 4 },
-];
-
-const estres = [
-  { label: 'Bajo', value: 1 },
-  { label: 'Moderado', value: 2 },
-  { label: 'Alto', value: 3 },
-  { label: 'Muy alto', value: 4 },
-];
-
-const lista_actividades = computed(() => {
-  return actividades.value.map((item) => {
-    return {
-      label: item.name,
-      value: item.id,
-    };
-  });
-});
-
-const lista_objetivos = computed(() => {
-  return objetivos.value.map((item) => {
-    return {
-      label: item.name,
-      value: item.id,
-      description: item.description,
-    };
-  });
-});
-
-const lista_nutricionistas = computed(() => {
-  return nutricionistas.value.map((item) => {
-    return {
-      label: item.name,
-      value: item.id,
-    };
-  });
-});
-
-const lista_consultorios = computed(() => {
-  return consultorios.value.map((item) => {
-    return {
-      label: item.name,
-      value: item.id,
-    };
-  });
-});
-
-/* DATA */
 const myForm = ref<any>(null);
 const consultorios = ref<IClinic[]>([]);
 const nutricionistas = ref<INutri[]>([]);
@@ -683,12 +541,6 @@ const formulario = reactive<IPacientePayload>({
   lugar_residencia: '',
   profesion: '',
   num_identificacion: '',
-
-  estado_civil_id: null,
-  consumo_alcohol_id: null,
-  tipo_fumador_id: null,
-  consumo_agua_id: null,
-  nivel_estres_id: null,
 });
 
 const disabled = computed(() => {
@@ -699,8 +551,8 @@ const disabled = computed(() => {
     formulario.sexo !== '' &&
     formulario.telefono !== null &&
     formulario.email.length > 0 &&
-    !formulario.alergias &&
-    !formulario.condiciones_medicas &&
+    formulario.alergias.length >= 0 &&
+    formulario.condiciones_medicas.length >= 0 &&
     formulario.actividad_fisica_id !== null &&
     formulario.objetivo_id !== null &&
     formulario.consultorio_id !== null &&
@@ -772,13 +624,6 @@ const submit = async () => {
         lugar_residencia: formulario.lugar_residencia,
         profesion: formulario.profesion,
         num_identificacion: formulario.num_identificacion,
-
-        /* TODO: NUEVOS DATOS */
-        // estado_civil_id: formulario.estado_civil_id,
-        // consumo_alcohol_id: formulario.consumo_alcohol_id,
-        // tipo_fumador_id: formulario.tipo_fumador_id,
-        // consumo_agua_id: formulario.consumo_agua_id,
-        // nivel_estres_id: formulario.nivel_estres_id,
       };
 
       const data = await pacienteDataServices.savePaciente({ ...payload });

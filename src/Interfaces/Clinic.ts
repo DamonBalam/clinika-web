@@ -1,8 +1,8 @@
-import IAuditable from './Auditable'
+import IAuditable from './Auditable';
 
 export interface IClinic extends IAuditable {
-  id?: number
-  nombre:string
-  direccion:string
-  telefono:string
+  id?: number;
+  name: string;
+  address: string;
+  phone: string;
 }
