@@ -1,6 +1,6 @@
 <template>
   <q-page class="fondo-gris q-py-md q-px-xl">
-    <!-- <BotonBack url="/pacientes" /> -->
+    <BotonBack url="/pacientes" />
     <div class="q-my-md">
       <span class="text-black text-bold text-h5 font-24">Nuevo Paciente</span>
     </div>
@@ -616,24 +616,40 @@ const estres = [
   { label: 'Muy alto', value: 4 },
 ];
 
-const lista_actividades = computed(() => {
-  return actividades.value.map((item) => {
-    return {
-      label: item.name,
-      value: item.id,
-    };
-  });
-});
+const lista_actividades = [
+  { label: 'Ninguna', value: 1 },
+  { label: '1-2 días', value: 2 },
+  { label: '3-4 días', value: 3 },
+  { label: '5-6 días', value: 4 },
+  { label: 'Diario', value: 5 },
+];
 
-const lista_objetivos = computed(() => {
-  return objetivos.value.map((item) => {
-    return {
-      label: item.name,
-      value: item.id,
-      description: item.description,
-    };
-  });
-});
+// const lista_actividades = computed(() => {
+//   return actividades.value.map((item) => {
+//     return {
+//       label: item.name,
+//       value: item.id,
+//     };
+//   });
+// });
+
+const lista_objetivos = [
+  { label: 'Bajar de peso', value: 1 },
+  { label: 'Aumentar masa muscular', value: 2 },
+  { label: 'Mantener peso actual', value: 3 },
+  { label: 'Mejorar salud general', value: 4 },
+  { label: 'Reducir riesgo de enfermedades', value: 5 },
+];
+
+// const lista_objetivos = computed(() => {
+//   return objetivos.value.map((item) => {
+//     return {
+//       label: item.name,
+//       value: item.id,
+//       description: item.description,
+//     };
+//   });
+// });
 
 const lista_nutricionistas = computed(() => {
   return nutricionistas.value.map((item) => {

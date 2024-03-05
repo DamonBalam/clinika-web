@@ -1,11 +1,11 @@
 <template>
   <q-page>
+    <BotonBack url="/pacientes" />
     <div class="row justify-between items-center q-mx-md q-mt-sm q-mb-md">
       <span class="text-black text-bold text-h5">Resumen del paciente</span>
       <q-btn
         color="primary"
         label="Editar paciente"
-        :disable="true"
         text-color="white"
         size="md"
         :icon="'o_edit'"
@@ -310,19 +310,13 @@
       <div class="col-12 col-md-4 q-mt-md q-px-sm q-mb-xs">
         <div class="row">
           <div class="col-12 q-my-md">
-            <span class="text-black text-bold text-h5">Prueba Gráfica</span>
+            <span class="text-black text-bold text-h5"
+              >Distribución de macronutrientes</span
+            >
           </div>
           <div class="col-12">
-            <q-card flat class="text-center">
-              <q-knob
-                v-model="porcent"
-                size="305px"
-                :thickness="0.3"
-                color="blue-5"
-                center-color="primary"
-                track-color="blue-1"
-                class="q-ma-md"
-              />
+            <q-card flat class="text-center" style="height: 340px">
+              <q-img src="../../assets/grafico.png" width="440px" />
             </q-card>
           </div>
         </div>
@@ -336,6 +330,7 @@ import { ref, computed, onMounted, watch, reactive } from 'vue';
 
 /* COMPONENTES */
 import TableCitas from 'src/components/TableCitas.vue';
+import BotonBack from 'src/components/common/BotonBack.vue';
 import TableEquivalencias from 'src/components/TableEquivalencias.vue';
 
 /* INTERFACES */
