@@ -27,7 +27,7 @@
               use-input
               hide-selected
               @filter="filterFn"
-              :disable="isEdit"
+              :disable="true"
               :options="
                 options.map((item) => {
                   return {
@@ -233,7 +233,7 @@ const props = defineProps({
     default: () => [],
   },
   idNewClient: {
-    type: Number,
+    type: Number || null,
     default: null,
   },
 });

@@ -5,6 +5,7 @@ import { ref, onMounted, reactive } from 'vue';
 // import { ICitaControl } from '../interfaces/CitaControl'
 import { useQuasar } from 'quasar';
 import { computed } from '@vue/reactivity';
+import { ICitaControl } from 'src/interfaces copy/CitaControl';
 const $q = useQuasar();
 const props = defineProps({
   id: {
@@ -13,7 +14,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['cita']);
+const emits = defineEmits(['cita', 'programar']);
 
 const columns = [
   {
@@ -197,6 +198,10 @@ const handleCita = (id: number) => {
   emits('cita', id);
 };
 
+const openNewCita = () => {
+  emits('programar');
+};
+
 const edit = (id: number) => {
   const item = items.value.find((item) => item.id === id);
   if (item) {
@@ -255,11 +260,10 @@ const deleteCita = async () => {
       <q-btn
         color="primary"
         outline
-        @click="prompt = true"
+        @click="openNewCita"
         class="q-mr-md bg-white"
         label="Programar siguiente cita"
         icon="add"
-        :disable="true"
       ></q-btn>
       <q-btn color="primary" @click="prompt = true"
         >Registrar cita actual</q-btn

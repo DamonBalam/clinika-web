@@ -302,7 +302,7 @@
       <!-- END REGISTRO DE CONSUMO && ANTECEDENTES -->
       <!-- TABLAS -->
       <div class="col-12 q-mt-md q-px-sm">
-        <TableCitas :id="id" @cita="handleCita" />
+        <TableCitas :id="id" @cita="handleCita" @programar="openNewCita" />
       </div>
       <div class="col-12 col-md-8 q-mt-md q-px-sm q-mb-xs">
         <TableEquivalencias :id="id" :cita="idCita" />
@@ -321,6 +321,16 @@
           </div>
         </div>
       </div>
+
+      <!-- NEW CITA -->
+      <ProgramarCita
+        :prompt="prompt"
+        :event="eventSelected"
+        :clients="clients"
+        :id-new-client="idNewCita"
+        @close="prompt = false"
+        @submit="submitCita"
+      />
     </div>
   </q-page>
 </template>
@@ -331,6 +341,7 @@ import { ref, computed, onMounted, watch, reactive } from 'vue';
 /* COMPONENTES */
 import TableCitas from 'src/components/TableCitas.vue';
 import BotonBack from 'src/components/common/BotonBack.vue';
+import ProgramarCita from 'src/components/common/ProgramarCita.vue';
 import TableEquivalencias from 'src/components/TableEquivalencias.vue';
 
 /* INTERFACES */
@@ -342,9 +353,12 @@ import { IActividadFisica } from 'src/Interfaces/ActividadFisica';
 import { pacienteDataServices } from 'src/services/PacienteDataService';
 import { objetivoDataServices } from 'src/services/ObjetivoDataService';
 import { actividadDataServices } from 'src/services/ActividadDataService';
+import { useRouter } from 'vue-router';
 
-// import { useQuasar } from 'quasar';
-// const $q = useQuasar();
+const router = useRouter();
+
+import { useQuasar } from 'quasar';
+const $q = useQuasar();
 
 const props = defineProps({
   id: {
@@ -360,6 +374,8 @@ const actividades = ref<IActividadFisica[]>([]);
 const idCita = ref('');
 const open = ref(true);
 const openRA = ref(true);
+
+const prompt = ref(false);
 
 const porcent = ref(50);
 
@@ -480,6 +496,51 @@ const getEdad = computed(() => {
   }
   return 'N/A';
 });
+
+/* NEW CITA */
+let eventSelected = reactive({
+  id: null,
+  cliente: null,
+});
+
+const idNewCita = ref(null);
+
+const clients = computed(() => {
+  return [
+    {
+      id: paciente.value.id,
+      nombre_completo: paciente.value.nombre_completo,
+      img: 'https://cdn.quasar.dev/img/avatar.png',
+    },
+  ];
+});
+
+const submitCita = async (form: any) => {
+  // console.log(form);
+  // router.push('/agenda');
+  prompt.value = false;
+
+  $q.notify({
+    color: 'green-4',
+    textColor: 'white',
+    icon: 'check_circle',
+    message: 'Cita creada correctamente',
+    position: 'top-right',
+  });
+};
+
+const openNewCita = () => {
+  prompt.value = true;
+  idNewCita.value = paciente.value.id;
+};
+
+// const clients = [
+//   {
+//     id: 0,
+//     nombre_completo: 'Nuevo cliente',
+//     // img: 'https://cdn.quasar.dev/img/avatar.png',
+//   },
+// ];
 </script>
 
 <style lang="scss" scoped>
