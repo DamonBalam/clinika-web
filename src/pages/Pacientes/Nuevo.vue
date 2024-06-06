@@ -302,7 +302,7 @@
                 >
                 <q-input
                   type="textarea"
-                  v-model="formulario.registro_consumo"
+                  v-model="formulario.historial"
                   outlined
                   dense
                 />
@@ -369,7 +369,6 @@
                   label="Selecciona una opción"
                   class="font-14"
                   :options="lista_actividades"
-                  map-options
                   emit-value
                   lazy-rules
                   :rules="[(val) => val !== null || 'El campo es requerido']"
@@ -529,7 +528,6 @@
             flat
           />
           <q-btn
-            :disable="disabled"
             @click="submit"
             color="primary"
             label="Guardar paciente"
@@ -554,102 +552,30 @@ import BotonBack from 'src/components/common/BotonBack.vue';
 /* INTERFACES */
 import { INutri } from 'src/Interfaces/Nutri';
 import { IClinic } from 'src/Interfaces/Clinic';
-import { IObjetivo } from 'src/Interfaces/Objetivo';
-import { IActividadFisica } from 'src/Interfaces/ActividadFisica';
 import { IPacientePayload } from 'src/Interfaces/Paciente';
 
 /* SERVICIOS */
 import { clinicDataServices } from 'src/services/ClinicDataService';
 import { nutriDataServices } from 'src/services/NutriDataService';
-import { actividadDataServices } from 'src/services/ActividadDataService';
-import { objetivoDataServices } from 'src/services/ObjetivoDataService';
 import { pacienteDataServices } from 'src/services/PacienteDataService';
+import {
+  catalogoDataService,
+  ICatalogoData,
+} from 'src/services/CatalogoDataService';
 
 /* COMPOSITIONS */
 const $q = useQuasar();
 const router = useRouter();
 
 /* CATÁLOGOS */
-const lista_estados_civiles = [
-  { label: 'Soltero/a', value: 1 },
-  { label: 'Casado/a', value: 2 },
-  { label: 'Viudo/a', value: 3 },
-  { label: 'Divorciado/a', value: 4 },
-  { label: 'Unión libre', value: 5 },
-];
-
-const lista_horas_sueno = [
-  { label: 'Menos de 5 horas', value: 1 },
-  { label: '5 - 6 horas', value: 2 },
-  { label: '6 - 7 horas', value: 3 },
-  { label: '7 - 8 horas', value: 4 },
-  { label: 'Más de 8 horas', value: 5 },
-];
-
-const consumo_alcohol = [
-  { label: 'Nunca', value: 1 },
-  { label: 'Ocasionalmente', value: 2 },
-  { label: 'Socialmente', value: 3 },
-  { label: 'Semanalmente', value: 4 },
-  { label: 'Diariamente', value: 5 },
-];
-
-const tipo_fumador = [
-  { label: 'No fumador', value: 1 },
-  { label: 'Ex fumador', value: 2 },
-  { label: 'Fumador ocasional', value: 3 },
-  { label: 'Fumador moderado', value: 4 },
-  { label: 'Fumador empedernido', value: 5 },
-];
-
-const ingesta_agua = [
-  { label: 'Menos de 1 litro', value: 1 },
-  { label: '1 - 2 litro', value: 2 },
-  { label: '2 - 3 litros', value: 3 },
-  { label: 'Más de 3 litros', value: 4 },
-];
-
-const estres = [
-  { label: 'Bajo', value: 1 },
-  { label: 'Moderado', value: 2 },
-  { label: 'Alto', value: 3 },
-  { label: 'Muy alto', value: 4 },
-];
-
-const lista_actividades = [
-  { label: 'Ninguna', value: 1 },
-  { label: '1-2 días', value: 2 },
-  { label: '3-4 días', value: 3 },
-  { label: '5-6 días', value: 4 },
-  { label: 'Diario', value: 5 },
-];
-
-// const lista_actividades = computed(() => {
-//   return actividades.value.map((item) => {
-//     return {
-//       label: item.name,
-//       value: item.id,
-//     };
-//   });
-// });
-
-const lista_objetivos = [
-  { label: 'Bajar de peso', value: 1 },
-  { label: 'Aumentar masa muscular', value: 2 },
-  { label: 'Mantener peso actual', value: 3 },
-  { label: 'Mejorar salud general', value: 4 },
-  { label: 'Reducir riesgo de enfermedades', value: 5 },
-];
-
-// const lista_objetivos = computed(() => {
-//   return objetivos.value.map((item) => {
-//     return {
-//       label: item.name,
-//       value: item.id,
-//       description: item.description,
-//     };
-//   });
-// });
+const lista_estados_civiles = ref<ICatalogoData[]>([]);
+const lista_objetivos = ref<ICatalogoData[]>([]);
+const lista_horas_sueno = ref<ICatalogoData[]>([]);
+const consumo_alcohol = ref<ICatalogoData[]>([]);
+const tipo_fumador = ref<ICatalogoData[]>([]);
+const ingesta_agua = ref<ICatalogoData[]>([]);
+const estres = ref<ICatalogoData[]>([]);
+const lista_actividades = ref<ICatalogoData[]>([]);
 
 const lista_nutricionistas = computed(() => {
   return nutricionistas.value.map((item) => {
@@ -659,7 +585,6 @@ const lista_nutricionistas = computed(() => {
     };
   });
 });
-
 const lista_consultorios = computed(() => {
   return consultorios.value.map((item) => {
     return {
@@ -673,8 +598,6 @@ const lista_consultorios = computed(() => {
 const myForm = ref<any>(null);
 const consultorios = ref<IClinic[]>([]);
 const nutricionistas = ref<INutri[]>([]);
-const actividades = ref<IActividadFisica[]>([]);
-const objetivos = ref<IObjetivo[]>([]);
 
 const formulario = reactive<IPacientePayload>({
   nombre: '',
@@ -729,11 +652,24 @@ const disabled = computed(() => {
 });
 
 onMounted(() => {
+  getCatalogos();
   getConsultorios();
   getNutris();
-  getActividades();
-  getObjetivos();
 });
+
+const getCatalogos = async () => {
+  const data = await catalogoDataService.getShowCategories();
+  if (data.code === 200) {
+    lista_estados_civiles.value = data.data.estado_civil;
+    lista_objetivos.value = data.data.objectives;
+    lista_horas_sueno.value = data.data.hours_of_sleep;
+    consumo_alcohol.value = data.data.alcohol_consumption;
+    tipo_fumador.value = data.data.smoke;
+    ingesta_agua.value = data.data.water_consumption;
+    estres.value = data.data.stress;
+    lista_actividades.value = data.data.physical_activities;
+  }
+};
 
 const getConsultorios = async () => {
   const data = await clinicDataServices.getClinics();
@@ -746,20 +682,6 @@ const getNutris = async () => {
   const data = await nutriDataServices.getNutriologas();
   if (data.code === 200) {
     nutricionistas.value = data.data;
-  }
-};
-
-const getActividades = async () => {
-  const data = await actividadDataServices.getActividades();
-  if (data.code === 200) {
-    actividades.value = data.data;
-  }
-};
-
-const getObjetivos = async () => {
-  const data = await objetivoDataServices.getObjetivos();
-  if (data.code === 200) {
-    objetivos.value = data.data;
   }
 };
 
