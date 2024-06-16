@@ -348,8 +348,6 @@
                   :options="lista_horas_sueno"
                   map-options
                   emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
                 />
               </div>
 
@@ -369,8 +367,6 @@
                   :options="lista_actividades"
                   map-options
                   emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
                 />
               </div>
 
@@ -390,8 +386,6 @@
                   :options="consumo_alcohol"
                   map-options
                   emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
                 />
               </div>
 
@@ -411,8 +405,6 @@
                   :options="tipo_fumador"
                   map-options
                   emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
                 />
               </div>
 
@@ -432,8 +424,6 @@
                   :options="ingesta_agua"
                   map-options
                   emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
                 />
               </div>
 
@@ -453,8 +443,6 @@
                   :options="estres"
                   map-options
                   emit-value
-                  lazy-rules
-                  :rules="[(val) => val !== null || 'El campo es requerido']"
                 />
               </div>
             </div>
@@ -808,7 +796,7 @@ const submit = async () => {
 
       const data = await pacienteDataServices.updatePaciente(props.id, payload);
 
-      if (data.code === 200) {
+      if (data.code === 201) {
         $q.notify({
           color: 'green-4',
           textColor: 'white',
