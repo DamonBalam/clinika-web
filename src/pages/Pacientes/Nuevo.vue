@@ -142,13 +142,11 @@
                 <q-select
                   outlined
                   dense
-                  v-model="formulario.estado_civil_id"
+                  v-model="formulario.estado_civil"
                   hide-hint
                   label="Seleccione una opción"
                   class="font-14"
                   :options="lista_estados_civiles"
-                  map-options
-                  emit-value
                   lazy-rules
                   :rules="[(val) => !!val || 'Este campo es obligatorio']"
                 />
@@ -369,6 +367,7 @@
                   label="Selecciona una opción"
                   class="font-14"
                   :options="lista_actividades"
+                  map-options
                   emit-value
                   lazy-rules
                   :rules="[(val) => val !== null || 'El campo es requerido']"
@@ -568,7 +567,7 @@ const $q = useQuasar();
 const router = useRouter();
 
 /* CATÁLOGOS */
-const lista_estados_civiles = ref<ICatalogoData[]>([]);
+const lista_estados_civiles = ref<string[]>([]);
 const lista_objetivos = ref<ICatalogoData[]>([]);
 const lista_horas_sueno = ref<ICatalogoData[]>([]);
 const consumo_alcohol = ref<ICatalogoData[]>([]);
@@ -599,7 +598,7 @@ const myForm = ref<any>(null);
 const consultorios = ref<IClinic[]>([]);
 const nutricionistas = ref<INutri[]>([]);
 
-const formulario = reactive<IPacientePayload>({
+const formulariov1 = reactive<IPacientePayload>({
   nombre: '',
   apellido_paterno: '',
   apellido_materno: '',
@@ -623,11 +622,42 @@ const formulario = reactive<IPacientePayload>({
   profesion: '',
   num_identificacion: '',
 
-  estado_civil_id: null,
+  estado_civil: '',
   consumo_alcohol_id: null,
   tipo_fumador_id: null,
   consumo_agua_id: null,
   nivel_estres_id: null,
+});
+
+const formulario = reactive<IPacientePayload>({
+  nombre: 'Arturo',
+  apellido_paterno: 'TEST',
+  apellido_materno: 'TEST',
+  email: 'test@gmail.com',
+  telefono: '9831128395',
+  nutricionista_id: 2,
+  consultorio_id: 1,
+  sexo: 'M',
+  fecha_nacimiento: '1995-05-04',
+  alergias: ['ninguna test'],
+  condiciones_medicas: ['ninguna test'],
+  medicinas: ['ninguna test'],
+  desordenes: ['ninguna test'],
+  actividad_fisica_id: 24,
+  objetivo_id: 29,
+  horas_dormidas: 19,
+  registro_consumo: 'test de registro de consumo',
+  estatura: 160,
+  historial: 'test de antecedentes médicos',
+  lugar_residencia: 'México',
+  profesion: 'Ingeniero',
+  num_identificacion: 'TEST040595',
+
+  estado_civil: 'Soltero/a',
+  consumo_alcohol_id: 1,
+  tipo_fumador_id: 6,
+  consumo_agua_id: 11,
+  nivel_estres_id: 15,
 });
 
 const disabled = computed(() => {
@@ -660,14 +690,51 @@ onMounted(() => {
 const getCatalogos = async () => {
   const data = await catalogoDataService.getShowCategories();
   if (data.code === 200) {
-    lista_estados_civiles.value = data.data.estado_civil;
-    lista_objetivos.value = data.data.objectives;
-    lista_horas_sueno.value = data.data.hours_of_sleep;
-    consumo_alcohol.value = data.data.alcohol_consumption;
-    tipo_fumador.value = data.data.smoke;
-    ingesta_agua.value = data.data.water_consumption;
-    estres.value = data.data.stress;
-    lista_actividades.value = data.data.physical_activities;
+    lista_estados_civiles.value = data.data.estado_civil.map((item) => {
+      return item.label;
+    });
+    lista_objetivos.value = data.data.objectives.map((item) => {
+      return {
+        label: item.label,
+        value: item.id,
+      };
+    });
+    lista_horas_sueno.value = data.data.hours_of_sleep.map((item) => {
+      return {
+        label: item.label,
+        value: item.id,
+      };
+    });
+    consumo_alcohol.value = data.data.alcohol_consumption.map((item) => {
+      return {
+        label: item.label,
+        value: item.id,
+      };
+    });
+    tipo_fumador.value = data.data.smoke.map((item) => {
+      return {
+        label: item.label,
+        value: item.id,
+      };
+    });
+    ingesta_agua.value = data.data.water_consumption.map((item) => {
+      return {
+        label: item.label,
+        value: item.id,
+      };
+    });
+    estres.value = data.data.stress.map((item) => {
+      return {
+        label: item.label,
+        value: item.id,
+      };
+    });
+    lista_actividades.value = data.data.physical_activities.map((item) => {
+      return {
+        label: item.label,
+        value: item.id,
+      };
+    });
   }
 };
 
@@ -688,38 +755,56 @@ const getNutris = async () => {
 const submit = async () => {
   if (myForm.value?.validate()) {
     try {
+      // const formData = new FormData();
+
+      // formData.append('nombre', formulario.nombre);
+      // formData.append('apellido_paterno', formulario.apellido_paterno);
+      // formData.append('apellido_materno', formulario.apellido_materno);
+      // formData.append('email', formulario.email);
+      // formData.append('telefono', String(formulario.telefono));
+      // formData.append('nutricionista_id', String(formulario.nutricionista_id));
+      // formData.append('consultorio_id', String(formulario.consultorio_id));
+
       const payload = {
         nombre: formulario.nombre,
         apellido_paterno: formulario.apellido_paterno,
         apellido_materno: formulario.apellido_materno,
-        fecha_nacimiento: formulario.fecha_nacimiento,
-        registro_consumo: formulario.registro_consumo,
-        sexo: formulario.sexo,
-        telefono: Number(formulario.telefono),
         email: formulario.email,
+        telefono: formulario.telefono,
+        nutricionista_id: formulario.nutricionista_id,
+        consultorio_id: formulario.consultorio_id,
+
+        sexo: formulario.sexo,
+        fecha_nacimiento: formulario.fecha_nacimiento,
+
         alergias: formulario.alergias,
         condiciones_medicas: formulario.condiciones_medicas,
-        actividad_fisica_id: formulario.actividad_fisica_id,
-        objetivo_id: formulario.objetivo_id,
-        consultorio_id: formulario.consultorio_id,
-        nutricionista_id: formulario.nutricionista_id,
         medicinas: formulario.medicinas,
         desordenes: formulario.desordenes,
+
+        actividad_fisica_id: formulario.actividad_fisica_id,
+        objetivo_id: formulario.objetivo_id,
+
         horas_dormidas: formulario.horas_dormidas,
         historial: formulario.historial,
-        lugar_residencia: formulario.lugar_residencia,
-        profesion: formulario.profesion,
+
+        registro_consumo: formulario.registro_consumo,
         num_identificacion: formulario.num_identificacion,
+        profesion: formulario.profesion,
+        lugar_residencia: formulario.lugar_residencia,
+
+        estado_civil: formulario.estado_civil,
 
         /* TODO: NUEVOS DATOS */
-        // estado_civil_id: formulario.estado_civil_id,
-        // consumo_alcohol_id: formulario.consumo_alcohol_id,
-        // tipo_fumador_id: formulario.tipo_fumador_id,
-        // consumo_agua_id: formulario.consumo_agua_id,
-        // nivel_estres_id: formulario.nivel_estres_id,
+        consumo_alcohol_id: formulario.consumo_alcohol_id,
+        tipo_fumador_id: formulario.tipo_fumador_id,
+        consumo_agua_id: formulario.consumo_agua_id,
+        nivel_estres_id: formulario.nivel_estres_id,
       };
 
-      const data = await pacienteDataServices.savePaciente({ ...payload });
+      console.log(payload);
+
+      const data = await pacienteDataServices.savePaciente(payload);
 
       if (data.code === 200) {
         $q.notify({

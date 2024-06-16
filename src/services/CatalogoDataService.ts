@@ -16,7 +16,8 @@ interface IShowCategories {
 }
 
 export interface ICatalogoData {
-  id: string;
+  id?: string;
+  value?: string;
   label: string;
 }
 

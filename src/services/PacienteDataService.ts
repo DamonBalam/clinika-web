@@ -26,7 +26,7 @@ class PacienteDataService {
     return response!.data;
   }
 
-  async savePaciente(data: IPacientePayload): Promise<IResponse<IPaciente>> {
+  async savePaciente(data: any): Promise<IResponse<IPaciente>> {
     let response = await API.post('create/user', {
       data: data,
     });

@@ -39,6 +39,7 @@ export interface IPaciente {
   lugar_residencia?: string;
   profesion?: string;
   num_identificacion?: string;
+  estado_civil?: string | null;
 }
 
 export interface IPacientePayload {
@@ -62,7 +63,7 @@ export interface IPacientePayload {
   desordenes?: string[];
 
   historial?: string;
-  horas_dormidas?: string;
+  horas_dormidas?: number;
 
   actividad_fisica_id: number | null;
   objetivo_id: number | null;
@@ -72,7 +73,7 @@ export interface IPacientePayload {
   lugar_residencia?: string;
 
   /* NUEVOS */
-  estado_civil_id?: number | null;
+  estado_civil?: string | null;
   consumo_agua_id?: number | null;
   tipo_fumador_id?: number | null;
   consumo_alcohol_id?: number | null;
@@ -101,7 +102,7 @@ export interface IPacienteResponse {
   desordenes?: string[];
 
   historial?: string;
-  horas_dormidas?: string;
+  horas_dormidas?: number;
 
   actividad_fisica_id: number | null;
   objetivo_id: number | null;
@@ -111,7 +112,7 @@ export interface IPacienteResponse {
   lugar_residencia?: string;
 
   /* NUEVOS */
-  estado_civil_id?: number | null;
+  estado_civil?: string | null;
   consumo_agua_id?: number | null;
   tipo_fumador_id?: number | null;
   consumo_alcohol_id?: number | null;

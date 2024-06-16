@@ -86,9 +86,9 @@ const form = reactive({
   evolucion: '',
 });
 
-onMounted(() => {
-  getItems();
-});
+// onMounted(() => {
+//   getItems();
+// });
 
 const getItems = async () => {
   loading.value = true;
