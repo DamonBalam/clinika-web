@@ -64,7 +64,7 @@ const routes: RouteRecordRaw[] = [
         path: '/pacientes/perfil/editar/:id',
         name: 'PerfilEditarPaciente',
         props: true,
-        component: () => import('pages/Pacientes/Editar.vue'),
+        component: () => import('pages/Pacientes/NewEditar.vue'),
         meta: {
           requiresAuth: true,
         },

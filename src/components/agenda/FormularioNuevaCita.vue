@@ -28,16 +28,7 @@
               hide-selected
               @filter="filterFn"
               :disable="isEdit"
-              :options="
-                options.map((item) => {
-                  return {
-                    ...item,
-                    label: item.nombre_completo,
-                    value: item.id,
-                  };
-                })
-              "
-              map-options
+              :options="options"
               dense
             >
               <template v-slot:prepend>
@@ -216,6 +207,7 @@
 </template>
 
 <script setup lang="ts">
+import { IPaciente } from 'src/Interfaces/Paciente';
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 
 /* PROPS */
@@ -229,11 +221,11 @@ const props = defineProps({
     default: () => {},
   },
   clients: {
-    type: Array,
+    type: Array<IPaciente>,
     default: () => [],
   },
   idNewClient: {
-    type: Number,
+    type: Number || null,
     default: null,
   },
 });
@@ -283,6 +275,16 @@ const form = reactive({
   sincronizar: false,
 });
 
+const clients = computed(() => {
+  return props.clients.map((item) => {
+    return {
+      ...item,
+      label: item.nombre_completo,
+      value: item.id,
+    };
+  });
+});
+
 const closeModal = () => {
   clearForm();
   emit('close');
@@ -323,10 +325,6 @@ const isEdit = computed(() => {
   return form.id !== null;
 });
 
-const clientes = computed(() => {
-  return props.clients;
-});
-
 const validHoraStart = computed(() => {
   const regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 
@@ -361,7 +359,7 @@ const fechaActual = computed(() => {
 function filterFn(val, update, abort) {
   update(() => {
     const needle = val.toLowerCase();
-    options.value = clientes.value.filter(
+    options.value = clients.value.filter(
       (v) => v.nombre_completo.toLowerCase().indexOf(needle) > -1
     );
   });
@@ -397,13 +395,16 @@ watch(
   () => props.idNewClient,
   () => {
     if (props.idNewClient !== null) {
-      const newClient = clientes.value.find(
+      const newClient = clients.value.find(
         (item) => item.id === props.idNewClient
       );
       form.fecha = fechaActual.value;
-      newClient.label = newClient.nombre_completo;
-      newClient.value = newClient.id;
-      form.cliente = newClient;
+
+      form.cliente = {
+        ...newClient,
+        label: newClient.nombre_completo,
+        value: newClient.id,
+      };
     }
   }
 );

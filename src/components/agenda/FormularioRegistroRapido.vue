@@ -3,7 +3,7 @@
     <q-card style="min-width: 900px; background-color: #f5f5f5" class="q-pa-lg">
       <q-card-section>
         <div class="title">
-          {{ 'Registro Rapido' }}
+          {{ 'Registro Rápido' }}
         </div>
         <div class="subtitle">
           {{ 'Datos para el registro del paciente' }}
@@ -98,7 +98,7 @@
                   >Teléfono</label
                 >
                 <q-input
-                  type="phone"
+                  type="tel"
                   outlined
                   v-model="formulario.telefono"
                   dense
@@ -191,7 +191,7 @@
           />
           <q-btn
             color="primary"
-            :label="formulario.id === null ? 'Guardar' : 'Actualizar'"
+            label="'Guardar'"
             @click="submit"
             class="full-width"
             style="max-width: 48%"
@@ -204,13 +204,16 @@
 </template>
 
 <script setup lang="ts">
+import { useQuasar } from 'quasar';
 import { IClinic } from 'src/Interfaces/Clinic';
 import { INutri } from 'src/Interfaces/Nutri';
-import { IPaciente } from 'src/Interfaces/Paciente';
+import { IPacientePayload } from 'src/Interfaces/Paciente';
 import { clinicDataServices } from 'src/services/ClinicDataService';
 import { nutriDataServices } from 'src/services/NutriDataService';
+import { pacienteDataServices } from 'src/services/PacienteDataService';
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 
+const $q = useQuasar();
 const props = defineProps({
   prompt: {
     type: Boolean,
@@ -221,18 +224,27 @@ const props = defineProps({
 const emit = defineEmits(['close', 'submit']);
 
 /* CATALOGOS */
+const myForm = ref<any>(null);
 const consultorios = ref<IClinic[]>([]);
 const nutricionistas = ref<INutri[]>([]);
 
-const formulario = reactive<IPaciente>({
-  id: null,
+const formularioV2 = reactive<IPacientePayload>({
   nombre: '',
   apellido_paterno: '',
   apellido_materno: '',
   email: '',
-  telefono: null,
-  consultorio_id: null,
+  telefono: '',
   nutricionista_id: null,
+  consultorio_id: null,
+});
+const formulario = reactive<IPacientePayload>({
+  nombre: 'Angel',
+  apellido_paterno: 'Zaldivar',
+  apellido_materno: 'Balam',
+  email: 'damonbalamTT@gmail.com',
+  telefono: '9831820506',
+  nutricionista_id: null,
+  consultorio_id: null,
 });
 
 const modal = ref(false);
@@ -249,8 +261,43 @@ const closeModal = () => {
   emit('close');
 };
 
-const submit = () => {
-  emit('submit', formulario);
+const submit = async () => {
+  if (myForm.value?.validate()) {
+    try {
+      const payload = {
+        // Obligatorios
+        nombre: formulario.nombre,
+        apellido_paterno: formulario.apellido_paterno,
+        apellido_materno: formulario.apellido_materno,
+        email: formulario.email,
+        telefono: formulario.telefono,
+        nutricionista_id: formulario.nutricionista_id,
+        consultorio_id: formulario.consultorio_id,
+      };
+
+      const data = await pacienteDataServices.savePaciente(payload);
+
+      if (data.code === 200) {
+        emit('submit', data.data);
+        $q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'check_circle',
+          message: 'Cliente agregado correctamente',
+          position: 'top-right',
+        });
+        myForm.value?.resetValidation();
+      }
+    } catch (error) {
+      $q.notify({
+        color: 'red-4',
+        textColor: 'white',
+        icon: 'error',
+        message: 'Ocurrió un error',
+        position: 'top-right',
+      });
+    }
+  }
 };
 
 const disabled = computed(() => {

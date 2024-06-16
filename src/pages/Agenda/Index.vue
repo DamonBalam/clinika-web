@@ -53,41 +53,35 @@ import AgendaCalendar from 'src/components/agenda/AgendaCalendar.vue';
 import FormularioNuevaCita from 'src/components/agenda/FormularioNuevaCita.vue';
 import FormularioRegistroRapido from 'src/components/agenda/FormularioRegistroRapido.vue';
 import ModalEliminacion from 'src/components/agenda/ModalEliminacion.vue';
+import { pacienteDataServices } from 'src/services/PacienteDataService';
+import { IPaciente } from 'src/Interfaces/Paciente';
+
+interface ICliente {
+  id?: number | null;
+  nombre?: string;
+  apellido?: string;
+  nombre_completo?: string;
+  img?: string;
+}
 
 const loading = ref(false);
 const prompt = ref(false);
 const promptEliminacion = ref(false);
 const promptRegistroRapido = ref(false);
-const idNewClient = ref(null);
+const idNewClient = ref<Number | null>(null);
 const idEventEliminate = ref(null);
-const clients = [
+const eventNewClient = [
   {
     id: 0,
     nombre_completo: 'Nuevo cliente',
-    // img: 'https://cdn.quasar.dev/img/avatar.png',
-  },
-  {
-    id: 1,
-    nombre: 'Juan',
-    apellido: 'Perez',
-    nombre_completo: 'Juan Perez',
-    img: 'https://cdn.quasar.dev/img/avatar.png',
-  },
-  {
-    id: 2,
-    nombre: 'Pedro',
-    apellido: 'Perez',
-    nombre_completo: 'Pedro Perez',
-    img: 'https://cdn.quasar.dev/img/avatar.png',
-  },
-  {
-    id: 2,
-    nombre: 'Luis',
-    apellido: 'Perez',
-    nombre_completo: 'Luis Perez',
-    img: 'https://cdn.quasar.dev/img/avatar.png',
   },
 ];
+
+const clients = computed(() => {
+  return [...eventNewClient, ...items.value];
+});
+
+const items = ref<ICliente[]>([]);
 
 const events = ref([
   {
@@ -195,20 +189,37 @@ const closeModalClient = () => {
   promptRegistroRapido.value = false;
 };
 
-const submitRegistroRapido = (form: any) => {
+const submitRegistroRapido = async (form: IPaciente) => {
   console.log('submitRegistroRapido', form);
-  idNewClient.value = clients.length + 1;
-
-  clients.push({
-    id: clients.length + 1,
-    nombre: form.nombre,
-    apellido: form.apellido_paterno,
-    nombre_completo: `${form.nombre} ${form.apellido_paterno}`,
-    img: 'https://cdn.quasar.dev/img/avatar.png',
-  });
-
+  await getItems();
+  idNewClient.value = form.id as number;
   promptRegistroRapido.value = false;
   prompt.value = true;
+};
+
+onMounted(async () => {
+  await getItems();
+});
+
+const getItems = async () => {
+  loading.value = true;
+  try {
+    const data = await pacienteDataServices.getAll();
+
+    if (data.code === 200) {
+      items.value = data.data.map((item) => {
+        return {
+          id: item.id,
+          nombre: item.nombre,
+          apellido: item.apellido_paterno,
+          nombre_completo: item.nombre_completo,
+        };
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  loading.value = false;
 };
 </script>
 <style scoped lang="scss">

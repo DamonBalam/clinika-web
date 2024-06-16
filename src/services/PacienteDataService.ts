@@ -39,8 +39,8 @@ class PacienteDataService {
   }
 
   async updatePaciente(
-    id: string,
-    data: IPaciente
+    id: number | string,
+    data: IPacientePayload
   ): Promise<IResponse<IPaciente>> {
     let response = await API.post(`update/user/${id}`, {
       data: data,

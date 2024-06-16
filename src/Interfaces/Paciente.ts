@@ -46,13 +46,13 @@ export interface IPacientePayload {
   nombre: string;
   apellido_paterno: string;
   apellido_materno: string;
-  nutricionista_id?: number | null;
-  consultorio_id?: number | null;
-
-  sexo: string;
+  nutricionista_id: number | null;
+  consultorio_id: number | null;
   email: string;
-  telefono?: number | string | null;
-  fecha_nacimiento: string;
+  telefono: number | string | null;
+
+  sexo?: string;
+  fecha_nacimiento?: string;
 
   estatura?: number | string;
 
@@ -63,10 +63,10 @@ export interface IPacientePayload {
   desordenes?: string[];
 
   historial?: string;
-  horas_dormidas?: number;
+  horas_dormidas?: number | null;
 
-  actividad_fisica_id: number | null;
-  objetivo_id: number | null;
+  actividad_fisica_id?: number | null;
+  objetivo_id?: number | null;
 
   num_identificacion?: string;
   profesion?: string;
@@ -79,6 +79,7 @@ export interface IPacientePayload {
   consumo_alcohol_id?: number | null;
   nivel_estres_id?: number | null;
 }
+
 export interface IPacienteResponse {
   id: number | null;
   nombre: string;

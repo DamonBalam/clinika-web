@@ -1,6 +1,6 @@
 <template>
   <q-page class="fondo-gris q-py-md q-px-xl">
-    <BotonBack url="/pacientes" />
+    <BotonBack :url="`/pacientes/perfil/${id}`" />
     <div class="q-my-md">
       <span class="text-black text-bold text-h5 font-24">Nuevo Paciente</span>
     </div>
@@ -530,7 +530,7 @@
             @click="submit"
             :disable="disabled"
             color="primary"
-            label="Guardar paciente"
+            label="Actualizar paciente"
             class="q-mt-md bg-primary text-white border-primary"
             flat
             style="width: 240px"
@@ -552,7 +552,7 @@ import BotonBack from 'src/components/common/BotonBack.vue';
 /* INTERFACES */
 import { INutri } from 'src/Interfaces/Nutri';
 import { IClinic } from 'src/Interfaces/Clinic';
-import { IPacientePayload } from 'src/Interfaces/Paciente';
+import { IPacientePayload, IPacienteRES } from 'src/Interfaces/Paciente';
 
 /* SERVICIOS */
 import { clinicDataServices } from 'src/services/ClinicDataService';
@@ -566,6 +566,13 @@ import {
 /* COMPOSITIONS */
 const $q = useQuasar();
 const router = useRouter();
+
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+  },
+});
 
 /* CATÁLOGOS */
 const lista_estados_civiles = ref<string[]>([]);
@@ -585,6 +592,7 @@ const lista_nutricionistas = computed(() => {
     };
   });
 });
+
 const lista_consultorios = computed(() => {
   return consultorios.value.map((item) => {
     return {
@@ -634,6 +642,7 @@ const disabled = computed(() => {
   if (
     formulario.nombre.length > 0 &&
     formulario.apellido_paterno.length > 0 &&
+    formulario.fecha_nacimiento.length > 0 &&
     formulario.sexo !== '' &&
     formulario.telefono !== null &&
     formulario.email.length > 0 &&
@@ -650,7 +659,46 @@ onMounted(() => {
   getCatalogos();
   getConsultorios();
   getNutris();
+  getPaciente();
 });
+
+async function getPaciente() {
+  const res = await pacienteDataServices.getById(props.id);
+
+  if (res.code == 200) {
+    formulario.nombre = res.data.user.nombre;
+    formulario.apellido_paterno = res.data.user.apellido_paterno;
+    formulario.apellido_materno = res.data.user.apellido_materno;
+    formulario.email = res.data.user.email;
+    formulario.telefono = res.data.user.telefono;
+    formulario.nutricionista_id = res.data.user.nutricionista?.id;
+    formulario.consultorio_id = res.data.user.consultorio?.id;
+    formulario.sexo = res.data.user.sexo;
+    formulario.fecha_nacimiento = res.data.user.fecha_nacimiento;
+    formulario.alergias = JSON.parse(res.data.user.alergias);
+    formulario.medicinas = JSON.parse(res.data.user.medicinas);
+    formulario.condiciones_medicas = JSON.parse(
+      res.data.user.condiciones_medicas
+    );
+    formulario.desordenes = JSON.parse(res.data.user.desordenes);
+    formulario.historial = res.data.user.historial;
+    formulario.registro_consumo = res.data.user.registro_consumo;
+
+    formulario.objetivo_id = res.data.user.objetivo?.id || null;
+    formulario.horas_dormidas = res.data.user.horas_de_sueno?.id || null;
+    formulario.actividad_fisica_id = res.data.user.actividad_fisica?.id || null;
+    formulario.estado_civil = res.data.user.estado_civil;
+    formulario.consumo_alcohol_id = res.data.user.consumo_alcohol?.id || null;
+    formulario.tipo_fumador_id = res.data.user.fumador?.id || null;
+    formulario.consumo_agua_id =
+      res.data.user.consumo_de_agua_diario?.id || null;
+    formulario.nivel_estres_id = res.data.user.estres_general?.id || null;
+
+    formulario.profesion = res.data.user.profesion;
+    formulario.lugar_residencia = res.data.user.lugar_residencia;
+    formulario.num_identificacion = res.data.user.num_identificacion;
+  }
+}
 
 const getCatalogos = async () => {
   const data = await catalogoDataService.getShowCategories();
@@ -758,7 +806,7 @@ const submit = async () => {
         nivel_estres_id: formulario.nivel_estres_id,
       };
 
-      const data = await pacienteDataServices.savePaciente(payload);
+      const data = await pacienteDataServices.updatePaciente(props.id, payload);
 
       if (data.code === 200) {
         $q.notify({
