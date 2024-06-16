@@ -38,22 +38,26 @@
                   <div class="row">
                     <div class="col-12 q-mb-sm">
                       <span class="text-weight-bold text-title-analisis">
-                        {{ infoPaciente.nombre }}
+                        {{ paciente.nombre_completo }}
                       </span>
                     </div>
                     <div class="col-4">
                       <span class="label-info">
                         <q-icon name="fact_check" color="primary" />
-                        {{ infoPaciente.num_identificacion }}
+                        {{ paciente.num_identificacion }}
                       </span>
                       <span class="label-info">
                         <q-icon
-                          :name="
-                            infoPaciente.sexo === 'Hombre' ? 'man' : 'woman'
-                          "
+                          :name="paciente.sexo === 'M' ? 'man' : 'woman'"
                           color="primary"
                         />
-                        {{ infoPaciente.sexo }}
+                        {{
+                          paciente.sexo
+                            ? paciente.sexo === 'M'
+                              ? 'Hombre'
+                              : 'Mujer'
+                            : 'N/A'
+                        }}
                       </span>
                       <span class="label-info">
                         <q-icon name="cake" color="primary" />
@@ -61,26 +65,26 @@
                       </span>
                       <span class="label-info">
                         <q-icon name="work" color="primary" />
-                        {{ infoPaciente.profesion }}
+                        {{ paciente.profesion }}
                       </span>
                     </div>
                     <div class="col-8">
                       <span class="label-info">
                         <q-icon name="public" color="primary" />
-                        {{ infoPaciente.lugar_residencia }}
+                        {{ paciente.lugar_residencia }}
                       </span>
 
                       <span class="label-info">
                         <q-icon name="phone" color="primary" />
-                        {{ infoPaciente.telefono }}
+                        {{ paciente.telefono }}
                       </span>
                       <span class="label-info">
                         <q-icon name="emoji_events" color="primary" />
-                        {{ infoPaciente.objetivo }}
+                        {{ paciente.objetivo?.descripcion }}
                       </span>
                       <span class="label-info" style="font-size: 13px">
                         <q-icon name="email" color="primary" />
-                        {{ infoPaciente.email }}
+                        {{ paciente.email }}
                       </span>
                     </div>
                   </div>
@@ -109,7 +113,7 @@
                     Alergias o intolerancias</span
                   >
                   <span class="label-info font-bold">
-                    {{ 'Lactosa' }}
+                    {{ paciente.alergias || 'Ninguna' }}
                   </span>
                 </div>
 
@@ -159,7 +163,7 @@
                     Horas de sueño diarias</span
                   >
                   <span class="label-info font-bold">
-                    {{ '8 horas' }}
+                    {{ paciente.horas_de_sueno?.descripcion || 'N/A' }}
                   </span>
                 </div>
 
@@ -168,21 +172,21 @@
                     Actividad física semanal</span
                   >
                   <span class="label-info font-bold">
-                    {{ 'Diario' }}
+                    {{ paciente.actividad_fisica?.descripcion || 'N/A' }}
                   </span>
                 </div>
 
                 <div class="col-6 q-mt-sm">
                   <span class="text-title2-analisis"> Consumo de alcohol</span>
                   <span class="label-info font-bold">
-                    {{ 'Nunca' }}
+                    {{ paciente.consumo_alcohol?.descripcion || 'N/A' }}
                   </span>
                 </div>
 
                 <div class="col-6 q-mt-sm">
                   <span class="text-title2-analisis">Fumador</span>
                   <span class="label-info font-bold">
-                    {{ 'No' }}
+                    {{ paciente.fumador?.descripcion || 'N/A' }}
                   </span>
                 </div>
 
@@ -191,14 +195,14 @@
                     >Ingesta diaria del agua</span
                   >
                   <span class="label-info font-bold">
-                    {{ '2.5 litros' }}
+                    {{ paciente.consumo_de_agua_diario?.descripcion || 'N/A' }}
                   </span>
                 </div>
 
                 <div class="col-6 q-mt-sm">
                   <span class="text-title2-analisis">Estrés</span>
                   <span class="label-info font-bold">
-                    {{ 'Periodico' }}
+                    {{ paciente.estres_general?.descripcion || 'N/A' }}
                   </span>
                 </div>
               </div>
@@ -223,7 +227,9 @@
                 class="text-weight-bold"
                 style="font-size: 14px; color: #94a3b8; height: 180px"
                 >{{
-                  registroConsumoText ? registroConsumoText : 'No registrado'
+                  paciente.registro_consumo
+                    ? paciente.registro_consumo
+                    : 'No registrado'
                 }}</span
               >
             </q-card-section>
@@ -247,7 +253,7 @@
                 class="text-weight-bold"
                 style="font-size: 14px; color: #94a3b8"
                 >{{
-                  registroConsumoText ? registroConsumoText : 'No registrado'
+                  paciente.historial ? paciente.historial : 'No registrado'
                 }}</span
               >
             </q-card-section>
@@ -327,7 +333,6 @@
         :prompt="prompt"
         :event="eventSelected"
         :clients="clients"
-        :id-new-client="idNewCita"
         @close="prompt = false"
         @submit="submitCita"
       />
@@ -345,14 +350,10 @@ import ProgramarCita from 'src/components/common/ProgramarCita.vue';
 import TableEquivalencias from 'src/components/TableEquivalencias.vue';
 
 /* INTERFACES */
-import { IObjetivo } from 'src/Interfaces/Objetivo';
-import { IPacienteResponse } from 'src/Interfaces/Paciente';
-import { IActividadFisica } from 'src/Interfaces/ActividadFisica';
+import { IPacienteRES, IPacienteResponse } from 'src/Interfaces/Paciente';
 
 /* SERVICIOS */
 import { pacienteDataServices } from 'src/services/PacienteDataService';
-import { objetivoDataServices } from 'src/services/ObjetivoDataService';
-import { actividadDataServices } from 'src/services/ActividadDataService';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -367,9 +368,6 @@ const props = defineProps({
   },
 });
 
-/* CATÁLOGOS */
-const objetivos = ref<IObjetivo[]>([]);
-const actividades = ref<IActividadFisica[]>([]);
 /* DATA */
 const idCita = ref('');
 const open = ref(true);
@@ -377,9 +375,7 @@ const openRA = ref(true);
 
 const prompt = ref(false);
 
-const porcent = ref(50);
-
-const paciente = ref<IPacienteResponse>({
+const paciente = ref<IPacienteRES>({
   id: null,
   nombre: '',
   apellido_paterno: '',
@@ -387,17 +383,12 @@ const paciente = ref<IPacienteResponse>({
   nombre_completo: '',
   email: '',
   telefono: '',
-  nutricionista_id: null,
-  consultorio_id: null,
   sexo: '',
   fecha_nacimiento: '',
-  alergias: [],
-  condiciones_medicas: [],
-  medicinas: [],
-  desordenes: [],
-  actividad_fisica_id: null,
-  objetivo_id: null,
-  horas_dormidas: '',
+  alergias: '',
+  condiciones_medicas: '',
+  medicinas: '',
+  desordenes: '',
   registro_consumo: '',
   estatura: 160,
   historial: '',
@@ -405,11 +396,20 @@ const paciente = ref<IPacienteResponse>({
   profesion: '',
   num_identificacion: '',
 
-  estado_civil_id: null,
-  consumo_alcohol_id: null,
-  tipo_fumador_id: null,
-  consumo_agua_id: null,
-  nivel_estres_id: null,
+  estado_civil: '',
+
+  cita: null,
+  consultorio: null,
+  nutricionista: null,
+  suscripcion: null,
+
+  objetivo: null,
+  actividad_fisica: null,
+  consumo_alcohol: null,
+  fumador: null,
+  consumo_de_agua_diario: null,
+  estres_general: null,
+  horas_de_sueno: null,
 });
 
 const handleCita = (id: string) => {
@@ -418,20 +418,6 @@ const handleCita = (id: string) => {
 
 const registroConsumoText = computed(() => {
   return 'lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum ';
-});
-
-const objetivoLabel = computed(() => {
-  return (
-    objetivos.value.find((o) => o.id === paciente.value.objetivo_id)?.name ||
-    'N/A'
-  );
-});
-
-const actividadLabel = computed(() => {
-  return (
-    actividades.value.find((a) => a.id === paciente.value.actividad_fisica_id)
-      ?.name || 'N/A'
-  );
 });
 
 const infoPaciente = computed(() => {
@@ -444,35 +430,21 @@ const infoPaciente = computed(() => {
     telefono: paciente.value.telefono || 'N/A',
     sexo: paciente.value.sexo === 'M' ? 'Hombre' : 'Mujer' || 'N/A',
     fecha_nacimiento: getEdad || 'N/A',
-    objetivo: objetivoLabel,
+    objetivo: 'test',
   };
 });
 
-onMounted(async () => {
-  getObjetivos();
-  getActividades();
-
-  let res = await pacienteDataServices.getById(props.id);
-  console.log(res);
-
-  if (res.code == 200) {
-    paciente.value = res.data.user as IPacienteResponse;
-  }
+onMounted(() => {
+  getPaciente();
 });
 
-const getObjetivos = async () => {
-  const data = await objetivoDataServices.getObjetivos();
-  if (data.code === 200) {
-    objetivos.value = data.data;
-  }
-};
+async function getPaciente() {
+  const res = await pacienteDataServices.getById(props.id);
 
-const getActividades = async () => {
-  const data = await actividadDataServices.getActividades();
-  if (data.code === 200) {
-    actividades.value = data.data;
+  if (res.code == 200) {
+    paciente.value = res.data.user;
   }
-};
+}
 
 function calcularEdad(fechaNacimiento: any) {
   var fechaActual = new Date();
@@ -516,8 +488,6 @@ const clients = computed(() => {
 });
 
 const submitCita = async (form: any) => {
-  // console.log(form);
-  // router.push('/agenda');
   prompt.value = false;
 
   $q.notify({
@@ -533,14 +503,6 @@ const openNewCita = () => {
   prompt.value = true;
   idNewCita.value = paciente.value.id;
 };
-
-// const clients = [
-//   {
-//     id: 0,
-//     nombre_completo: 'Nuevo cliente',
-//     // img: 'https://cdn.quasar.dev/img/avatar.png',
-//   },
-// ];
 </script>
 
 <style lang="scss" scoped>

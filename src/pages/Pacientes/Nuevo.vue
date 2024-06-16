@@ -528,6 +528,7 @@
           />
           <q-btn
             @click="submit"
+            :disable="disabled"
             color="primary"
             label="Guardar paciente"
             class="q-mt-md bg-primary text-white border-primary"
@@ -598,7 +599,7 @@ const myForm = ref<any>(null);
 const consultorios = ref<IClinic[]>([]);
 const nutricionistas = ref<INutri[]>([]);
 
-const formulariov1 = reactive<IPacientePayload>({
+const formulario = reactive<IPacientePayload>({
   nombre: '',
   apellido_paterno: '',
   apellido_materno: '',
@@ -629,7 +630,7 @@ const formulariov1 = reactive<IPacientePayload>({
   nivel_estres_id: null,
 });
 
-const formulario = reactive<IPacientePayload>({
+const formulariov2 = reactive<IPacientePayload>({
   nombre: 'Arturo',
   apellido_paterno: 'TEST',
   apellido_materno: 'TEST',
@@ -668,10 +669,6 @@ const disabled = computed(() => {
     formulario.sexo !== '' &&
     formulario.telefono !== null &&
     formulario.email.length > 0 &&
-    !formulario.alergias &&
-    !formulario.condiciones_medicas &&
-    formulario.actividad_fisica_id !== null &&
-    formulario.objetivo_id !== null &&
     formulario.consultorio_id !== null &&
     formulario.nutricionista_id !== null
   ) {
@@ -755,17 +752,8 @@ const getNutris = async () => {
 const submit = async () => {
   if (myForm.value?.validate()) {
     try {
-      // const formData = new FormData();
-
-      // formData.append('nombre', formulario.nombre);
-      // formData.append('apellido_paterno', formulario.apellido_paterno);
-      // formData.append('apellido_materno', formulario.apellido_materno);
-      // formData.append('email', formulario.email);
-      // formData.append('telefono', String(formulario.telefono));
-      // formData.append('nutricionista_id', String(formulario.nutricionista_id));
-      // formData.append('consultorio_id', String(formulario.consultorio_id));
-
       const payload = {
+        // obligatorios
         nombre: formulario.nombre,
         apellido_paterno: formulario.apellido_paterno,
         apellido_materno: formulario.apellido_materno,
@@ -774,6 +762,7 @@ const submit = async () => {
         nutricionista_id: formulario.nutricionista_id,
         consultorio_id: formulario.consultorio_id,
 
+        // EXTRAS SIN VALIDACIÓN
         sexo: formulario.sexo,
         fecha_nacimiento: formulario.fecha_nacimiento,
 
@@ -789,20 +778,17 @@ const submit = async () => {
         historial: formulario.historial,
 
         registro_consumo: formulario.registro_consumo,
+
+        /* TODO: NUEVOS DATOS */
         num_identificacion: formulario.num_identificacion,
         profesion: formulario.profesion,
         lugar_residencia: formulario.lugar_residencia,
-
         estado_civil: formulario.estado_civil,
-
-        /* TODO: NUEVOS DATOS */
         consumo_alcohol_id: formulario.consumo_alcohol_id,
         tipo_fumador_id: formulario.tipo_fumador_id,
         consumo_agua_id: formulario.consumo_agua_id,
         nivel_estres_id: formulario.nivel_estres_id,
       };
-
-      console.log(payload);
 
       const data = await pacienteDataServices.savePaciente(payload);
 
@@ -825,7 +811,6 @@ const submit = async () => {
         message: 'Ocurrió un error',
         position: 'top-right',
       });
-      console.log(error);
     }
   }
 };

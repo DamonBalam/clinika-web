@@ -46,13 +46,13 @@ export interface IPacientePayload {
   nombre: string;
   apellido_paterno: string;
   apellido_materno: string;
+  nutricionista_id?: number | null;
+  consultorio_id?: number | null;
+
   sexo: string;
   email: string;
   telefono?: number | string | null;
   fecha_nacimiento: string;
-
-  nutricionista_id?: number | null;
-  consultorio_id?: number | null;
 
   estatura?: number | string;
 
@@ -117,6 +117,63 @@ export interface IPacienteResponse {
   tipo_fumador_id?: number | null;
   consumo_alcohol_id?: number | null;
   nivel_estres_id?: number | null;
+}
+
+export interface IPacienteRES {
+  id?: number | null;
+  nombre: string;
+  apellido_paterno: string;
+  apellido_materno: string;
+
+  nombre_completo: string;
+  sexo: string;
+  estatura: number;
+  email: string;
+  telefono: string;
+  registro_consumo: string;
+  fecha_nacimiento: string;
+  condiciones_medicas: string;
+  alergias: string;
+  historial: string;
+  desordenes: string;
+  medicinas: string;
+  estado_civil?: string;
+  num_identificacion: string;
+  profesion: string;
+  lugar_residencia: string;
+
+  nutricionista?: Consultorio | null;
+  cita?: Cita | null;
+  consultorio?: Consultorio | null;
+  suscripcion?: Suscripcion | null;
+
+  objetivo?: ICatalogo | null;
+  actividad_fisica?: ICatalogo | null;
+  consumo_alcohol?: ICatalogo | null;
+  fumador?: ICatalogo | null;
+  consumo_de_agua_diario?: ICatalogo | null;
+  estres_general?: ICatalogo | null;
+  horas_de_sueno?: ICatalogo | null;
+}
+
+export interface ICatalogo {
+  descripcion: string;
+  id: number;
+}
+
+export interface Cita {
+  fecha: null;
+}
+
+export interface Consultorio {
+  id: number;
+  nombre: string;
+}
+
+export interface Suscripcion {
+  id: number;
+  empieza: Date;
+  termina: Date;
 }
 
 export class Paciente implements IPaciente {

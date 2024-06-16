@@ -140,12 +140,12 @@ const items = ref<any[]>([
 ]);
 
 onMounted(async () => {
-  const data = await citaControlDataServices.getAll(props.id);
-  if (data.code === 200) {
-    cita_control_id.value = data.data.reverse()[0].id ?? null;
-    // console.log(cita_control_id.value)
-  }
-  await getItems();
+  // const data = await citaControlDataServices.getAll(props.id);
+  // if (data.code === 200) {
+  //   cita_control_id.value = data.data.reverse()[0].id ?? null;
+  //   // console.log(cita_control_id.value)
+  // }
+  // await getItems();
 });
 
 const getItems = async () => {

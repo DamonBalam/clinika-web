@@ -1,5 +1,9 @@
 import { API } from 'src/common/api';
-import { IPaciente, IPacientePayload } from 'src/Interfaces/Paciente';
+import {
+  IPaciente,
+  IPacientePayload,
+  IPacienteRES,
+} from 'src/Interfaces/Paciente';
 import { IResponse } from 'src/Interfaces/Response';
 import { useAuthStore } from 'src/stores/auth';
 const store = useAuthStore();
@@ -16,7 +20,7 @@ class PacienteDataService {
     return response!.data;
   }
 
-  async getById(id: string): Promise<IResponse<{ user: IPaciente }>> {
+  async getById(id: string): Promise<IResponse<{ user: IPacienteRES }>> {
     let response;
     try {
       response = await API.get(`show/user/${id}`, {});
@@ -31,26 +35,6 @@ class PacienteDataService {
       data: data,
     });
 
-    return response!.data;
-  }
-
-  async enabledAccess(id: string): Promise<IResponse<{ user: IPaciente }>> {
-    let response;
-    try {
-      response = await API.get(`enable/suscripcion/${id}`, {});
-    } catch (error) {
-      deleteLocalStorage();
-    }
-    return response!.data;
-  }
-
-  async disabledAccess(id: string): Promise<IResponse<{ user: IPaciente }>> {
-    let response;
-    try {
-      response = await API.get(`disable/suscripcion/${id}`, {});
-    } catch (error) {
-      deleteLocalStorage();
-    }
     return response!.data;
   }
 
