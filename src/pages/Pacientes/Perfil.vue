@@ -112,32 +112,55 @@
                   <span class="text-title2-analisis">
                     Alergias o intolerancias</span
                   >
-                  <span class="label-info font-bold">
-                    {{ paciente.alergias || 'Ninguna' }}
-                  </span>
+                  <template v-if="getAlergias">
+                    <p v-for="txt in getAlergias" class="label-info font-bold">
+                      {{ txt }}
+                    </p>
+                  </template>
                 </div>
 
                 <div class="col-6">
                   <span class="text-title2-analisis">
                     Trastornos alimenticios</span
                   >
-                  <span class="label-info font-bold">
-                    {{ 'Ninguno' }}
-                  </span>
+                  <!-- <span class="label-info font-bold">
+                    {{ getDesordenes }}
+                  </span> -->
+                  <template v-if="getDesordenes">
+                    <p
+                      v-for="txt in getDesordenes"
+                      class="label-info font-bold"
+                    >
+                      {{ txt }}
+                    </p>
+                  </template>
                 </div>
 
                 <div class="col-6 q-mt-md">
                   <span class="text-title2-analisis">Condiciones médicas</span>
-                  <span class="label-info font-bold">
-                    {{ 'Ninguna' }}
-                  </span>
+                  <!-- <span class="label-info font-bold">
+                    {{ getCondicionesMedicas }}
+                  </span> -->
+                  <template v-if="getCondicionesMedicas">
+                    <p
+                      v-for="txt in getCondicionesMedicas"
+                      class="label-info font-bold"
+                    >
+                      {{ txt }}
+                    </p>
+                  </template>
                 </div>
 
                 <div class="col-6 q-mt-md">
                   <span class="text-title2-analisis">Medicamentos</span>
-                  <span class="label-info font-bold">
-                    {{ 'Ninguno' }}
-                  </span>
+                  <!-- <span class="label-info font-bold">
+                    {{ getMedicinas }}
+                  </span> -->
+                  <template v-if="getMedicinas">
+                    <p v-for="txt in getMedicinas" class="label-info font-bold">
+                      {{ txt }}
+                    </p>
+                  </template>
                 </div>
               </div>
             </q-card-section>
@@ -341,7 +364,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, watch, reactive } from 'vue';
+import { ref, computed, onMounted, reactive } from 'vue';
 
 /* COMPONENTES */
 import TableCitas from 'src/components/TableCitas.vue';
@@ -354,11 +377,9 @@ import { IPacienteRES, IPacienteResponse } from 'src/Interfaces/Paciente';
 
 /* SERVICIOS */
 import { pacienteDataServices } from 'src/services/PacienteDataService';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
 
 import { useQuasar } from 'quasar';
+import { get } from 'https';
 const $q = useQuasar();
 
 const props = defineProps({
@@ -370,7 +391,6 @@ const props = defineProps({
 
 /* DATA */
 const idCita = ref('');
-const open = ref(true);
 const openRA = ref(true);
 
 const prompt = ref(false);
@@ -416,24 +436,6 @@ const handleCita = (id: string) => {
   idCita.value = id;
 };
 
-const registroConsumoText = computed(() => {
-  return 'lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum ';
-});
-
-const infoPaciente = computed(() => {
-  return {
-    nombre: paciente.value.nombre_completo || 'N/A',
-    lugar_residencia: paciente.value.lugar_residencia || 'N/A',
-    profesion: paciente.value.profesion || 'N/A',
-    num_identificacion: paciente.value.num_identificacion || 'N/A',
-    email: paciente.value.email || 'N/A',
-    telefono: paciente.value.telefono || 'N/A',
-    sexo: paciente.value.sexo === 'M' ? 'Hombre' : 'Mujer' || 'N/A',
-    fecha_nacimiento: getEdad || 'N/A',
-    objetivo: 'test',
-  };
-});
-
 onMounted(() => {
   getPaciente();
 });
@@ -462,11 +464,40 @@ function calcularEdad(fechaNacimiento: any) {
   return `${edad} años`;
 }
 
+/* COMPUTADAS */
 const getEdad = computed(() => {
   if (paciente.value.fecha_nacimiento) {
     return calcularEdad(new Date(paciente.value.fecha_nacimiento));
   }
   return 'N/A';
+});
+
+const getAlergias = computed(() => {
+  if (paciente.value.alergias) {
+    return JSON.parse(paciente.value.alergias);
+  }
+  return ['Ninguna'];
+});
+
+const getDesordenes = computed(() => {
+  if (paciente.value.desordenes) {
+    return JSON.parse(paciente.value.desordenes);
+  }
+  return ['Ninguna'];
+});
+
+const getCondicionesMedicas = computed(() => {
+  if (paciente.value.condiciones_medicas) {
+    return JSON.parse(paciente.value.condiciones_medicas);
+  }
+  return ['Ninguna'];
+});
+
+const getMedicinas = computed(() => {
+  if (paciente.value.medicinas) {
+    return JSON.parse(paciente.value.medicinas);
+  }
+  return ['Ninguna'];
 });
 
 /* NEW CITA */
