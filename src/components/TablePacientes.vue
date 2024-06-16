@@ -116,55 +116,6 @@ const getConsultorios = async () => {
   }
 };
 
-// const fechaActual = computed(() => {
-//   const fechaActual = new Date().toISOString().substr(0, 10);
-//   return fechaActual;
-// });
-
-// function isFechaEnRango(fechaInicio: any, fechaFin: any) {
-//   return fechaActual.value >= fechaInicio && fechaActual.value <= fechaFin;
-// }
-
-// const pacientesFiltered = computed(() => {
-//   items.value.sort((a: IPaciente, b: IPaciente) => {
-//     if (a.nombre_completo! < b.nombre_completo!) {
-//       return -1;
-//     }
-//     if (a.nombre_completo! > b.nombre_completo!) {
-//       return 1;
-//     }
-//     return 0;
-//   });
-
-//   return items.value.filter((item: IPaciente) => {
-//     const coincideNombre =
-//       search.value === '' ||
-//       item
-//         .nombre_completo!.toLocaleLowerCase()
-//         .includes(search.value.toLocaleLowerCase());
-//     const coincideAcceso =
-//       acceso.value === null ||
-//       isFechaEnRango(item.suscripcion?.empieza, item.suscripcion?.termina) ===
-//         acceso.value;
-//     const coincideConsultorio =
-//       consultorio.value === null ||
-//       item.consultorio?.nombre === consultorio.value;
-//     const coincideColaborador =
-//       colaborador.value === null ||
-//       item.nutricionista?.nombre === colaborador.value;
-//     const coincideFecha =
-//       fecha.value === '' || item.cita?.fecha === fecha.value;
-
-//     return (
-//       coincideNombre &&
-//       coincideAcceso &&
-//       coincideConsultorio &&
-//       coincideColaborador &&
-//       coincideFecha
-//     );
-//   });
-// });
-
 const getPerfil = (id: string) => {
   router.push({ name: 'PerfilPaciente', params: { id } });
 };
@@ -304,7 +255,7 @@ const deleteUser = async () => {
     >
       <template v-slot:body-cell-nombre="props">
         <q-td key="nombre" :props="props">
-          {{ props.row.nombre }}
+          {{ props.row.nombre_completo }}
         </q-td>
       </template>
       <template v-slot:body-cell-consultorio="props">

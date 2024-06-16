@@ -44,7 +44,11 @@
                     <div class="col-4">
                       <span class="label-info">
                         <q-icon name="fact_check" color="primary" />
-                        {{ paciente.num_identificacion }}
+                        {{
+                          paciente.num_identificacion
+                            ? paciente.num_identificacion
+                            : 'N/A'
+                        }}
                       </span>
                       <span class="label-info">
                         <q-icon
@@ -65,13 +69,13 @@
                       </span>
                       <span class="label-info">
                         <q-icon name="work" color="primary" />
-                        {{ paciente.profesion }}
+                        {{ paciente.profesion ?? 'N/A' }}
                       </span>
                     </div>
                     <div class="col-8">
                       <span class="label-info">
                         <q-icon name="public" color="primary" />
-                        {{ paciente.lugar_residencia }}
+                        {{ paciente.lugar_residencia ?? 'N/A' }}
                       </span>
 
                       <span class="label-info">
@@ -80,7 +84,7 @@
                       </span>
                       <span class="label-info">
                         <q-icon name="emoji_events" color="primary" />
-                        {{ paciente.objetivo?.descripcion }}
+                        {{ paciente.objetivo?.descripcion || 'N/A' }}
                       </span>
                       <span class="label-info" style="font-size: 13px">
                         <q-icon name="email" color="primary" />
