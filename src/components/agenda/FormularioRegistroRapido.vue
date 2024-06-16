@@ -196,6 +196,7 @@
             class="full-width"
             style="max-width: 48%"
             :disable="disabled"
+            :loading="loading"
           />
         </q-card-actions>
       </q-form>
@@ -225,6 +226,7 @@ const emit = defineEmits(['close', 'submit']);
 
 /* CATALOGOS */
 const myForm = ref<any>(null);
+const loading = ref(false);
 const consultorios = ref<IClinic[]>([]);
 const nutricionistas = ref<INutri[]>([]);
 
@@ -238,11 +240,11 @@ const formularioV2 = reactive<IPacientePayload>({
   consultorio_id: null,
 });
 const formulario = reactive<IPacientePayload>({
-  nombre: 'Angel',
-  apellido_paterno: 'Zaldivar',
-  apellido_materno: 'Balam',
-  email: 'damonbalamTT@gmail.com',
-  telefono: '9831820506',
+  nombre: '',
+  apellido_paterno: '',
+  apellido_materno: '',
+  email: '',
+  telefono: '',
   nutricionista_id: null,
   consultorio_id: null,
 });
@@ -264,6 +266,7 @@ const closeModal = () => {
 const submit = async () => {
   if (myForm.value?.validate()) {
     try {
+      loading.value = true;
       const payload = {
         // Obligatorios
         nombre: formulario.nombre,
@@ -287,6 +290,7 @@ const submit = async () => {
           position: 'top-right',
         });
         myForm.value?.resetValidation();
+        loading.value = false;
       }
     } catch (error) {
       $q.notify({
@@ -296,6 +300,7 @@ const submit = async () => {
         message: 'Ocurrió un error',
         position: 'top-right',
       });
+      loading.value = false;
     }
   }
 };
