@@ -6,7 +6,7 @@
 
         <div class="row">
           <q-btn
-            @click="prompt = true"
+            @click="prompt = !prompt"
             label="Nueva cita"
             color="primary"
             :icon="'add'"
@@ -31,6 +31,7 @@
       @close="closeModal"
       @new-patient="openModalClient"
       @submit="submit"
+      @update="update"
     />
 
     <FormularioRegistroRapido
@@ -55,6 +56,7 @@ import FormularioRegistroRapido from 'src/components/agenda/FormularioRegistroRa
 import ModalEliminacion from 'src/components/agenda/ModalEliminacion.vue';
 import { pacienteDataServices } from 'src/services/PacienteDataService';
 import { IPaciente } from 'src/Interfaces/Paciente';
+import { citaAgendaDataServices } from 'src/services/CitaAgendaDataService';
 
 interface ICliente {
   id?: number | null;
@@ -83,41 +85,7 @@ const clients = computed(() => {
 
 const items = ref<ICliente[]>([]);
 
-const events = ref([
-  {
-    title: 'Arturo Saldivar',
-    with: 'Nutriologa Diana',
-    topic: 'Confirmada',
-    time: { start: '2024-01-12 08:00', end: '2024-01-12 09:00' },
-    isEditable: true,
-    lugar: 'Consultorio 1',
-    colorScheme: 'confirmada',
-    id: '753944708f0f',
-    description: 'Descripcion prueba',
-  },
-  {
-    title: 'Pedro Lopez',
-    with: 'Nutriologa Diana',
-    topic: 'No confirmada',
-    time: { start: '2024-01-12 10:00', end: '2024-01-12 11:00' },
-    isEditable: true,
-    lugar: 'Consultorio 1',
-    colorScheme: 'noConfirmada',
-    id: '763944708f0f',
-    description: 'Descripcion prueba',
-  },
-  {
-    title: 'Jose Hernandez',
-    with: 'Nutriologa Diana',
-    topic: 'Cancelada',
-    time: { start: '2024-01-12 12:00', end: '2024-01-12 13:00' },
-    isEditable: true,
-    lugar: 'Consultorio 1',
-    colorScheme: 'cancelada',
-    id: '773944708f0f',
-    description: 'Descripcion prueba',
-  },
-]);
+const events = ref([]);
 
 let eventSelected = reactive({
   id: null,
@@ -127,45 +95,59 @@ let eventSelected = reactive({
 const submit = async (form: any) => {
   loading.value = true;
   const fechaStartFormateada = form.fecha.replace(/\//g, '-');
-  const event = {
-    title: form.cliente?.nombre_completo || form.cliente,
-    with: 'Nutriologa Diana',
-    topic: form.estado,
-    time: {
-      start: `${fechaStartFormateada} ${form.horaStart}`,
-      end: `${fechaStartFormateada} ${form.horaEnd}`,
-    },
-    colorScheme:
-      form.estado.toLowerCase() === 'confirmada'
-        ? 'confirmada'
-        : form.estado.toLowerCase() === 'no confirmada'
-        ? 'noConfirmada'
-        : 'cancelada',
-    id: `${events.value.length + 1}`,
-    description: form.notas,
-    lugar: form.lugar,
-    isEditable: true,
+
+  const payload = {
+    fecha_consulta: fechaStartFormateada,
+    hora_start: form.horaStart,
+    hora_end: form.horaEnd,
+    paciente_id: form.cliente.id,
+    nutriologo_id: form.nutricionista.value,
+    clinica_id: form.lugar.value,
+    notas: form.notas,
+    estado_consulta: form.estado,
+    videoconferencia: '',
+    google_calendar: '',
   };
 
-  if (form.id === null) {
-    events.value.push(event);
-    closeModal();
-  } else {
-    const index = events.value.findIndex((item) => item.id === form.id);
-    events.value[index] = event;
-    closeModal();
-  }
+  const data = await citaAgendaDataServices.save(payload);
 
-  setTimeout(() => {
+  if (data.code === 200) {
+    await getCitas();
+    prompt.value = false;
     loading.value = false;
-  }, 3000);
+  }
+};
+const update = async (form: any, id: number) => {
+  loading.value = true;
+  const fechaStartFormateada = form.fecha.replace(/\//g, '-');
+
+  const payload = {
+    fecha_consulta: fechaStartFormateada,
+    hora_start: form.horaStart,
+    hora_end: form.horaEnd,
+    paciente_id: form.cliente.id,
+    nutriologo_id: form.nutricionista.value,
+    clinica_id: form.lugar.value,
+    notas: form.notas,
+    estado_consulta: form.estado,
+    videoconferencia: '',
+    google_calendar: '',
+  };
+
+  const data = await citaAgendaDataServices.update(id, payload);
+
+  if (data.code === 200) {
+    await getCitas();
+    prompt.value = false;
+    loading.value = false;
+  }
 };
 
 const closeModal = () => {
   prompt.value = false;
 };
 
-const openModalEdit = (id) => {
+const openModalEdit = (id: number) => {
   eventSelected = events.value.find((item) => item.id === id);
 
   prompt.value = true;
@@ -190,7 +172,6 @@ const closeModalClient = () => {
 };
 
 const submitRegistroRapido = async (form: IPaciente) => {
-  console.log('submitRegistroRapido', form);
   await getItems();
   idNewClient.value = form.id as number;
   promptRegistroRapido.value = false;
@@ -199,7 +180,45 @@ const submitRegistroRapido = async (form: IPaciente) => {
 
 onMounted(async () => {
   await getItems();
+  await getCitas();
 });
+
+const getCitas = async () => {
+  loading.value = true;
+  try {
+    const data = await citaAgendaDataServices.getAll();
+    console.log('data', data.data);
+
+    if (data.code === 200) {
+      events.value = data.data.map((item) => {
+        return {
+          title: items.value.find((i) => i.id === item.client_id)
+            ?.nombre_completo,
+          with: 'Nutriólogo',
+          topic: item.status,
+          time: {
+            start: `${item.date} ${item.start_time}`,
+            end: `${item.date} ${item.end_time}`,
+          },
+          colorScheme:
+            item.status.toLowerCase() === 'confirmada'
+              ? 'confirmada'
+              : item.status.toLowerCase() === 'no confirmada'
+              ? 'noConfirmada'
+              : 'cancelada',
+          id: item.id,
+          description: item.notas,
+          lugar: item.consultive_room_id,
+          isEditable: true,
+          data: item,
+        };
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  loading.value = false;
+};
 
 const getItems = async () => {
   loading.value = true;

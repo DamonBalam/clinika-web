@@ -347,11 +347,11 @@
               >Distribución de macronutrientes</span
             >
           </div>
-          <!-- <div class="col-12">
+          <div class="col-12">
             <q-card flat class="text-center" style="height: 340px">
               <q-img src="../../assets/grafico.png" width="440px" />
             </q-card>
-          </div> -->
+          </div>
         </div>
       </div>
 

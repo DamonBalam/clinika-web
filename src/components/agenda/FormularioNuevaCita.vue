@@ -65,7 +65,7 @@
               </template>
             </q-input>
           </div>
-          <div class="col-3 q-mt-md">
+          <div class="col-6 q-mt-md">
             <label for="" class="c_label">Fecha de consulta</label>
             <q-input
               filled
@@ -96,7 +96,7 @@
               </template>
             </q-input>
           </div>
-          <div class="col-2 q-mt-md">
+          <div class="col-3 q-mt-md">
             <label for="" class="c_label">Hora de inicio</label>
             <q-input
               filled
@@ -111,7 +111,7 @@
               </template>
             </q-input>
           </div>
-          <div class="col-2 q-mt-md">
+          <div class="col-3 q-mt-md">
             <label for="" class="c_label">Hora de terminación</label>
             <q-input
               filled
@@ -126,21 +126,28 @@
               </template>
             </q-input>
           </div>
-          <div class="col-5 q-mt-md">
+
+          <div class="col-6">
+            <label for="" class="c_label">Nutricionista</label>
+            <q-select
+              filled
+              dense
+              v-model="form.nutricionista"
+              :options="lista_nutricionistas"
+            >
+              <template v-slot:prepend>
+                <q-icon name="manage_accounts" />
+              </template>
+            </q-select>
+          </div>
+
+          <div class="col-6">
             <label for="" class="c_label">Lugar de consulta</label>
             <q-select
               filled
               dense
               v-model="form.lugar"
-              :options="
-                consultorios.map((item) => {
-                  return {
-                    ...item,
-                    label: item.nombre,
-                    value: item.nombre,
-                  };
-                })
-              "
+              :options="lista_consultorios"
             >
               <template v-slot:prepend>
                 <q-icon name="manage_accounts" />
@@ -207,7 +214,11 @@
 </template>
 
 <script setup lang="ts">
+import { IClinic } from 'src/Interfaces/Clinic';
+import { INutri } from 'src/Interfaces/Nutri';
 import { IPaciente } from 'src/Interfaces/Paciente';
+import { clinicDataServices } from 'src/services/ClinicDataService';
+import { nutriDataServices } from 'src/services/NutriDataService';
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 
 /* PROPS */
@@ -231,29 +242,29 @@ const props = defineProps({
 });
 
 /* EMITS */
-const emit = defineEmits(['close', 'submit', 'newPatient']);
+const emit = defineEmits(['close', 'submit', 'newPatient', 'update']);
 
 /* CATALOGOS */
-const consultorios = [
-  {
-    id: 1,
-    nombre: 'Consultorio 1',
-    direccion: 'Av. 1 de Mayo 123',
-    img: 'https://cdn.quasar.dev/img/avatar.png',
-  },
-  {
-    id: 2,
-    nombre: 'Consultorio 2',
-    direccion: 'Av. 1 de Mayo 123',
-    img: 'https://cdn.quasar.dev/img/avatar.png',
-  },
-  {
-    id: 3,
-    nombre: 'Consultorio 3',
-    direccion: 'Av. 1 de Mayo 123',
-    img: 'https://cdn.quasar.dev/img/avatar.png',
-  },
-];
+const consultorios = ref<IClinic[]>([]);
+const nutricionistas = ref<INutri[]>([]);
+
+const lista_consultorios = computed(() => {
+  return consultorios.value.map((item) => {
+    return {
+      label: item.name,
+      value: item.id,
+    };
+  });
+});
+
+const lista_nutricionistas = computed(() => {
+  return nutricionistas.value.map((item) => {
+    return {
+      label: item.name,
+      value: item.id,
+    };
+  });
+});
 
 const status = ['Confirmada', 'No Confirmada', 'Cancelada'];
 
@@ -270,9 +281,10 @@ const form = reactive({
   horaStart: '08:00',
   horaEnd: '09:00',
   lugar: null,
-  notas: null,
+  notas: '',
   estado: 'No Confirmada',
   sincronizar: false,
+  nutricionista: null,
 });
 
 const clients = computed(() => {
@@ -376,11 +388,31 @@ function optionsFnTime2(hr, min, sec) {
 }
 
 onMounted(() => {
-  form.fecha = fechaActual.value;
+  // form.fecha = fechaActual.value;
+  getConsultorios();
+  getNutris();
 });
 
-const submit = () => {
-  emit('submit', form);
+const getConsultorios = async () => {
+  const data = await clinicDataServices.getClinics();
+  if (data.code === 200) {
+    consultorios.value = data.data;
+  }
+};
+
+const getNutris = async () => {
+  const data = await nutriDataServices.getNutriologas();
+  if (data.code === 200) {
+    nutricionistas.value = data.data;
+  }
+};
+
+const submit = async () => {
+  if (props.event.data?.id) {
+    emit('update', form, props.event.data?.id);
+  } else {
+    emit('submit', form);
+  }
 };
 
 /* WATCHERS */
@@ -388,6 +420,12 @@ watch(
   () => props.prompt,
   () => {
     modal.value = props.prompt;
+
+    if (!props.prompt) {
+      clearForm();
+    } else {
+      form.fecha = fechaActual.value;
+    }
   }
 );
 
@@ -412,17 +450,23 @@ watch(
 watch(
   () => props.event,
   () => {
-    console.log(props.event);
     if (props.event.id !== null) {
       form.id = props.event.id;
-      form.cliente = props.event.title;
+      form.cliente = clients.value.find(
+        (item) => item.value === props.event.data.client_id
+      );
       form.videoconferencia = null;
       form.url = null;
       form.fecha = props.event.time.start.split(' ')[0];
       form.horaStart = props.event.time.start.split(' ')[1];
       form.horaEnd = props.event.time.end.split(' ')[1];
-      form.lugar = props.event.lugar;
-      form.notas = props.event.description;
+      form.lugar = lista_consultorios.value.find(
+        (item) => item.value === props.event.data.consultive_room_id
+      );
+      form.nutricionista = lista_nutricionistas.value.find(
+        (item) => item.value === props.event.data.nutricionist_id
+      );
+      form.notas = props.event.data.notes;
       form.estado = props.event.topic;
       form.sincronizar = false;
     }
