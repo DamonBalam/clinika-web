@@ -191,7 +191,7 @@
           />
           <q-btn
             color="primary"
-            label="'Guardar'"
+            label="Guardar"
             @click="submit"
             class="full-width"
             style="max-width: 48%"
@@ -230,15 +230,6 @@ const loading = ref(false);
 const consultorios = ref<IClinic[]>([]);
 const nutricionistas = ref<INutri[]>([]);
 
-const formularioV2 = reactive<IPacientePayload>({
-  nombre: '',
-  apellido_paterno: '',
-  apellido_materno: '',
-  email: '',
-  telefono: '',
-  nutricionista_id: null,
-  consultorio_id: null,
-});
 const formulario = reactive<IPacientePayload>({
   nombre: '',
   apellido_paterno: '',
@@ -256,8 +247,19 @@ watch(
   () => props.prompt,
   () => {
     modal.value = props.prompt;
+    clearForm();
   }
 );
+
+const clearForm = () => {
+  formulario.nombre = '';
+  formulario.apellido_paterno = '';
+  formulario.apellido_materno = '';
+  formulario.email = '';
+  formulario.telefono = '';
+  formulario.nutricionista_id = null;
+  formulario.consultorio_id = null;
+};
 
 const closeModal = () => {
   emit('close');
@@ -291,6 +293,7 @@ const submit = async () => {
         });
         myForm.value?.resetValidation();
         loading.value = false;
+        clearForm();
       }
     } catch (error) {
       $q.notify({

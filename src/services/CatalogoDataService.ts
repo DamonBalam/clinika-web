@@ -34,22 +34,18 @@ class CatalogoDataService {
       estado_civil: [],
     };
 
-    try {
-      const { data } = await API.get('show-categories', {});
+    const { data } = await API.get('show-categories', {});
 
-      response = {
-        objectives: data.data.objectives,
-        alcohol_consumption: data.data.alcohol_consumption,
-        hours_of_sleep: data.data.hours_of_sleep,
-        physical_activities: data.data.physical_activities,
-        smoke: data.data.smoke,
-        stress: data.data.stress,
-        water_consumption: data.data.water_consumption,
-        estado_civil: data.data.estado_civil[0],
-      };
-    } catch (error) {
-      deleteLocalStorage();
-    }
+    response = {
+      objectives: data.data.objectives,
+      alcohol_consumption: data.data.alcohol_consumption,
+      hours_of_sleep: data.data.hours_of_sleep,
+      physical_activities: data.data.physical_activities,
+      smoke: data.data.smoke,
+      stress: data.data.stress,
+      water_consumption: data.data.water_consumption,
+      estado_civil: data.data.estado_civil[0],
+    };
 
     return { data: response, code: 200, msg: '' };
   }

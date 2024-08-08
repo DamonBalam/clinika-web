@@ -154,8 +154,6 @@ const openModalEdit = (id: number) => {
 };
 
 const openModalEliminacion = (id) => {
-  console.log('openModalEliminacion', id);
-
   idEventEliminate.value = id;
   promptEliminacion.value = true;
 };
@@ -163,8 +161,6 @@ const openModalEliminacion = (id) => {
 const openModalClient = () => {
   prompt.value = false;
   promptRegistroRapido.value = true;
-  // TODO: Abrir modal de registo de cliente rapido
-  console.log('openModalClient');
 };
 
 const closeModalClient = () => {
@@ -187,7 +183,6 @@ const getCitas = async () => {
   loading.value = true;
   try {
     const data = await citaAgendaDataServices.getAll();
-    console.log('data', data.data);
 
     if (data.code === 200) {
       events.value = data.data.map((item) => {

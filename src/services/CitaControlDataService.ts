@@ -7,12 +7,8 @@ const store = useAuthStore();
 const { deleteLocalStorage } = store;
 class CitaControlDataService {
   async getAll(id: string): Promise<IResponse<ICitaControl[]>> {
-    let response;
-    try {
-      response = await API.get(`show/history-cita-control/${id}`, {});
-    } catch (error) {
-      deleteLocalStorage;
-    }
+    const response = await API.get(`show/history-cita-control/${id}`, {});
+
     return response!.data;
   }
 

@@ -11,12 +11,8 @@ const store = useAuthStore();
 const { deleteLocalStorage } = store;
 class PacienteDataService {
   async getAll(): Promise<IResponse<IPaciente[]>> {
-    let response;
-    try {
-      response = await API.get('show/clientes', {});
-    } catch (error) {
-      deleteLocalStorage();
-    }
+    const response = await API.get('show/clientes', {});
+
     return response!.data;
   }
 

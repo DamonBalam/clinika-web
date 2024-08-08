@@ -28,12 +28,7 @@ class CitaAgendaDataService {
   }
 
   async getAll(): Promise<IResponse<ICitaAgendaResponse[]>> {
-    let response;
-    try {
-      response = await API.get('show/all-citas', {});
-    } catch (error) {
-      deleteLocalStorage;
-    }
+    const response = await API.get('show/all-citas', {});
     return response!.data;
   }
 
