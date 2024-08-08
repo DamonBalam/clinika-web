@@ -10,13 +10,13 @@ export interface AuthState {
   initLoader: boolean;
 }
 
-
 export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    user: {},
-    token: '',
-    initLoader: false,
-  }) as AuthState,
+  state: () =>
+    ({
+      user: {},
+      token: '',
+      initLoader: false,
+    } as AuthState),
 
   getters: {
     isAuth: (state) => state.token !== '',

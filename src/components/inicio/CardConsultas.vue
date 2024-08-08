@@ -58,23 +58,26 @@
 </template>
 
 <script setup lang="ts">
-import { citaAgendaDataServices } from 'src/services/CitaAgendaDataService';
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { date } from 'quasar';
+
+/* SERVICES */
+import { citaAgendaDataServices } from 'src/services/CitaAgendaDataService';
 import { pacienteDataServices } from 'src/services/PacienteDataService';
+
+/* INTERFACES */
 import { IPaciente } from 'src/Interfaces/Paciente';
 import { ICitaAgendaResponse } from 'src/Interfaces/CitaControl';
 
-interface Cliente {
-  id: number;
-  nombre_completo: string;
-}
-
 const router = useRouter();
-
 const lista_citas = ref<ICitaAgendaResponse[]>([]);
 const lista_clientes = ref<IPaciente[]>([]);
+
+onMounted(async () => {
+  await getItems();
+  await getClients();
+});
 
 const hasConsultas = computed(() => {
   return consultasMapped.value.length > 0;
@@ -108,11 +111,6 @@ const verConsulta = (id: number) => {
 const verTodasConsultas = () => {
   router.push('/agenda');
 };
-
-onMounted(async () => {
-  await getItems();
-  await getClients();
-});
 
 const getItems = async () => {
   const fecha = date.formatDate(new Date(), 'YYYY-MM-DD');

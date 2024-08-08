@@ -624,15 +624,6 @@ const lista_actividades = [
   { label: 'Diario', value: 5 },
 ];
 
-// const lista_actividades = computed(() => {
-//   return actividades.value.map((item) => {
-//     return {
-//       label: item.name,
-//       value: item.id,
-//     };
-//   });
-// });
-
 const lista_objetivos = [
   { label: 'Bajar de peso', value: 1 },
   { label: 'Aumentar masa muscular', value: 2 },
@@ -640,16 +631,6 @@ const lista_objetivos = [
   { label: 'Mejorar salud general', value: 4 },
   { label: 'Reducir riesgo de enfermedades', value: 5 },
 ];
-
-// const lista_objetivos = computed(() => {
-//   return objetivos.value.map((item) => {
-//     return {
-//       label: item.name,
-//       value: item.id,
-//       description: item.description,
-//     };
-//   });
-// });
 
 const lista_nutricionistas = computed(() => {
   return nutricionistas.value.map((item) => {

@@ -563,6 +563,10 @@ import {
   ICatalogoData,
 } from 'src/services/CatalogoDataService';
 
+/* STORE */
+import { useCatalogStore } from 'stores/catalog';
+const store = useCatalogStore();
+
 /* COMPOSITIONS */
 const $q = useQuasar();
 const router = useRouter();
@@ -585,6 +589,7 @@ const lista_nutricionistas = computed(() => {
     };
   });
 });
+
 const lista_consultorios = computed(() => {
   return consultorios.value.map((item) => {
     return {
