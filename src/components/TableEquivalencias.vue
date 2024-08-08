@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
-// import { citaControlDataServices } from '../services/CitaControlDataService'
-// import { eqNuDataService } from '../services/EqNuDataService'
 import { useQuasar } from 'quasar';
+import { eqNuDataService } from 'src/services/EqNuDataService';
 const $q = useQuasar();
 const props = defineProps({
   id: {
@@ -10,7 +9,7 @@ const props = defineProps({
     required: true,
   },
   cita: {
-    type: String || Number || null,
+    type: String,
     required: false,
     default: null,
   },
@@ -161,111 +160,73 @@ const getItems = async () => {
 
         equivalencia_id.value = data.data.equivalencias_nutricionales[0].id;
 
-        const desayuno = JSON.parse(
-          data.data.equivalencias_nutricionales[0].desayuno
-        );
-        const media_m = JSON.parse(
-          data.data.equivalencias_nutricionales[0].media_mañana
-        );
+        // const desayuno = JSON.parse(
+        //   data.data.equivalencias_nutricionales[0].desayuno
+        // );
+        // const media_m = JSON.parse(
+        //   data.data.equivalencias_nutricionales[0].media_mañana
+        // );
 
-        const almuerzo = JSON.parse(
-          data.data.equivalencias_nutricionales[0].almuerzo
-        );
+        // const almuerzo = JSON.parse(
+        //   data.data.equivalencias_nutricionales[0].almuerzo
+        // );
 
-        const media_tarde = JSON.parse(
-          data.data.equivalencias_nutricionales[0].media_tarde
-        );
-        const cena = JSON.parse(data.data.equivalencias_nutricionales[0].cena);
-        const merienda_noche = JSON.parse(
-          data.data.equivalencias_nutricionales[0].merienda_noche
-        );
+        // const media_tarde = JSON.parse(
+        //   data.data.equivalencias_nutricionales[0].media_tarde
+        // );
+        // const cena = JSON.parse(data.data.equivalencias_nutricionales[0].cena);
+        // const merienda_noche = JSON.parse(
+        //   data.data.equivalencias_nutricionales[0].merienda_noche
+        // );
 
-        items.value[0].desayuno = desayuno.carbohidratos;
-        items.value[0].media_manana = media_m.carbohidratos;
-        items.value[0].almuerzo = almuerzo.carbohidratos;
-        items.value[0].media_tarde = media_tarde.carbohidratos;
-        items.value[0].cena = cena.carbohidratos;
-        items.value[0].merienda_noche = merienda_noche.carbohidratos;
+        const comidas = [
+          'desayuno',
+          'media_mañana',
+          'almuerzo',
+          'media_tarde',
+          'cena',
+          'merienda_noche',
+        ];
+        const equivalencias = data.data.equivalencias_nutricionales[0];
 
-        items.value[1].desayuno = desayuno.frutas;
-        items.value[1].media_manana = media_m.frutas;
-        items.value[1].almuerzo = almuerzo.frutas;
-        items.value[1].media_tarde = media_tarde.frutas;
-        items.value[1].cena = cena.frutas;
-        items.value[1].merienda_noche = merienda_noche.frutas;
+        const [desayuno, media_m, almuerzo, media_tarde, cena, merienda_noche] =
+          comidas.map((comida) => JSON.parse(equivalencias[comida]));
 
-        items.value[2].desayuno = desayuno.vegetales;
-        items.value[2].media_manana = media_m.vegetales;
-        items.value[2].almuerzo = almuerzo.vegetales;
-        items.value[2].media_tarde = media_tarde.vegetales;
-        items.value[2].cena = cena.vegetales;
-        items.value[2].merienda_noche = merienda_noche.vegetales;
+        const atributos = [
+          'carbohidratos',
+          'frutas',
+          'vegetales',
+          'lacteos',
+          'proteinas',
+          'grasas',
+        ];
 
-        items.value[3].desayuno = desayuno.lacteos;
-        items.value[3].media_manana = media_m.lacteos;
-        items.value[3].almuerzo = almuerzo.lacteos;
-        items.value[3].media_tarde = media_tarde.lacteos;
-        items.value[3].cena = cena.lacteos;
-        items.value[3].merienda_noche = merienda_noche.lacteos;
-
-        items.value[4].desayuno = desayuno.proteinas;
-        items.value[4].media_manana = media_m.proteinas;
-        items.value[4].almuerzo = almuerzo.proteinas;
-        items.value[4].media_tarde = media_tarde.proteinas;
-        items.value[4].cena = cena.proteinas;
-        items.value[4].merienda_noche = merienda_noche.proteinas;
-
-        items.value[5].desayuno = desayuno.grasas;
-        items.value[5].media_manana = media_m.grasas;
-        items.value[5].almuerzo = almuerzo.grasas;
-        items.value[5].media_tarde = media_tarde.grasas;
-        items.value[5].cena = cena.grasas;
-        items.value[5].merienda_noche = merienda_noche.grasas;
+        atributos.forEach((atributo, index) => {
+          items.value[index].desayuno = desayuno[atributo];
+          items.value[index].media_manana = media_m[atributo];
+          items.value[index].almuerzo = almuerzo[atributo];
+          items.value[index].media_tarde = media_tarde[atributo];
+          items.value[index].cena = cena[atributo];
+          items.value[index].merienda_noche = merienda_noche[atributo];
+        });
       } else {
         equivalencia_id.value = null;
         fecha.value = null;
 
-        items.value[0].desayuno = '';
-        items.value[0].media_manana = '';
-        items.value[0].almuerzo = '';
-        items.value[0].media_tarde = '';
-        items.value[0].cena = '';
-        items.value[0].merienda_noche = '';
+        const comidas = [
+          'desayuno',
+          'media_manana',
+          'almuerzo',
+          'media_tarde',
+          'cena',
+          'merienda_noche',
+        ];
 
-        items.value[1].desayuno = '';
-        items.value[1].media_manana = '';
-        items.value[1].almuerzo = '';
-        items.value[1].media_tarde = '';
-        items.value[1].cena = '';
-        items.value[1].merienda_noche = '';
-
-        items.value[2].desayuno = '';
-        items.value[2].media_manana = '';
-        items.value[2].almuerzo = '';
-        items.value[2].media_tarde = '';
-        items.value[2].cena = '';
-        items.value[2].merienda_noche = '';
-
-        items.value[3].desayuno = '';
-        items.value[3].media_manana = '';
-        items.value[3].almuerzo = '';
-        items.value[3].media_tarde = '';
-        items.value[3].cena = '';
-        items.value[3].merienda_noche = '';
-
-        items.value[4].desayuno = '';
-        items.value[4].media_manana = '';
-        items.value[4].almuerzo = '';
-        items.value[4].media_tarde = '';
-        items.value[4].cena = '';
-        items.value[4].merienda_noche = '';
-
-        items.value[5].desayuno = '';
-        items.value[5].media_manana = '';
-        items.value[5].almuerzo = '';
-        items.value[5].media_tarde = '';
-        items.value[5].cena = '';
-        items.value[5].merienda_noche = '';
+        items.value.forEach((item) => {
+          comidas.forEach((comida) => {
+            item[comida] = '';
+          });
+        });
       }
     } catch (error) {
       console.log(error);
@@ -275,57 +236,87 @@ const getItems = async () => {
 
 const submit = async () => {
   try {
+    // const data = {
+    //   cita_control_id: cita_control_id.value,
+    //   desayuno: {
+    //     carbohidratos: items.value[0].desayuno || 0,
+    //     frutas: items.value[1].desayuno || 0,
+    //     vegetales: items.value[2].desayuno || 0,
+    //     lacteos: items.value[3].desayuno || 0,
+    //     proteinas: items.value[4].desayuno || 0,
+    //     grasas: items.value[5].desayuno || 0,
+    //   },
+    //   media_mañana: {
+    //     carbohidratos: items.value[0].media_manana || 0,
+    //     frutas: items.value[1].media_manana || 0,
+    //     vegetales: items.value[2].media_manana || 0,
+    //     lacteos: items.value[3].media_manana || 0,
+    //     proteinas: items.value[4].media_manana || 0,
+    //     grasas: items.value[5].media_manana || 0,
+    //   },
+    //   almuerzo: {
+    //     carbohidratos: items.value[0].almuerzo || 0,
+    //     frutas: items.value[1].almuerzo || 0,
+    //     vegetales: items.value[2].almuerzo || 0,
+    //     lacteos: items.value[3].almuerzo || 0,
+    //     proteinas: items.value[4].almuerzo || 0,
+    //     grasas: items.value[5].almuerzo || 0,
+    //   },
+    //   media_tarde: {
+    //     carbohidratos: items.value[0].media_tarde || 0,
+    //     frutas: items.value[1].media_tarde || 0,
+    //     vegetales: items.value[2].media_tarde || 0,
+    //     lacteos: items.value[3].media_tarde || 0,
+    //     proteinas: items.value[4].media_tarde || 0,
+    //     grasas: items.value[5].media_tarde || 0,
+    //   },
+    //   cena: {
+    //     carbohidratos: items.value[0].cena || 0,
+    //     frutas: items.value[1].cena || 0,
+    //     vegetales: items.value[2].cena || 0,
+    //     lacteos: items.value[3].cena || 0,
+    //     proteinas: items.value[4].cena || 0,
+    //     grasas: items.value[5].cena || 0,
+    //   },
+    //   merienda_noche: {
+    //     carbohidratos: items.value[0].merienda_noche || 0,
+    //     frutas: items.value[1].merienda_noche || 0,
+    //     vegetales: items.value[2].merienda_noche || 0,
+    //     lacteos: items.value[3].merienda_noche || 0,
+    //     proteinas: items.value[4].merienda_noche || 0,
+    //     grasas: items.value[5].merienda_noche || 0,
+    //   },
+    // };
+
+    const comidas = [
+      'desayuno',
+      'media_manana',
+      'almuerzo',
+      'media_tarde',
+      'cena',
+      'merienda_noche',
+    ];
+    const categorias = [
+      'carbohidratos',
+      'frutas',
+      'vegetales',
+      'lacteos',
+      'proteinas',
+      'grasas',
+    ];
+
     const data = {
       cita_control_id: cita_control_id.value,
-      desayuno: {
-        carbohidratos: items.value[0].desayuno || 0,
-        frutas: items.value[1].desayuno || 0,
-        vegetales: items.value[2].desayuno || 0,
-        lacteos: items.value[3].desayuno || 0,
-        proteinas: items.value[4].desayuno || 0,
-        grasas: items.value[5].desayuno || 0,
-      },
-      media_mañana: {
-        carbohidratos: items.value[0].media_manana || 0,
-        frutas: items.value[1].media_manana || 0,
-        vegetales: items.value[2].media_manana || 0,
-        lacteos: items.value[3].media_manana || 0,
-        proteinas: items.value[4].media_manana || 0,
-        grasas: items.value[5].media_manana || 0,
-      },
-      almuerzo: {
-        carbohidratos: items.value[0].almuerzo || 0,
-        frutas: items.value[1].almuerzo || 0,
-        vegetales: items.value[2].almuerzo || 0,
-        lacteos: items.value[3].almuerzo || 0,
-        proteinas: items.value[4].almuerzo || 0,
-        grasas: items.value[5].almuerzo || 0,
-      },
-      media_tarde: {
-        carbohidratos: items.value[0].media_tarde || 0,
-        frutas: items.value[1].media_tarde || 0,
-        vegetales: items.value[2].media_tarde || 0,
-        lacteos: items.value[3].media_tarde || 0,
-        proteinas: items.value[4].media_tarde || 0,
-        grasas: items.value[5].media_tarde || 0,
-      },
-      cena: {
-        carbohidratos: items.value[0].cena || 0,
-        frutas: items.value[1].cena || 0,
-        vegetales: items.value[2].cena || 0,
-        lacteos: items.value[3].cena || 0,
-        proteinas: items.value[4].cena || 0,
-        grasas: items.value[5].cena || 0,
-      },
-      merienda_noche: {
-        carbohidratos: items.value[0].merienda_noche || 0,
-        frutas: items.value[1].merienda_noche || 0,
-        vegetales: items.value[2].merienda_noche || 0,
-        lacteos: items.value[3].merienda_noche || 0,
-        proteinas: items.value[4].merienda_noche || 0,
-        grasas: items.value[5].merienda_noche || 0,
-      },
     };
+
+    comidas.forEach((comida) => {
+      // @ts-ignore
+      data[comida] = {};
+      categorias.forEach((categoria, index) => {
+        // @ts-ignore
+        data[comida][categoria] = items.value[index][comida] || 0;
+      });
+    });
 
     if (equivalencia_id.value === null) {
       const res = await eqNuDataService.save(data);

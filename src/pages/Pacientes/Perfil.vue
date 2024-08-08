@@ -377,15 +377,14 @@ import ProgramarCita from 'src/components/common/ProgramarCita.vue';
 import TableEquivalencias from 'src/components/TableEquivalencias.vue';
 
 /* INTERFACES */
-import { IPacienteRES, IPacienteResponse } from 'src/Interfaces/Paciente';
+import { IPacienteRES } from 'src/Interfaces/Paciente';
 
 /* SERVICIOS */
 import { pacienteDataServices } from 'src/services/PacienteDataService';
 
 import { useQuasar } from 'quasar';
-import { get } from 'https';
-const $q = useQuasar();
 
+const $q = useQuasar();
 const props = defineProps({
   id: {
     type: String,
