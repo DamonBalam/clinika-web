@@ -63,56 +63,32 @@ import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { date } from 'quasar';
 import { pacienteDataServices } from 'src/services/PacienteDataService';
+import { IPaciente } from 'src/Interfaces/Paciente';
+import { ICitaAgendaResponse } from 'src/Interfaces/CitaControl';
+
+interface Cliente {
+  id: number;
+  nombre_completo: string;
+}
 
 const router = useRouter();
 
-const lista_citas = ref([]);
-const lista_clientes = ref([]);
-
-const lista_consultas = ref([
-  {
-    id: 1,
-    nombre: 'Juan Pérez',
-    hora: '10:00 am',
-    tipo: 'Presencial',
-    estado: 'Pendiente',
-    tipo_consulta: 'Inicial',
-  },
-  {
-    id: 2,
-    nombre: 'María González',
-    hora: '11:00 am',
-    tipo: 'Virtual',
-    estado: 'Pendiente',
-    tipo_consulta: 'Seguimiento',
-  },
-  {
-    id: 3,
-    nombre: 'Pedro Sánchez',
-    hora: '12:00 pm',
-    tipo: 'Presencial',
-    estado: 'Pendiente',
-    tipo_consulta: 'Inicial',
-  },
-  {
-    id: 4,
-    nombre: 'Jose Hernández',
-    hora: '13:00 pm',
-    tipo: 'Virtual',
-    estado: 'Pendiente',
-    tipo_consulta: 'Seguimiento',
-  },
-]);
+const lista_citas = ref<ICitaAgendaResponse[]>([]);
+const lista_clientes = ref<IPaciente[]>([]);
 
 const hasConsultas = computed(() => {
   return consultasMapped.value.length > 0;
 });
 
 const consultasMapped = computed(() => {
+  if (!lista_citas.value.length || !lista_clientes.value.length) {
+    return [];
+  }
+
   return lista_citas.value.map((consulta: any) => {
     const cliente = lista_clientes.value.find(
       (cliente: any) => cliente.id === consulta.client_id
-    );
+    ) as Cliente;
 
     return {
       id: consulta.id,
@@ -126,36 +102,26 @@ const consultasMapped = computed(() => {
 });
 
 const verConsulta = (id: number) => {
-  console.log('Ver consulta', id);
-
   router.push(`/pacientes/perfil/${id}`);
 };
 
 const verTodasConsultas = () => {
-  console.log('Ver todas las consultas');
-
   router.push('/agenda');
 };
 
 onMounted(async () => {
   await getItems();
-
   await getClients();
 });
 
 const getItems = async () => {
-  const today = new Date();
-
-  const fecha = date.formatDate(today, 'YYYY-MM-DD');
-
+  const fecha = date.formatDate(new Date(), 'YYYY-MM-DD');
   const data = await citaAgendaDataServices.getAllByDate(fecha);
-
   lista_citas.value = data.data;
 };
 
 const getClients = async () => {
   const data = await pacienteDataServices.getAll();
-
   lista_clientes.value = data.data;
 };
 </script>
