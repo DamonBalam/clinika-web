@@ -73,7 +73,14 @@ const essentialLinks: EssentialLinkProps[] = [
 
 const leftDrawerOpen = ref(true);
 
+import { useCatalogStore } from 'stores/catalog';
+
+const catalogStore = useCatalogStore();
+
 onMounted(() => {
+  if (catalogStore.getObjetivos.length === 0) {
+    catalogStore.getCatalogs();
+  }
   leftDrawerOpen.value = true;
 });
 </script>

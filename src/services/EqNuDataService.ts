@@ -3,7 +3,6 @@ import { IResponse } from 'src/Interfaces/Response';
 import { useAuthStore } from 'src/stores/auth';
 const store = useAuthStore();
 
-const { deleteLocalStorage } = store;
 class EqNuDataService {
   async getByCita(id: string): Promise<IResponse<any[]>> {
     const response = await API.get(

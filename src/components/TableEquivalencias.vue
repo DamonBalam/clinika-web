@@ -2,6 +2,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { useQuasar } from 'quasar';
 import { eqNuDataService } from 'src/services/EqNuDataService';
+import { citaControlDataServices } from 'src/services/CitaControlDataService';
 const $q = useQuasar();
 const props = defineProps({
   id: {
@@ -139,12 +140,11 @@ const items = ref<any[]>([
 ]);
 
 onMounted(async () => {
-  // const data = await citaControlDataServices.getAll(props.id);
-  // if (data.code === 200) {
-  //   cita_control_id.value = data.data.reverse()[0].id ?? null;
-  //   // console.log(cita_control_id.value)
-  // }
-  // await getItems();
+  const data = await citaControlDataServices.getAll(props.id);
+  if (data.code === 200) {
+    cita_control_id.value = data.data.reverse()[0].id ?? null;
+  }
+  await getItems();
 });
 
 const getItems = async () => {

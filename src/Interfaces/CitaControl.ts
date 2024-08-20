@@ -2,13 +2,14 @@ import IAuditable from './Auditable';
 
 export interface ICitaControl extends IAuditable {
   id?: number;
+  estatura: number | string;
   fecha: string;
   peso: number | string;
   musculo: number | string;
   grasa: number | string;
   porcentaje_grasa: number | string;
   cc: number | string;
-  grasa_viceral: number | string;
+  grasa_viseral: number | string;
   cliente_id: number | string;
   notas_cliente: string;
   notas_internas: string;

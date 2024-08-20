@@ -95,7 +95,7 @@
             :icon="'o_edit'"
             size="sm"
             class="q-mr-sm"
-            @click="edit(props.row.id)"
+            @click="edit(props.row)"
           />
           <q-btn
             round
@@ -203,7 +203,10 @@
               dense
               label="Seleccionar consumo de agua"
               v-model="form.consumo_agua_id"
-              :options="[1, 2, 3, 4, 5]"
+              :options="catalogStore.getIngestaAgua"
+              map-options
+              emit-value
+              lazy-rules
             />
           </div>
           <div class="col-6 q-mb-md">
@@ -282,9 +285,14 @@
 import { ref, onMounted, reactive } from 'vue';
 import { useQuasar } from 'quasar';
 import { computed } from '@vue/reactivity';
-import { ICitaControl } from 'src/interfaces copy/CitaControl';
+import { ICitaControl } from 'src/Interfaces/CitaControl';
 import { citaControlDataServices } from 'src/services/CitaControlDataService';
 import { date } from 'quasar';
+
+import { useCatalogStore } from 'stores/catalog';
+
+const catalogStore = useCatalogStore();
+
 const $q = useQuasar();
 const props = defineProps({
   id: {
@@ -300,51 +308,51 @@ const columns = [
     name: 'fecha_cita',
     label: 'Fecha',
     field: 'fecha_cita',
-    align: 'center',
+    align: 'center' as 'center',
   },
   {
     name: 'peso',
     label: 'Peso corporal (Kg)',
     field: 'peso',
-    align: 'center',
+    align: 'center' as 'center',
   },
   {
     name: 'musculo',
     label: 'Masa muscular (Kg)',
     field: 'musculo',
-    align: 'center',
+    align: 'center' as 'center',
   },
   {
     name: 'grasas',
     label: 'Grasa corporal (Kg)',
     field: 'grasas',
-    align: 'center',
+    align: 'center' as 'center',
   },
   {
     name: 'porcentaje_grasa',
     label: 'Porcentaje de Grasa(%)',
     field: 'porcentaje_grasa',
-    align: 'center',
+    align: 'center' as 'center',
   },
   {
     name: 'grasa_viceral',
     label: 'Grasa visceral (Kg)',
     field: 'grasa_viceral',
-    align: 'center',
+    align: 'center' as 'center',
   },
   {
     name: 'cc',
     label: 'Relación Cintura-Cadera',
     field: 'cc',
-    align: 'center',
+    align: 'center' as 'center',
   },
   {
     name: 'evolucion',
     label: 'Notas',
     field: 'evolucion',
-    align: 'center',
+    align: 'center' as 'center',
   },
-  { name: 'accion', label: 'Acciones', align: 'center' },
+  { name: 'accion', label: 'Acciones', align: 'center' as 'center' },
 ];
 
 const prompt = ref(false);
@@ -356,6 +364,7 @@ const items = ref<ICitaControl[]>([]);
 
 const form = reactive({
   id: null,
+  altura: '',
   fecha: '',
   peso: '',
   musculo: '',
@@ -394,11 +403,13 @@ const submit = async () => {
   const today = new Date();
 
   const fecha = date.formatDate(today, 'YYYY-MM-DD');
+
   if (myForm.value?.validate()) {
     try {
       if (form.id === null) {
         const data = await citaControlDataServices.save({
           fecha: fecha,
+          estatura: form.altura,
           peso: form.peso,
           musculo: form.musculo,
           grasa: form.grasa,
@@ -424,9 +435,8 @@ const submit = async () => {
           closeModal();
         }
       } else {
-        // console.log('actualiza')
-
         const data = await citaControlDataServices.update(form.id, {
+          estatura: form.altura,
           fecha: form.fecha,
           peso: form.peso,
           musculo: form.musculo,
@@ -499,11 +509,10 @@ const openNewCita = () => {
   emits('programar');
 };
 
-const edit = (id: number) => {
-  const item = items.value.find((item) => item.id === id);
-
+const edit = (item: any) => {
   if (item) {
     form.id = item.id;
+    form.altura = item.height.toString();
     form.peso = item.weight.toString();
     form.musculo = item.muscle.toString();
     form.grasa = item.fat.toString();
