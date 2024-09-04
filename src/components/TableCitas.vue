@@ -19,7 +19,7 @@
     <q-table
       dense
       flat
-      :rows="items"
+      :rows="citasReverse"
       :columns="columns"
       row-key="name"
       table-header-class="bg-accent text-black border-accent text-weight-bold"
@@ -381,6 +381,10 @@ const form = reactive({
 
 onMounted(() => {
   getItems();
+});
+
+const citasReverse = computed(() => {
+  return items.value.slice().reverse();
 });
 
 const getItems = async () => {

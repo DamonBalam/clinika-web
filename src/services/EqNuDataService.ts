@@ -16,6 +16,7 @@ class EqNuDataService {
     let response = await API.post('create/equivalencia-nutricional', { data });
     return response.data;
   }
+
   async update(id: any, data: any): Promise<IResponse<any>> {
     let response = await API.post(`update/equivalencia-nutricional/${id}`, {
       data,
