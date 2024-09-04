@@ -340,7 +340,7 @@
       <div class="col-12 col-md-8 q-mt-md q-px-sm q-mb-xs">
         <TableEquivalencias :id="id" :cita="idCita" />
       </div>
-      <div class="col-12 col-md-4 q-mt-md q-px-sm q-mb-xs">
+      <!-- <div class="col-12 col-md-4 q-mt-md q-px-sm q-mb-xs">
         <div class="row">
           <div class="col-12 q-my-md">
             <span class="text-black text-bold text-h5"
@@ -353,7 +353,7 @@
             </q-card>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- NEW CITA -->
       <ProgramarCita

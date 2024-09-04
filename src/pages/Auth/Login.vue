@@ -10,11 +10,11 @@ const { login, loginWithCookies } = store;
 const myForm = ref(null);
 const myFormRecovery = ref(null);
 const isPwd = ref(true);
-// const usuario = ref('');
-const usuario = ref('admin@gmail.com');
+const usuario = ref('');
+// const usuario = ref('admin@gmail.com');
 const usuarioRecovery = ref('');
-// const password = ref('');
-const password = ref('admin01');
+const password = ref('');
+// const password = ref('admin01');
 const message = ref<string>('');
 
 const messageRecovery = ref<string>('');
