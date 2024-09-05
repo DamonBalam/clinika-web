@@ -15,10 +15,12 @@
   "dependencies": {
     "@quasar/extras": "^1.16.4",
     "axios": "^1.6.7",
+    "chart.js": "^4.4.4",
     "pinia": "^2.0.11",
     "qalendar": "^3.5.1",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
+    "vue-chartjs": "^5.3.1",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
@@ -32,5 +34,6 @@
     "node": "^18 || ^16 || ^14.19",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
-  }
+  },
+  "optionalDependencies": {}
 }

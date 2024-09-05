@@ -16,6 +16,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['showEquivalencias']);
+
 const columns = [
   {
     name: 'alimentos',
@@ -86,7 +88,7 @@ const items = ref<any[]>([
   {
     alimentos: 'Carbohidratos',
     desayuno: '',
-    media_manana: '',
+    media_mañana: '',
     almuerzo: '',
     media_tarde: '',
     cena: '',
@@ -95,7 +97,7 @@ const items = ref<any[]>([
   {
     alimentos: 'Frutas',
     desayuno: '',
-    media_manana: '',
+    media_mañana: '',
     almuerzo: '',
     media_tarde: '',
     cena: '',
@@ -104,7 +106,7 @@ const items = ref<any[]>([
   {
     alimentos: 'Vegetales',
     desayuno: '',
-    media_manana: '',
+    media_mañana: '',
     almuerzo: '',
     media_tarde: '',
     cena: '',
@@ -113,7 +115,7 @@ const items = ref<any[]>([
   {
     alimentos: 'Lácteos',
     desayuno: '',
-    media_manana: '',
+    media_mañana: '',
     almuerzo: '',
     media_tarde: '',
     cena: '',
@@ -122,7 +124,7 @@ const items = ref<any[]>([
   {
     alimentos: 'Proteínas',
     desayuno: '',
-    media_manana: '',
+    media_mañana: '',
     almuerzo: '',
     media_tarde: '',
     cena: '',
@@ -131,7 +133,7 @@ const items = ref<any[]>([
   {
     alimentos: 'Grasas',
     desayuno: '',
-    media_manana: '',
+    media_mañana: '',
     almuerzo: '',
     media_tarde: '',
     cena: '',
@@ -171,12 +173,8 @@ const getItems = async () => {
 
         const equivalencias = data.data.equivalencias_nutricionales[0];
 
-        console.log(equivalencias);
-
         const [breakfast, mid_lunch, lunch, mid_dinner, dinner, snack] =
           comidas.map((comida) => JSON.parse(equivalencias[comida]));
-
-        console.log(breakfast, mid_lunch, lunch, mid_dinner, dinner, snack);
 
         const atributos = [
           'carbohidratos',
@@ -189,19 +187,21 @@ const getItems = async () => {
 
         atributos.forEach((atributo, index) => {
           items.value[index].desayuno = breakfast[atributo];
-          items.value[index].media_manana = mid_lunch[atributo];
+          items.value[index].media_mañana = mid_lunch[atributo];
           items.value[index].almuerzo = lunch[atributo];
           items.value[index].media_tarde = mid_dinner[atributo];
           items.value[index].cena = dinner[atributo];
           items.value[index].merienda_noche = snack[atributo];
         });
+
+        emit('showEquivalencias', items.value);
       } else {
         equivalencia_id.value = null;
         fecha.value = null;
 
         const comidas = [
           'desayuno',
-          'media_manana',
+          'media_mañana',
           'almuerzo',
           'media_tarde',
           'cena',
@@ -224,7 +224,7 @@ const submit = async () => {
   try {
     const comidas = [
       'desayuno',
-      'media_manana',
+      'media_mañana',
       'almuerzo',
       'media_tarde',
       'cena',
@@ -326,8 +326,8 @@ const submit = async () => {
             </q-popup-edit>
           </q-td>
           <q-td key="media_manana" :props="props">
-            {{ props.row.media_manana }}
-            <q-popup-edit v-model="props.row.media_manana" v-slot="scope">
+            {{ props.row.media_mañana }}
+            <q-popup-edit v-model="props.row.media_mañana" v-slot="scope">
               <q-input
                 v-model="scope.value"
                 dense
@@ -388,7 +388,7 @@ const submit = async () => {
           </q-td>
           <q-td key="total" :props="props">{{
             Number(props.row.desayuno || 0) +
-            Number(props.row.media_manana || 0) +
+            Number(props.row.media_mañana || 0) +
             Number(props.row.almuerzo || 0) +
             Number(props.row.media_tarde || 0) +
             Number(props.row.cena || 0) +

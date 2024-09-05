@@ -338,9 +338,13 @@
         <TableCitas :id="id" @cita="handleCita" @programar="openNewCita" />
       </div>
       <div class="col-12 col-md-8 q-mt-md q-px-sm q-mb-xs">
-        <TableEquivalencias :id="id" :cita="idCita" />
+        <TableEquivalencias
+          :id="id"
+          :cita="idCita"
+          @show-equivalencias="setEquivalencias"
+        />
       </div>
-      <!-- <div class="col-12 col-md-4 q-mt-md q-px-sm q-mb-xs">
+      <div class="col-12 col-md-4 q-mt-md q-px-sm q-mb-xs">
         <div class="row">
           <div class="col-12 q-my-md">
             <span class="text-black text-bold text-h5"
@@ -348,12 +352,15 @@
             >
           </div>
           <div class="col-12">
-            <q-card flat class="text-center" style="height: 340px">
-              <q-img src="../../assets/grafico.png" width="440px" />
-            </q-card>
+            <Pie
+              v-if="loaded"
+              id="my-chart-id"
+              :options="chartOptions"
+              :data="dataChartComputed"
+            />
           </div>
         </div>
-      </div> -->
+      </div>
 
       <!-- NEW CITA -->
       <ProgramarCita
@@ -375,6 +382,10 @@ import TableCitas from 'src/components/TableCitas.vue';
 import BotonBack from 'src/components/common/BotonBack.vue';
 import ProgramarCita from 'src/components/common/ProgramarCita.vue';
 import TableEquivalencias from 'src/components/TableEquivalencias.vue';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'vue-chartjs';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 /* INTERFACES */
 import { IPacienteRES } from 'src/Interfaces/Paciente';
@@ -395,6 +406,8 @@ const props = defineProps({
 /* DATA */
 const idCita = ref('');
 const openRA = ref(true);
+
+const loaded = ref(false);
 
 const prompt = ref(false);
 
@@ -434,6 +447,105 @@ const paciente = ref<IPacienteRES>({
   estres_general: null,
   horas_de_sueno: null,
 });
+
+const dataGrafica = ref([]);
+
+const chartData = reactive({
+  labels: [
+    'CARBOHIDRATOS',
+    'FRUTAS',
+    'VEGETALES',
+    'LACTEOS',
+    'PROTEINAS',
+    'GRASAS',
+  ],
+  datasets: [
+    {
+      backgroundColor: [
+        '#41B883',
+        '#E46651',
+        '#00D8FF',
+        '#DD1B16',
+        '#FFCE56',
+        '#ff6384',
+      ],
+      data: [],
+    },
+  ],
+});
+
+const dataChartComputed = computed(() => {
+  return {
+    labels: [
+      'CARBOHIDRATOS',
+      'FRUTAS',
+      'VEGETALES',
+      'LACTEOS',
+      'PROTEINAS',
+      'GRASAS',
+    ],
+    datasets: [
+      {
+        backgroundColor: [
+          '#41B883',
+          '#E46651',
+          '#00D8FF',
+          '#DD1B16',
+          '#FFCE56',
+          '#ff6384',
+        ],
+        data: [...dataGrafica.value],
+      },
+    ],
+  };
+});
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+};
+
+const setEquivalencias = (items: any) => {
+  console.log(items);
+
+  loaded.value = false;
+  // chartData.datasets[0].data = [];
+
+  dataGrafica.value = [];
+  const labels = [
+    'carbohidratos',
+    'frutas',
+    'vegetales',
+    'lácteos',
+    'proteínas',
+    'grasas',
+  ];
+
+  const comidas = [
+    'desayuno',
+    'media_mañana',
+    'almuerzo',
+    'media_tarde',
+    'cena',
+    'merienda_noche',
+  ];
+
+  labels.map((label) => {
+    let suma = 0;
+    const data = items.filter(
+      (item: any) => item.alimentos.toLowerCase() === label
+    );
+
+    comidas.forEach((comida) => {
+      suma = Number(data[0][comida]) + suma;
+    });
+
+    dataGrafica.value.push(suma);
+    // chartData.datasets[0].data.push(suma);
+  });
+
+  loaded.value = true;
+};
 
 const handleCita = (id: string) => {
   idCita.value = id;
