@@ -351,7 +351,28 @@
               >Distribución de macronutrientes</span
             >
           </div>
-          <div class="col-12">
+          <div class="col-5">
+            <ul>
+              <li
+                v-for="(item, index) in alimentosWithPercentage"
+                style="list-style: none"
+                class="q-mb-md"
+              >
+                <span
+                  style="
+                    font-size: 12px;
+                    padding: 4px;
+                    color: #fff;
+                    font-weight: 600;
+                    border-radius: 10px;
+                  "
+                  :style="`background-color: ${colors[index]}`"
+                  >{{ item }}</span
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-7">
             <Doughnut
               v-if="loaded"
               id="my-chart-id"
@@ -382,17 +403,10 @@ import TableCitas from 'src/components/TableCitas.vue';
 import BotonBack from 'src/components/common/BotonBack.vue';
 import ProgramarCita from 'src/components/common/ProgramarCita.vue';
 import TableEquivalencias from 'src/components/TableEquivalencias.vue';
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  Title,
-  LinearScale,
-} from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Doughnut } from 'vue-chartjs';
 
-ChartJS.register(ArcElement, Tooltip, Legend, Title, LinearScale);
+ChartJS.register(ArcElement, Tooltip);
 
 /* INTERFACES */
 import { IPacienteRES } from 'src/Interfaces/Paciente';
@@ -458,20 +472,22 @@ const paciente = ref<IPacienteRES>({
 const dataGrafica = ref<number[]>([]);
 const sumaTotal = ref(0);
 
+const colors = [
+  '#B53232',
+  '#E69C2D',
+  '#2BAD50',
+  '#5845CF',
+  '#45AECF',
+  '#2831FF',
+];
+
 const dataChartComputed = computed(() => {
   return {
     title: 'Distribución de macronutrientes',
     labels: [...alimentosWithPercentage.value],
     datasets: [
       {
-        backgroundColor: [
-          '#B53232',
-          '#E69C2D',
-          '#2BAD50',
-          '#5845CF',
-          '#45AECF',
-          '#2831FF',
-        ],
+        backgroundColor: [...colors],
         data: [...dataGrafica.value],
         label: 'Macronutrientes',
       },
@@ -508,10 +524,7 @@ const chartOptions = {
 };
 
 const setEquivalencias = (items: any) => {
-  console.log(items);
-
   loaded.value = false;
-  // chartData.datasets[0].data = [];
 
   dataGrafica.value = [];
   const labels = [
