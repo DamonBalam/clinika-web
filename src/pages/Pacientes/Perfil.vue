@@ -448,7 +448,8 @@ const paciente = ref<IPacienteRES>({
   horas_de_sueno: null,
 });
 
-const dataGrafica = ref([]);
+const dataGrafica = ref<number[]>([]);
+const sumaTotal = ref(0);
 
 const chartData = reactive({
   labels: [
@@ -476,14 +477,7 @@ const chartData = reactive({
 
 const dataChartComputed = computed(() => {
   return {
-    labels: [
-      'CARBOHIDRATOS',
-      'FRUTAS',
-      'VEGETALES',
-      'LACTEOS',
-      'PROTEINAS',
-      'GRASAS',
-    ],
+    labels: [...alimentosWithPercentage.value],
     datasets: [
       {
         backgroundColor: [
@@ -498,6 +492,29 @@ const dataChartComputed = computed(() => {
       },
     ],
   };
+});
+
+const alimentosWithPercentage = computed(() => {
+  const aliments = [
+    'CARBOHIDRATOS',
+    'FRUTAS',
+    'VEGETALES',
+    'LACTEOS',
+    'PROTEINAS',
+    'GRASAS',
+  ];
+
+  const data = dataGrafica.value.map((item, index) => {
+    return {
+      label: aliments[index],
+      value: item,
+      percentage: ((item / sumaTotal.value) * 100).toFixed(2),
+    };
+  });
+
+  return data.map((item) => {
+    return `${item.label} - ${item.percentage}%`;
+  });
 });
 
 const chartOptions = {
@@ -541,7 +558,7 @@ const setEquivalencias = (items: any) => {
     });
 
     dataGrafica.value.push(suma);
-    // chartData.datasets[0].data.push(suma);
+    sumaTotal.value = sumaTotal.value + suma;
   });
 
   loaded.value = true;
