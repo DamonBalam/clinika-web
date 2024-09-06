@@ -352,7 +352,7 @@
             >
           </div>
           <div class="col-12">
-            <Pie
+            <Doughnut
               v-if="loaded"
               id="my-chart-id"
               :options="chartOptions"
@@ -382,10 +382,17 @@ import TableCitas from 'src/components/TableCitas.vue';
 import BotonBack from 'src/components/common/BotonBack.vue';
 import ProgramarCita from 'src/components/common/ProgramarCita.vue';
 import TableEquivalencias from 'src/components/TableEquivalencias.vue';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Pie } from 'vue-chartjs';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title,
+  LinearScale,
+} from 'chart.js';
+import { Doughnut } from 'vue-chartjs';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, Title, LinearScale);
 
 /* INTERFACES */
 import { IPacienteRES } from 'src/Interfaces/Paciente';
@@ -451,44 +458,22 @@ const paciente = ref<IPacienteRES>({
 const dataGrafica = ref<number[]>([]);
 const sumaTotal = ref(0);
 
-const chartData = reactive({
-  labels: [
-    'CARBOHIDRATOS',
-    'FRUTAS',
-    'VEGETALES',
-    'LACTEOS',
-    'PROTEINAS',
-    'GRASAS',
-  ],
-  datasets: [
-    {
-      backgroundColor: [
-        '#41B883',
-        '#E46651',
-        '#00D8FF',
-        '#DD1B16',
-        '#FFCE56',
-        '#ff6384',
-      ],
-      data: [],
-    },
-  ],
-});
-
 const dataChartComputed = computed(() => {
   return {
+    title: 'Distribución de macronutrientes',
     labels: [...alimentosWithPercentage.value],
     datasets: [
       {
         backgroundColor: [
-          '#41B883',
-          '#E46651',
-          '#00D8FF',
-          '#DD1B16',
-          '#FFCE56',
-          '#ff6384',
+          '#B53232',
+          '#E69C2D',
+          '#2BAD50',
+          '#5845CF',
+          '#45AECF',
+          '#2831FF',
         ],
         data: [...dataGrafica.value],
+        label: 'Macronutrientes',
       },
     ],
   };
