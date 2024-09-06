@@ -505,7 +505,9 @@ const alimentosWithPercentage = computed(() => {
     'GRASAS',
   ];
 
-  const data = dataGrafica.value.map((item, index) => {
+  let data: any = [];
+
+  data = dataGrafica.value.map((item, index) => {
     return {
       label: aliments[index],
       value: item,
@@ -527,6 +529,7 @@ const setEquivalencias = (items: any) => {
   loaded.value = false;
 
   dataGrafica.value = [];
+  sumaTotal.value = 0;
   const labels = [
     'carbohidratos',
     'frutas',
