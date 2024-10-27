@@ -10,7 +10,7 @@
             label="Nueva cita"
             color="primary"
             :icon="'add'"
-            class="text-capitalize"
+            style="text-transform: inherit"
           />
         </div>
       </div>

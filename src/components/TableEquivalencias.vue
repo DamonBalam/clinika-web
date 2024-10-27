@@ -403,6 +403,7 @@ const submit = async () => {
       color="primary"
       @click="submit"
       :disable="cita_control_id === null"
+      style="text-transform: inherit"
       >{{
         equivalencia_id ? 'Actualizar Equivalencias' : 'Guardar Equivalencias'
       }}</q-btn

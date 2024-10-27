@@ -8,9 +8,13 @@
         @click="openNewCita"
         class="q-mr-md bg-white"
         label="Programar siguiente cita"
+        style="text-transform: inherit"
         icon="add"
       ></q-btn>
-      <q-btn color="primary" @click="prompt = !prompt"
+      <q-btn
+        color="primary"
+        @click="prompt = !prompt"
+        style="text-transform: inherit"
         >Registrar cita actual</q-btn
       >
     </div>
@@ -81,6 +85,7 @@
             size="sm"
             class="bg-primary"
             text-color="white"
+            style="text-transform: inherit"
             @click="handleCita(props.row.id)"
           >
             {{ props.row.date.split('T')[0] }}
@@ -275,8 +280,20 @@
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="Cancelar" color="primary" v-close-popup />
-        <q-btn flat label="Eliminar" color="red" @click="deleteCita" />
+        <q-btn
+          style="text-transform: inherit"
+          flat
+          label="Cancelar"
+          color="primary"
+          v-close-popup
+        />
+        <q-btn
+          style="text-transform: inherit"
+          flat
+          label="Eliminar"
+          color="red"
+          @click="deleteCita"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>

@@ -191,7 +191,7 @@ const deleteUser = async () => {
       color="primary"
       :icon="'add'"
       @click="prompt = true"
-      class="text-capitalize"
+      style="text-transform: inherit"
     ></q-btn>
   </div>
 
@@ -302,13 +302,13 @@ const deleteUser = async () => {
           outline
           label="Cancelar"
           @click="closeModal"
-          style="width: 175px"
+          style="width: 175px; text-transform: inherit"
         />
         <q-btn
           color="primary"
           :label="form.id === null ? 'Guardar' : 'Actualizar'"
           v-close-popup
-          style="width: 175px"
+          style="width: 175px; text-transform: inherit"
           @click="submit"
         />
       </q-card-actions>
@@ -322,8 +322,20 @@ const deleteUser = async () => {
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat label="Cancelar" color="primary" v-close-popup />
-        <q-btn flat label="Eliminar" color="red" @click="deleteUser" />
+        <q-btn
+          style="text-transform: inherit"
+          flat
+          label="Cancelar"
+          color="primary"
+          v-close-popup
+        />
+        <q-btn
+          style="text-transform: inherit"
+          flat
+          label="Eliminar"
+          color="red"
+          @click="deleteUser"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>

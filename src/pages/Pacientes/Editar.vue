@@ -525,7 +525,7 @@
             label="Cancelar"
             :to="{ name: 'Pacientes' }"
             class="q-mt-md q-mr-md bg-white"
-            style="width: 240px"
+            style="width: 240px; text-transform: inherit"
             flat
           />
           <q-btn
@@ -535,7 +535,7 @@
             label="Guardar paciente"
             class="q-mt-md bg-primary text-white border-primary"
             flat
-            style="width: 240px"
+            style="width: 240px; text-transform: inherit"
           />
         </div>
       </div>

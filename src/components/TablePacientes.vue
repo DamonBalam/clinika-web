@@ -178,7 +178,7 @@ const deleteUser = async () => {
           label="Nuevo paciente"
           color="primary"
           :icon="'add'"
-          class="text-capitalize"
+          style="text-transform: inherit"
         />
       </div>
     </div>
@@ -306,8 +306,20 @@ const deleteUser = async () => {
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancelar" color="primary" v-close-popup />
-          <q-btn flat label="Eliminar" color="red" @click="deleteUser" />
+          <q-btn
+            style="text-transform: inherit"
+            flat
+            label="Cancelar"
+            color="primary"
+            v-close-popup
+          />
+          <q-btn
+            style="text-transform: inherit"
+            flat
+            label="Eliminar"
+            color="red"
+            @click="deleteUser"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>

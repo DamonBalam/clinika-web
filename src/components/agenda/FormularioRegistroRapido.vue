@@ -187,14 +187,14 @@
             label="Cancelar"
             @click="closeModal"
             class="full-width"
-            style="max-width: 48%"
+            style="max-width: 48%; text-transform: inherit"
           />
           <q-btn
             color="primary"
             label="Guardar"
             @click="submit"
             class="full-width"
-            style="max-width: 48%"
+            style="max-width: 48%; text-transform: inherit"
             :disable="disabled"
             :loading="loading"
           />

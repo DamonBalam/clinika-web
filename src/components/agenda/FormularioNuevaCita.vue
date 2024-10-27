@@ -197,14 +197,14 @@
             label="Cancelar"
             @click="closeModal"
             class="full-width"
-            style="max-width: 48%"
+            style="max-width: 48%; text-transform: inherit"
           />
           <q-btn
             color="primary"
             :label="form.id === null ? 'Guardar' : 'Actualizar'"
             @click="submit"
             class="full-width"
-            style="max-width: 48%"
+            style="max-width: 48%; text-transform: inherit"
             :disable="disabled"
           />
         </q-card-actions>

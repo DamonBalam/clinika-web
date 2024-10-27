@@ -17,14 +17,14 @@
           label="Cancelar"
           @click="closeModal"
           class="full-width"
-          style="max-width: 48%"
+          style="max-width: 48%; text-transform: inherit"
         />
         <q-btn
           color="primary"
           label="Eliminar"
           @click="submit"
           class="full-width"
-          style="max-width: 48%"
+          style="max-width: 48%; text-transform: inherit"
         />
       </q-card-actions>
     </q-card>
