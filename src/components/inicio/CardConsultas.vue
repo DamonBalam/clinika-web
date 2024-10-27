@@ -47,7 +47,7 @@
       <template v-else>
         <div class="row q-pa-lg">
           <div class="col-12">
-            <q-card flat class="text-center text-uppercase">
+            <q-card flat class="text-center">
               <div class="text-h6">No tienes consultas para hoy</div>
             </q-card>
           </div>
