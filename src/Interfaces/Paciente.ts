@@ -80,6 +80,10 @@ export interface IPacientePayload {
   nivel_estres_id?: number | null;
 }
 
+export interface IPacienteWithFilesPayload extends IPacientePayload {
+  archivos: File[];
+}
+
 export interface IPacienteResponse {
   id: number | null;
   nombre: string;
@@ -118,6 +122,8 @@ export interface IPacienteResponse {
   tipo_fumador_id?: number | null;
   consumo_alcohol_id?: number | null;
   nivel_estres_id?: number | null;
+
+  archivos?: string[];
 }
 
 export interface IPacienteRES {

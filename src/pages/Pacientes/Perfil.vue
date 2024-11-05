@@ -322,6 +322,7 @@
                 color="primary"
                 icon="upload"
                 style="text-transform: inherit"
+                @click.prevent="openModalFile = true"
                 >Subir archivo</q-btn
               >
               <q-btn flat color="primary" style="text-transform: inherit"
@@ -393,6 +394,8 @@
       />
     </div>
   </q-page>
+
+  <ModalFileUpload v-model="openModalFile" :paciente="paciente" :id="id" />
 </template>
 
 <script lang="ts" setup>
@@ -415,6 +418,7 @@ import { IPacienteRES } from 'src/Interfaces/Paciente';
 import { pacienteDataServices } from 'src/services/PacienteDataService';
 
 import { useQuasar } from 'quasar';
+import ModalFileUpload from 'src/components/paciente/ModalFileUpload.vue';
 
 const $q = useQuasar();
 const props = defineProps({
@@ -427,6 +431,7 @@ const props = defineProps({
 /* DATA */
 const idCita = ref('');
 const openRA = ref(true);
+const openModalFile = ref(false);
 
 const loaded = ref(false);
 

@@ -69,6 +69,11 @@ const essentialLinks: EssentialLinkProps[] = [
     icon: 'o_settings',
     link: '/ajustes',
   },
+  {
+    title: 'Users',
+    icon: 'o_settings',
+    link: '/users',
+  },
 ];
 
 const leftDrawerOpen = ref(true);

@@ -3,6 +3,7 @@ import {
   IPaciente,
   IPacientePayload,
   IPacienteRES,
+  IPacienteWithFilesPayload,
 } from 'src/Interfaces/Paciente';
 import { IResponse } from 'src/Interfaces/Response';
 import { useAuthStore } from 'src/stores/auth';
@@ -37,6 +38,17 @@ class PacienteDataService {
   async updatePaciente(
     id: number | string,
     data: IPacientePayload
+  ): Promise<IResponse<IPaciente>> {
+    let response = await API.post(`update/user/${id}`, {
+      data: data,
+    });
+
+    return response!.data;
+  }
+
+  async updateFilesPaciente(
+    id: number | string,
+    data: FormData
   ): Promise<IResponse<IPaciente>> {
     let response = await API.post(`update/user/${id}`, {
       data: data,

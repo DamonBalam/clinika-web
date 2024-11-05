@@ -771,11 +771,11 @@ const submit = async () => {
         num_identificacion: formulario.num_identificacion,
 
         /* TODO: NUEVOS DATOS */
-        // estado_civil_id: formulario.estado_civil_id,
-        // consumo_alcohol_id: formulario.consumo_alcohol_id,
-        // tipo_fumador_id: formulario.tipo_fumador_id,
-        // consumo_agua_id: formulario.consumo_agua_id,
-        // nivel_estres_id: formulario.nivel_estres_id,
+        estado_civil_id: formulario.estado_civil_id,
+        consumo_alcohol_id: formulario.consumo_alcohol_id,
+        tipo_fumador_id: formulario.tipo_fumador_id,
+        consumo_agua_id: formulario.consumo_agua_id,
+        nivel_estres_id: formulario.nivel_estres_id,
       };
 
       const data = await pacienteDataServices.savePaciente({ ...payload });
