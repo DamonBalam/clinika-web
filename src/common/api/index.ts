@@ -114,8 +114,8 @@ const doRequest = (method: string, url: string, payload: Payload) => {
   // Creamos el header por default
   // content-type = 'application/json'
   let requestHeaders: Json = {
-    // 'content-type': 'application/json',
-    'content-type': 'multipart/form-data',
+    'content-type': 'application/json',
+    // 'content-type': 'multipart/form-data',
   };
 
   // let token = store.getters["auth/token"];

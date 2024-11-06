@@ -7,6 +7,10 @@
             {{ 'Selecciona los archivos' }}
           </div>
 
+          <!-- <div>
+            <input type="file" multiple @change="onFilesChange" />
+          </div> -->
+
           <q-file outlined v-model="files" use-chips multiple>
             <template v-slot:prepend>
               <q-icon name="attach_file" />
@@ -37,8 +41,11 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios';
 import { pacienteDataServices } from 'src/services/PacienteDataService';
 import { ref, computed } from 'vue';
+
+import { useAuthStore } from 'src/stores/auth';
 
 /* PROPS */
 const props = defineProps({
@@ -56,6 +63,7 @@ const props = defineProps({
   },
 });
 
+const authStore = useAuthStore();
 const files = ref<File[]>([]);
 
 /* EMITS */
@@ -64,63 +72,88 @@ const emits = defineEmits(['update:modelValue']);
 const modal = computed(() => props.modelValue);
 
 /* METHODS */
-
+const onFilesChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files) {
+    files.value = Array.from(target.files);
+  }
+};
 const closeModal = () => {
   files.value = [];
   emits('update:modelValue', false);
 };
 
+const paciente = computed(() => {
+  return props.paciente;
+});
+
 const onSubmit = async (evt: any) => {
   const formData = new FormData();
-  files.value.forEach((file) => {
-    formData.append('archivos', file);
+
+  files.value.forEach((file, index) => {
+    console.log('file', file);
+
+    formData.append(`archivos[${index}]`, file);
   });
 
   const pacienteData = {
-    nombre: props.paciente.nombre,
-    apellido_paterno: props.paciente.apellido_paterno,
-    apellido_materno: props.paciente.apellido_materno,
-    email: props.paciente.email,
-    telefono: props.paciente.telefono,
-    nutricionista_id: props.paciente.nutricionista_id,
-    consultorio_id: props.paciente.consultorio_id,
-    sexo: props.paciente.sexo,
-    fecha_nacimiento: props.paciente.fecha_nacimiento,
-    alergias: props.paciente.alergias,
-    condiciones_medicas: props.paciente.condiciones_medicas,
-    medicinas: props.paciente.medicinas,
-    desordenes: props.paciente.desordenes,
-    actividad_fisica_id: props.paciente.actividad_fisica_id,
-    objetivo_id: props.paciente.objetivo_id,
-    horas_dormidas: props.paciente.horas_dormidas,
-    historial: props.paciente.historial,
-    registro_consumo: props.paciente.registro_consumo,
-    num_identificacion: props.paciente.num_identificacion,
-    profesion: props.paciente.profesion,
-    lugar_residencia: props.paciente.lugar_residencia,
-    estado_civil: props.paciente.estado_civil,
-    consumo_alcohol_id: props.paciente.consumo_alcohol_id,
-    tipo_fumador_id: props.paciente.tipo_fumador_id,
-    consumo_agua_id: props.paciente.consumo_agua_id,
-    nivel_estres_id: props.paciente.nivel_estres_id,
+    nombre: paciente.value.nombre,
+    apellido_paterno: paciente.value.apellido_paterno,
+    apellido_materno: paciente.value.apellido_materno,
+    email: paciente.value.email,
+    telefono: paciente.value.telefono,
+
+    nutricionista_id: paciente.value.nutricionista.id,
+    consultorio_id: paciente.value.consultorio.id,
+
+    sexo: paciente.value.sexo,
+    fecha_nacimiento: paciente.value.fecha_nacimiento,
+
+    alergias: paciente.value.alergias,
+    condiciones_medicas: paciente.value.condiciones_medicas,
+    medicinas: paciente.value.medicinas,
+    desordenes: paciente.value.desordenes,
+
+    actividad_fisica_id: paciente.value.actividad_fisica.id,
+    objetivo_id: paciente.value.objetivo.id,
+
+    horas_dormidas: paciente.value.horas_de_sueno.id,
+    historial: paciente.value.historial,
+    registro_consumo: paciente.value.registro_consumo,
+    num_identificacion: paciente.value.num_identificacion,
+    profesion: paciente.value.profesion,
+    lugar_residencia: paciente.value.lugar_residencia,
+
+    estado_civil: paciente.value.estado_civil,
+    consumo_alcohol_id: paciente.value.consumo_alcohol.id,
+    tipo_fumador_id: paciente.value.fumador.id,
+    consumo_agua_id: paciente.value.consumo_de_agua_diario.id,
+    nivel_estres_id: paciente.value.estres_general.id,
   };
 
   Object.entries(pacienteData).forEach(([key, value]) => {
     formData.append(key, value);
   });
 
-  console.log('formData', formData);
-
   try {
-    const data = await pacienteDataServices.updateFilesPaciente(
-      props.id,
-      formData
+    // const data = await pacienteDataServices.updateFilesPaciente(
+    //   props.id,
+    //   formData
+    // );
+
+    await axios.post(
+      `https://phplaravel-1203103-4252935.cloudwaysapps.com/api/update/user/${props.id}`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${authStore.token}`,
+        },
+      }
     );
   } catch (error) {
     console.error('error', error);
   }
-
-  // console.log('data', data);
 };
 
 /* WATCHERS */
