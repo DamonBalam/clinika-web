@@ -8,7 +8,7 @@
       </q-card-section>
       <q-form ref="myForm">
         <q-card-section class="row q-col-gutter-sm">
-          <div class="col-12">
+          <div class="col-4">
             <q-input
               outlined
               placeholder="Nombre"
@@ -18,7 +18,7 @@
               :rules="[(val) => !!val || 'El nombre es requerido']"
             />
           </div>
-          <div class="col-12">
+          <div class="col-4">
             <q-input
               outlined
               type="email"
@@ -31,7 +31,7 @@
               ]"
             />
           </div>
-          <div class="col-12">
+          <div class="col-4">
             <q-input
               outlined
               type="tel"
