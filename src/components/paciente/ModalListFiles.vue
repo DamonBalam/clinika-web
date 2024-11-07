@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineEmits, defineProps } from 'vue';
+import { computed } from 'vue';
 
 const emits = defineEmits(['update:modelValue']);
 /* PROPS */
