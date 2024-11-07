@@ -325,7 +325,11 @@
                 @click.prevent="openModalFile = true"
                 >Subir archivo</q-btn
               >
-              <q-btn flat color="primary" style="text-transform: inherit"
+              <q-btn
+                flat
+                @click.prevent="openModalListFiles = true"
+                color="primary"
+                style="text-transform: inherit"
                 >Ver todos</q-btn
               >
             </q-card-actions>
@@ -396,6 +400,7 @@
   </q-page>
 
   <ModalFileUpload v-model="openModalFile" :paciente="paciente" :id="id" />
+  <ModalListFiles v-model="openModalListFiles" :paciente="paciente" :id="id" />
 </template>
 
 <script lang="ts" setup>
@@ -419,6 +424,7 @@ import { pacienteDataServices } from 'src/services/PacienteDataService';
 
 import { useQuasar } from 'quasar';
 import ModalFileUpload from 'src/components/paciente/ModalFileUpload.vue';
+import ModalListFiles from 'src/components/paciente/ModalListFiles.vue';
 
 const $q = useQuasar();
 const props = defineProps({
@@ -432,6 +438,7 @@ const props = defineProps({
 const idCita = ref('');
 const openRA = ref(true);
 const openModalFile = ref(false);
+const openModalListFiles = ref(false);
 
 const loaded = ref(false);
 

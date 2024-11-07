@@ -1,15 +1,11 @@
 <template>
   <q-dialog v-model="modal" persistent>
-    <q-card style="min-width: 400px; background-color: #f5f5f5" class="q-pa-lg">
+    <q-card style="min-width: 600px; background-color: #f5f5f5" class="q-pa-lg">
       <q-form @submit="onSubmit" class="q-gutter-md">
         <q-card-section>
           <div class="title q-mb-md">
             {{ 'Selecciona los archivos' }}
           </div>
-
-          <!-- <div>
-            <input type="file" multiple @change="onFilesChange" />
-          </div> -->
 
           <q-file outlined v-model="files" use-chips multiple>
             <template v-slot:prepend>
@@ -78,6 +74,7 @@ const onFilesChange = (event: Event) => {
     files.value = Array.from(target.files);
   }
 };
+
 const closeModal = () => {
   files.value = [];
   emits('update:modelValue', false);
