@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="modal" persistent>
+  <q-dialog v-model="modal">
     <q-card style="min-width: 600px; background-color: #f5f5f5" class="q-pa-lg">
       <q-card-section>
         <div class="title q-mb-md">

@@ -2,7 +2,7 @@
   <div class="q-mt-sm row justify-between items-center q-mb-md">
     <span class="text-black text-bold text-h5">Registro de citas</span>
     <div>
-      <q-btn
+      <!-- <q-btn
         color="primary"
         outline
         @click="openNewCita"
@@ -10,7 +10,7 @@
         label="Programar siguiente cita"
         style="text-transform: inherit"
         icon="add"
-      ></q-btn>
+      ></q-btn> -->
       <q-btn
         color="primary"
         @click="prompt = !prompt"

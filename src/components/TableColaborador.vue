@@ -185,7 +185,7 @@ const deleteUser = async () => {
 
 <template>
   <div class="q-mt-lg q-pt-lg row justify-between">
-    <span class="text-black text-bold text-h5">Acceso</span>
+    <span class="text-black text-bold text-h5">Accesos</span>
     <q-btn
       label="Nuevo acceso"
       color="primary"

@@ -1,4 +1,4 @@
-<template name="asda">
+<template>
   <q-page>
     <TableColaborador />
     <TableConsultorio />

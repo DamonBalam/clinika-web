@@ -70,8 +70,8 @@ const essentialLinks: EssentialLinkProps[] = [
     link: '/ajustes',
   },
   {
-    title: 'Users',
-    icon: 'o_settings',
+    title: 'Gestionar cuentas',
+    icon: 'o_manage_accounts',
     link: '/users',
   },
 ];
