@@ -3,6 +3,7 @@ import { ref, onMounted, reactive, computed } from 'vue';
 import { IClinic } from '../Interfaces/Clinic';
 import { clinicDataServices } from 'src/services/ClinicDataService';
 import { useQuasar } from 'quasar';
+import ModalBase from './common/ModalBase.vue';
 const $q = useQuasar();
 const columns = [
   {
@@ -269,30 +270,50 @@ const deleteConsultorio = async () => {
     </q-card>
   </q-dialog>
 
-  <q-dialog v-model="confirm" persistent>
-    <q-card>
-      <q-card-section class="row items-center">
-        <span class="q-ml-sm">Se eliminara el siguiente consultorio</span>
-      </q-card-section>
-
-      <q-card-actions align="right">
-        <q-btn
-          style="text-transform: inherit"
-          flat
-          label="Cancelar"
-          color="primary"
-          v-close-popup
-        />
-        <q-btn
-          style="text-transform: inherit"
-          flat
-          label="Eliminar"
-          color="red"
-          @click="deleteConsultorio"
-        />
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
+  <ModalBase v-model="confirm">
+    <template #content>
+      <div class="row justify-center">
+        <q-icon color="warning" name="warning" size="100px" />
+      </div>
+      <div class="row justify-center">
+        <div class="subtitle">Se eliminara el siguiente consultorio</div>
+      </div>
+    </template>
+    <template #actions>
+      <q-btn
+        outline
+        label="Cancelar"
+        @click="confirm = false"
+        class="full-width"
+        style="max-width: 48%; text-transform: inherit"
+      />
+      <q-btn
+        color="primary"
+        label="Eliminar"
+        type="submit"
+        class="full-width"
+        @click="deleteConsultorio"
+        style="max-width: 48%; text-transform: inherit"
+      />
+    </template>
+  </ModalBase>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.title {
+  font-size: 32px;
+  font-weight: 400;
+  color: #525252;
+  line-height: 20px;
+  text-align: center;
+}
+
+.subtitle {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #525252;
+  line-height: 20px;
+  text-align: center;
+}
+</style>

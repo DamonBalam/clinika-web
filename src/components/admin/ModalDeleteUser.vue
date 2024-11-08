@@ -5,11 +5,8 @@
         <div class="row justify-center">
           <q-icon color="warning" name="warning" size="100px" />
         </div>
-        <!-- <div class="title q-mb-md">
-          {{ 'Alerta' }}
-        </div> -->
         <div class="subtitle">Se eliminará el siguiente registro</div>
-        <div class="q-mt-md">
+        <!-- <div class="q-mt-md">
           <div class="row justify-center">
             <div class="c_label q-mr-md">Nombre:</div>
             <div>{{ 'Nombre de la cuenta' }}</div>
@@ -22,7 +19,7 @@
             <div class="c_label q-mr-md">Teléfono:</div>
             <div>{{ '983765123' }}</div>
           </div>
-        </div>
+        </div> -->
       </q-card-section>
 
       <!-- ACTIONS -->

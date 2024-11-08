@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
-import { computed } from '@vue/reactivity';
 import { pacienteDataServices } from 'src/services/PacienteDataService';
 import { nutriDataServices } from '../services/NutriDataService';
 import { clinicDataServices } from '../services/ClinicDataService';
-import { userDataServices } from 'src/services/userDataService';
+
 import { useQuasar } from 'quasar';
 import { IPaciente } from 'src/Interfaces/Paciente';
+import ModalBase from './common/ModalBase.vue';
 const $q = useQuasar();
 const router = useRouter();
+
 const columns = [
   {
     name: 'nombre',
@@ -51,7 +52,7 @@ const columns = [
 ];
 
 const search = ref('');
-const fecha = ref('');
+
 const acceso = ref(null);
 const consultorio = ref(null);
 const colaborador = ref(null);
@@ -71,8 +72,6 @@ const consultorios = ref<any[]>([]);
 
 onMounted(async () => {
   await getItems();
-  // await getNutricionistas();
-  // await getConsultorios();
 });
 
 const getItems = async () => {
@@ -127,17 +126,17 @@ const getDelete = (id: string) => {
 
 const deleteUser = async () => {
   try {
-    // const data = await userDataServices.deleteUser(idPaciente.value);
-    // if (data.code === 200) {
-    //   await getItems();
-    //   $q.notify({
-    //     color: 'green-4',
-    //     textColor: 'white',
-    //     icon: 'check_circle',
-    //     message: 'Se elimino correctamente',
-    //     position: 'top-right',
-    //   });
-    // }
+    const data = await pacienteDataServices.deleteUser(idPaciente.value);
+    if (data.code === 200) {
+      await getItems();
+      $q.notify({
+        color: 'green-4',
+        textColor: 'white',
+        icon: 'check_circle',
+        message: 'Se elimino correctamente',
+        position: 'top-right',
+      });
+    }
   } catch (error) {
     $q.notify({
       color: 'red-4',
@@ -298,30 +297,51 @@ const deleteUser = async () => {
         </q-td>
       </template>
     </q-table>
-    <q-dialog v-model="confirm" persistent>
-      <q-card>
-        <q-card-section class="row items-center">
-          <!-- <q-avatar icon="o_delete" color="red" text-color="white" size="40px" /> -->
-          <span class="q-ml-sm">Se eliminara el siguiente paciente</span>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn
-            style="text-transform: inherit"
-            flat
-            label="Cancelar"
-            color="primary"
-            v-close-popup
-          />
-          <q-btn
-            style="text-transform: inherit"
-            flat
-            label="Eliminar"
-            color="red"
-            @click="deleteUser"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </div>
+  <ModalBase v-model="confirm">
+    <template #content>
+      <div class="row justify-center">
+        <q-icon color="warning" name="warning" size="100px" />
+      </div>
+      <div class="row justify-center">
+        <div class="subtitle">Se eliminará el siguiente registro</div>
+      </div>
+    </template>
+    <template #actions>
+      <q-btn
+        outline
+        label="Cancelar"
+        @click="confirm = false"
+        class="full-width"
+        style="max-width: 48%; text-transform: inherit"
+      />
+      <q-btn
+        color="primary"
+        label="Eliminar"
+        type="submit"
+        class="full-width"
+        @click="deleteUser"
+        style="max-width: 48%; text-transform: inherit"
+      />
+    </template>
+  </ModalBase>
 </template>
+
+<style lang="scss" scoped>
+.title {
+  font-size: 32px;
+  font-weight: 400;
+  color: #525252;
+  line-height: 20px;
+  text-align: center;
+}
+
+.subtitle {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #525252;
+  line-height: 20px;
+  text-align: center;
+}
+</style>

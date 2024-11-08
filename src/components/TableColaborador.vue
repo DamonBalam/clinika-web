@@ -6,6 +6,7 @@ import { roleDataServices } from '../services/RoleDataService';
 import { IRole } from '../Interfaces/Role';
 import { useQuasar } from 'quasar';
 import { userDataServices } from '../services/userDataService';
+import ModalBase from './common/ModalBase.vue';
 const $q = useQuasar();
 const columns = [
   {
@@ -315,30 +316,33 @@ const deleteUser = async () => {
     </q-card>
   </q-dialog>
 
-  <q-dialog v-model="confirm" persistent>
-    <q-card>
-      <q-card-section class="row items-center">
-        <span class="q-ml-sm">Se eliminará la siguiente nutricionista</span>
-      </q-card-section>
-
-      <q-card-actions align="right">
-        <q-btn
-          style="text-transform: inherit"
-          flat
-          label="Cancelar"
-          color="primary"
-          v-close-popup
-        />
-        <q-btn
-          style="text-transform: inherit"
-          flat
-          label="Eliminar"
-          color="red"
-          @click="deleteUser"
-        />
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
+  <ModalBase v-model="confirm">
+    <template #content>
+      <div class="row justify-center">
+        <q-icon color="warning" name="warning" size="100px" />
+      </div>
+      <div class="row justify-center">
+        <div class="subtitle">Se eliminará la siguiente nutricionista</div>
+      </div>
+    </template>
+    <template #actions>
+      <q-btn
+        outline
+        label="Cancelar"
+        @click="confirm = false"
+        class="full-width"
+        style="max-width: 48%; text-transform: inherit"
+      />
+      <q-btn
+        color="primary"
+        label="Eliminar"
+        type="submit"
+        class="full-width"
+        @click="deleteUser"
+        style="max-width: 48%; text-transform: inherit"
+      />
+    </template>
+  </ModalBase>
 </template>
 
 <style lang="scss" scoped></style>

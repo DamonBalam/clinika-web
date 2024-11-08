@@ -56,6 +56,12 @@ class PacienteDataService {
 
     return response!.data;
   }
+
+  async deleteUser(id: string): Promise<IResponse<any>> {
+    const response = await API.delete(`delete/user/${id}`, {});
+
+    return response!.data;
+  }
 }
 
 export const pacienteDataServices = new PacienteDataService();
