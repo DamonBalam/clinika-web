@@ -59,7 +59,7 @@
           </div>
           <div class="col-6 q-mt-md">
             <label for="" class="c_label">Videoconferencia</label>
-            <q-input v-model="form.videoconferencia" filled dense disable>
+            <q-input v-model="form.videoconferencia" filled dense>
               <template v-slot:prepend>
                 <q-icon name="videocam" />
               </template>
@@ -98,7 +98,18 @@
           </div>
           <div class="col-3 q-mt-md">
             <label for="" class="c_label">Hora de inicio</label>
-            <q-input
+            <q-select
+              filled
+              dense
+              v-model="form.horaStart"
+              :options="horarios"
+              :options-dense="true"
+            >
+              <template v-slot:prepend>
+                <q-icon name="access_time" />
+              </template>
+            </q-select>
+            <!-- <q-input
               filled
               v-model="form.horaStart"
               mask="time"
@@ -109,22 +120,21 @@
               <template v-slot:prepend>
                 <q-icon name="access_time"> </q-icon>
               </template>
-            </q-input>
+            </q-input> -->
           </div>
           <div class="col-3 q-mt-md">
             <label for="" class="c_label">Hora de terminación</label>
-            <q-input
+            <q-select
               filled
-              v-model="form.horaEnd"
-              mask="time"
-              :rules="['time']"
               dense
-              error-message="Hora invalida"
+              v-model="form.horaEnd"
+              :options="horarios"
+              :options-dense="true"
             >
               <template v-slot:prepend>
-                <q-icon name="access_time"> </q-icon>
+                <q-icon name="access_time" />
               </template>
-            </q-input>
+            </q-select>
           </div>
 
           <div class="col-6">
@@ -142,6 +152,15 @@
           </div>
 
           <div class="col-6">
+            <label for="" class="c_label">Estado de la consulta</label>
+            <q-select filled dense v-model="form.estado" :options="status">
+              <template v-slot:prepend>
+                <q-icon name="manage_accounts" />
+              </template>
+            </q-select>
+          </div>
+
+          <!-- <div class="col-6">
             <label for="" class="c_label">Lugar de consulta</label>
             <q-select
               filled
@@ -153,7 +172,7 @@
                 <q-icon name="manage_accounts" />
               </template>
             </q-select>
-          </div>
+          </div> -->
 
           <div class="col-12 q-mt-md">
             <q-expansion-item
@@ -162,33 +181,20 @@
               label="Añadir notas de programación a la consulta"
               header-class="bg-white text-black"
               expand-icon-class="text-black"
+              default-opened
             >
               <q-card>
                 <q-card-section>
-                  <q-input filled color="white" dense v-model="form.notas">
+                  <q-input
+                    placeholder="Notas de la consulta"
+                    filled
+                    color="white"
+                    v-model="form.notas"
+                  >
                   </q-input>
                 </q-card-section>
               </q-card>
             </q-expansion-item>
-          </div>
-          <div class="col-12 q-mt-md">
-            <label for="" class="c_label">Estado de la consulta</label>
-            <q-select filled dense v-model="form.estado" :options="status">
-              <template v-slot:prepend>
-                <q-icon name="manage_accounts" />
-              </template>
-            </q-select>
-          </div>
-          <div class="col-12 q-mt-md">
-            <div class="bg-white" style="width: 320px">
-              <q-checkbox
-                v-model="form.sincronizar"
-                checked-icon="check_circle_outline"
-                unchecked-icon="radio_button_unchecked"
-                label="Sincronizar consulta con Google Calendar"
-                disable
-              />
-            </div>
           </div>
         </q-card-section>
         <q-card-actions align="between" class="text-primary q-mr-md">
@@ -240,6 +246,30 @@ const props = defineProps({
     default: null,
   },
 });
+
+const horarios = [
+  '08:00',
+  '08:30',
+  '09:00',
+  '09:30',
+  '10:00',
+  '10:30',
+  '11:00',
+  '11:30',
+  '12:00',
+  '12:30',
+  '13:00',
+  '13:30',
+  '14:00',
+  '14:30',
+  '15:00',
+  '15:30',
+  '16:00',
+  '16:30',
+  '17:00',
+  '17:30',
+  '18:00',
+];
 
 /* EMITS */
 const emit = defineEmits(['close', 'submit', 'newPatient', 'update']);
