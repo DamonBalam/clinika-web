@@ -93,7 +93,7 @@ type Json = JsonPrimitive | JsonMap | JsonArray;
 
 interface Payload {
   params?: Json | any;
-  data?: Json | any;
+  data?: Json | any | FormData;
   headers?: Json | any;
 }
 
@@ -114,15 +114,16 @@ const doRequest = (method: string, url: string, payload: Payload) => {
   // Creamos el header por default
   // content-type = 'application/json'
   let requestHeaders: Json = {
-    'content-type': 'application/json',
+    // 'content-type': 'application/json',
+    'Content-Type': 'multipart/form-data',
     // 'content-type': 'multipart/form-data',
   };
 
   // let token = store.getters["auth/token"];
   // let token = localStorage.getItem('access_token')
-  const { token } = useAuthStore();
-  if (token) {
-    requestHeaders['Authorization'] = `Bearer ${token}`;
+
+  if (useAuthStore().token !== '') {
+    requestHeaders['Authorization'] = `Bearer ${useAuthStore().token}`;
   }
 
   // Realizamos el merge con los headers indicados en el parámetro header

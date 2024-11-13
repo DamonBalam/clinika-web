@@ -8,34 +8,14 @@
         <div class="row justify-center">
           <div class="q-pa-md col-12" style="max-width: 550px">
             <q-list dense bordered padding class="rounded-borders">
-              <q-item clickable v-ripple>
+              <q-item clickable v-ripple v-for="(file, i) in files">
                 <q-item-section avatar>
                   <q-icon color="primary" name="picture_as_pdf" />
                 </q-item-section>
 
-                <q-item-section> Foto_1.jpeg </q-item-section>
+                <q-item-section> Archivo {{ i + 1 }} </q-item-section>
 
-                <q-item-section side>
-                  <q-icon color="primary" name="download" />
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-ripple>
-                <q-item-section avatar>
-                  <q-icon color="primary" name="picture_as_pdf" />
-                </q-item-section>
-                <q-item-section> Doc.png </q-item-section>
-                <q-item-section side>
-                  <q-icon color="primary" name="download" />
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-ripple>
-                <q-item-section avatar>
-                  <q-icon color="primary" name="picture_as_pdf" />
-                </q-item-section>
-                <q-item-section> Resultados-Nov-24.pdf </q-item-section>
-                <q-item-section side>
+                <q-item-section side @click="handleViewFile(file)">
                   <q-icon color="primary" name="download" />
                 </q-item-section>
               </q-item>
@@ -91,7 +71,13 @@ const closeModal = () => {
   emits('update:modelValue', false);
 };
 
-/* WATCHERS */
+const files = computed(() => {
+  return props.paciente.archivos || [];
+});
+
+const handleViewFile = (file: string) => {
+  window.open(file, '_blank');
+};
 </script>
 
 <style scoped>

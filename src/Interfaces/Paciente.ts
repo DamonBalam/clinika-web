@@ -161,6 +161,8 @@ export interface IPacienteRES {
   consumo_de_agua_diario?: ICatalogo | null;
   estres_general?: ICatalogo | null;
   horas_de_sueno?: ICatalogo | null;
+
+  archivos?: string[];
 }
 
 export interface ICatalogo {

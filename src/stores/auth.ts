@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { authDataServices } from 'src/services/AuthDataService';
 import { Cookies } from 'quasar';
 import { IUser } from 'src/Interfaces/User';
 

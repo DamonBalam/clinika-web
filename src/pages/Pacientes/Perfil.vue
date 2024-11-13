@@ -309,9 +309,16 @@
                     color="primary"
                   ></q-icon>
                   <span
+                    v-if="paciente.archivos.length === 0"
                     class="text-weight-bold"
                     style="font-size: 14px; color: #94a3b8; display: block"
                     >{{ 'No hay archivos' }}</span
+                  >
+                  <span
+                    v-else
+                    class="text-weight-bold"
+                    style="font-size: 14px; color: #94a3b8; display: block"
+                    >{{ paciente.archivos.length }} archivos</span
                   >
                 </div>
               </div>
@@ -326,11 +333,12 @@
                 >Subir archivo</q-btn
               >
               <q-btn
+                v-if="paciente.archivos.length > 0"
                 flat
                 @click.prevent="openModalListFiles = true"
                 color="primary"
                 style="text-transform: inherit"
-                >Ver todos</q-btn
+                >Ver Archivos</q-btn
               >
             </q-card-actions>
           </q-card>
@@ -399,7 +407,7 @@
     </div>
   </q-page>
 
-  <ModalFileUpload v-model="openModalFile" :paciente="paciente" :id="id" />
+  <ModalFileUpload v-model="openModalFile" @success="handleSuccess" :id="id" />
   <ModalListFiles v-model="openModalListFiles" :paciente="paciente" :id="id" />
 </template>
 
@@ -579,6 +587,17 @@ const setEquivalencias = (items: any) => {
 
 const handleCita = (id: string) => {
   idCita.value = id;
+};
+
+const handleSuccess = () => {
+  $q.notify({
+    color: 'green-4',
+    textColor: 'white',
+    icon: 'check_circle',
+    message: 'Archivo subido correctamente',
+    position: 'top-right',
+  });
+  openModalFile.value = false;
 };
 
 onMounted(() => {
