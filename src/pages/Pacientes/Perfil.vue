@@ -309,7 +309,7 @@
                     color="primary"
                   ></q-icon>
                   <span
-                    v-if="paciente.archivos.length === 0"
+                    v-if="paciente.archivos === undefined"
                     class="text-weight-bold"
                     style="font-size: 14px; color: #94a3b8; display: block"
                     >{{ 'No hay archivos' }}</span
@@ -318,7 +318,7 @@
                     v-else
                     class="text-weight-bold"
                     style="font-size: 14px; color: #94a3b8; display: block"
-                    >{{ paciente.archivos.length }} archivos</span
+                    >{{ paciente.archivos?.length }} archivos</span
                   >
                 </div>
               </div>
@@ -333,7 +333,7 @@
                 >Subir archivo</q-btn
               >
               <q-btn
-                v-if="paciente.archivos.length > 0"
+                :disabled="paciente.archivos === undefined"
                 flat
                 @click.prevent="openModalListFiles = true"
                 color="primary"
@@ -598,6 +598,7 @@ const handleSuccess = () => {
     position: 'top-right',
   });
   openModalFile.value = false;
+  getPaciente();
 };
 
 onMounted(() => {
