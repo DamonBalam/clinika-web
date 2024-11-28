@@ -13,7 +13,7 @@
                   <q-icon color="primary" name="picture_as_pdf" />
                 </q-item-section>
 
-                <q-item-section> Archivo {{ i + 1 }} </q-item-section>
+                <q-item-section> {{ getOnlyName(file) }} </q-item-section>
 
                 <q-item-section side @click="handleViewFile(file)">
                   <q-icon color="primary" name="download" />
@@ -69,6 +69,10 @@ const modal = computed(() => props.modelValue);
 
 const closeModal = () => {
   emits('update:modelValue', false);
+};
+
+const getOnlyName = (file: string) => {
+  return file.split('/').pop();
 };
 
 const files = computed(() => {
