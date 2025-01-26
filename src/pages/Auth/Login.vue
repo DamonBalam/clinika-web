@@ -11,11 +11,11 @@ const myForm = ref(null);
 const myFormRecovery = ref(null);
 const isPwd = ref(true);
 
-// const usuario = ref('');
-// const password = ref('');
+const usuario = ref('');
+const password = ref('');
 
-const usuario = ref('admin@gmail.com');
-const password = ref('admin01');
+// const usuario = ref('admin@gmail.com');
+// const password = ref('admin01');
 
 const usuarioRecovery = ref('');
 const message = ref<string>('');
