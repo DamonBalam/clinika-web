@@ -67,9 +67,9 @@ const getItems = async () => {
     if (data.code === 200) {
       items.value = data.data;
 
-      items.value.forEach((item) => {
-        item.rol = JSON.parse(item.rol);
-      });
+      // items.value.forEach((item) => {
+      //   item.rol = JSON.parse(item.rol);
+      // });
     }
   } catch (error) {
     console.log(error);
@@ -78,7 +78,6 @@ const getItems = async () => {
 };
 
 const submit = async () => {
-  console.log(form);
   if (myForm.value?.validate()) {
     try {
       if (form.id === null) {
@@ -140,7 +139,7 @@ const closeModal = () => {
 const handleEdit = (data: any) => {
   console.log(data.row);
   form.id = data.row.id;
-  form.nombre = data.row.nombre;
+  form.nombre = data.row.name;
   form.email = data.row.email;
   form.rol = data.row.rol;
   prompt.value = true;
@@ -209,13 +208,7 @@ const deleteUser = async () => {
     >
       <template v-slot:body-cell-name="props">
         <q-td key="name" :props="props">
-          {{
-            props.row.name +
-            ' ' +
-            (props.row.second_lastname !== null
-              ? props.row.second_lastname
-              : '')
-          }}
+          {{ props.row.name }}
         </q-td>
       </template>
       <template v-slot:body-cell-accion="props">
@@ -260,7 +253,6 @@ const deleteUser = async () => {
               placeholder="Nombre"
               dense
               v-model="form.nombre"
-              autofocus
               lazy-rules
               :rules="[(val) => !!val || 'El nombre es requerido']"
             />
@@ -282,14 +274,18 @@ const deleteUser = async () => {
           <div class="col-4">
             <q-select
               outlined
-              label="Rol"
+              dense
+              v-model="form.rol"
+              hide-hint
+              label="Selecciona el sexo"
+              class="font-14"
               :options="roles"
               option-value="item.id"
               option-label="name"
-              dense
-              v-model="form.rol"
+              map-options
+              emit-value
               lazy-rules
-              :rules="[(val) => !!val || 'El rol es requerido']"
+              :rules="[(val) => !!val || 'Este campo es obligatorio']"
             />
           </div>
         </q-card-section>
