@@ -2,9 +2,7 @@
   <q-btn class="btn-menu" color="white" dense text-color="black" unelevated>
     <q-icon left>
       <q-avatar size="32px">
-        <img
-          src="https://www.nicepng.com/png/detail/115-1150821_default-avatar-comments-sign-in-icon-png.png"
-        />
+        <img :src="avatar" />
       </q-avatar>
     </q-icon>
     <div class="q-ml-md">{{ userNameLabel }}</div>
@@ -44,6 +42,10 @@ const { getUser, logout } = store;
 
 const userNameLabel = computed(() => {
   return `${getUser.name} ${getUser.first_lastname}`;
+});
+
+const avatar = computed(() => {
+  return `https://ui-avatars.com/api/?name=${getUser.name}+${getUser.first_lastname}&background=0074E4&color=fff`;
 });
 </script>
 

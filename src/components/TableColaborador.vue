@@ -65,9 +65,6 @@ const getItems = async () => {
   try {
     const data = await nutriDataServices.getNutriologas();
     if (data.code === 200) {
-      // data.data.forEach(item => {
-      //   item.rol = JSON.parse(item.rol)
-      // })
       items.value = data.data;
 
       items.value.forEach((item) => {

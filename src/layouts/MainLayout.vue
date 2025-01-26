@@ -44,10 +44,17 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+
+import { useAuthStore } from 'stores/auth';
+const store = useAuthStore();
+
+const { getUser } = store;
+
 import EssentialLink, {
   EssentialLinkProps,
 } from 'components/EssentialLink.vue';
 import Notification from 'src/components/common/Notification.vue';
+
 const essentialLinks: EssentialLinkProps[] = [
   {
     title: 'Inicio',
@@ -69,11 +76,6 @@ const essentialLinks: EssentialLinkProps[] = [
     icon: 'o_settings',
     link: '/ajustes',
   },
-  {
-    title: 'Gestionar cuentas',
-    icon: 'o_manage_accounts',
-    link: '/users',
-  },
 ];
 
 const leftDrawerOpen = ref(true);
@@ -87,6 +89,14 @@ onMounted(() => {
     catalogStore.getCatalogs();
   }
   leftDrawerOpen.value = true;
+
+  if (getUser.email === 'admin@gmail.com') {
+    essentialLinks.push({
+      title: 'Gestionar cuentas',
+      icon: 'o_manage_accounts',
+      link: '/users',
+    });
+  }
 });
 </script>
 

@@ -31,7 +31,7 @@
               <div class="row">
                 <div class="col-3">
                   <q-avatar size="80px" class="q-mt-sm">
-                    <img src="../../assets/avatar.png" />
+                    <img :src="avatar" />
                   </q-avatar>
                 </div>
                 <div class="col-9">
@@ -364,6 +364,12 @@
               >Distribución de macronutrientes</span
             >
           </div>
+          <div
+            v-if="alimentosWithPercentage.length === 0"
+            class="col-12 q-mb-md"
+          >
+            <span class="text-subtitle-analisis">No existen registros</span>
+          </div>
           <div class="col-5">
             <ul>
               <li
@@ -663,6 +669,10 @@ const getMedicinas = computed(() => {
     return JSON.parse(paciente.value.medicinas);
   }
   return ['Ninguna'];
+});
+
+const avatar = computed(() => {
+  return `https://ui-avatars.com/api/?name=${paciente.value.nombre}+${paciente.value.apellido_paterno}&background=0074E4&color=fff`;
 });
 
 /* NEW CITA */
