@@ -7,7 +7,7 @@ const $q = useQuasar();
 const props = defineProps({
   id: {
     type: String || Number,
-    required: true,
+    required: false,
   },
   cita: {
     type: String,
@@ -142,9 +142,9 @@ const items = ref<any[]>([
 ]);
 
 onMounted(async () => {
-  const data = await citaControlDataServices.getAll(props.id);
+  const data = await citaControlDataServices.getAll(props.id as string);
   if (data.code === 200) {
-    cita_control_id.value = data.data.reverse()[0].id ?? null;
+    cita_control_id.value = data.data.reverse()[0]?.id ?? null;
   }
   await getItems();
 });
