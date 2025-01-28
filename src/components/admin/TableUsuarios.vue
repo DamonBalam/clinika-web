@@ -4,6 +4,7 @@ import { ref, onMounted, reactive } from 'vue';
 import { useQuasar } from 'quasar';
 import ModalDeleteUser from './ModalDeleteUser.vue';
 import ModalUser from './ModalUser.vue';
+import { userDataServices } from 'src/services/userDataService';
 const $q = useQuasar();
 
 const columns = [
@@ -32,21 +33,26 @@ const openModalDelete = ref(false);
 const openModalUser = ref(false);
 
 onMounted(async () => {
-  items.value = [
-    {
-      name: 'Juan Perez',
-      email: 'juanperez@gmail.com',
-      phone: '123456789',
-      id: 1,
-    },
-    {
-      name: 'Maria Lopez',
-      email: 'marialopez@gmail.com',
-      phone: '987654321',
-      id: 2,
-    },
-  ];
+  await getItems();
 });
+
+const getItems = async () => {
+  loading.value = true;
+  try {
+    const data = await userDataServices.showAllUser();
+
+    console.log(data);
+
+    if (data.code === 200) {
+      items.value = data.data.filter(
+        (user: any) => user.role === 'Nutricionista'
+      );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  loading.value = false;
+};
 </script>
 
 <template>
@@ -82,12 +88,12 @@ onMounted(async () => {
       </template>
       <template v-slot:body-cell-accion="props">
         <q-td :props="props">
-          <q-toggle
+          <!-- <q-toggle
             v-model="active"
             checked-icon="check"
             color="green"
             unchecked-icon="clear"
-          />
+          /> -->
           <q-btn
             round
             color="red"

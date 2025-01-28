@@ -18,6 +18,11 @@ class UserDataService {
     return response!.data;
   }
 
+  async showAllUser(): Promise<IResponse<any>> {
+    const response = await API.get(`show/users`, {});
+    return response!.data;
+  }
+
   async createUser(data: any): Promise<IResponse<any>> {
     const response = await API.post(`create/user`, {
       data: data,

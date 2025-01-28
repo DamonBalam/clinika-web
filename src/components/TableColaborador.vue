@@ -4,9 +4,9 @@ import { INutri } from '../Interfaces/Nutri';
 import { nutriDataServices } from '../services/NutriDataService';
 import { roleDataServices } from '../services/RoleDataService';
 import { IRole } from '../Interfaces/Role';
-import { useQuasar } from 'quasar';
 import { userDataServices } from '../services/userDataService';
 import ModalBase from './common/ModalBase.vue';
+import { useQuasar } from 'quasar';
 const $q = useQuasar();
 const columns = [
   {
@@ -28,15 +28,15 @@ const columns = [
 const prompt = ref(false);
 
 const myForm = ref<HTMLFormElement | null>(null);
-const items = ref<INutri[]>([]);
-const idNutri = ref('');
-const confirm = ref(false);
 const form = reactive({
   id: null,
   nombre: '',
   email: '',
   rol: null,
 });
+const items = ref<INutri[]>([]);
+const idNutri = ref('');
+const confirm = ref(false);
 
 const loading = ref(false);
 

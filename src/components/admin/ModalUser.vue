@@ -10,6 +10,7 @@
         <q-card-section class="row q-col-gutter-sm">
           <div class="col-4">
             <q-input
+              v-model="form.nombre"
               outlined
               placeholder="Nombre"
               dense
@@ -20,6 +21,7 @@
           </div>
           <div class="col-4">
             <q-input
+              v-model="form.email"
               outlined
               type="email"
               placeholder="Correo electrónico"
@@ -56,9 +58,8 @@
         <q-btn
           color="primary"
           label="Guardar"
-          type="submit"
           class="full-width"
-          @click="closeModal"
+          @click="submit"
           style="max-width: 48%; text-transform: inherit"
         />
       </q-card-actions>
@@ -67,7 +68,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { nutriDataServices } from 'src/services/NutriDataService';
+import { ref, computed, reactive } from 'vue';
+import { useQuasar } from 'quasar';
+const $q = useQuasar();
 
 /* PROPS */
 const props = defineProps({
@@ -85,15 +89,53 @@ const props = defineProps({
   },
 });
 
+/* DATA */
+const myForm = ref<HTMLFormElement | null>(null);
+const form = reactive({
+  nombre: '',
+  email: '',
+  rol: 'SuperAdmin',
+});
+
 /* EMITS */
 const emits = defineEmits(['update:modelValue']);
 
 const modal = computed(() => props.modelValue);
 
 /* METHODS */
-
 const closeModal = () => {
   emits('update:modelValue', false);
+};
+
+const submit = async () => {
+  if (myForm.value?.validate()) {
+    try {
+      const data = await nutriDataServices.saveNutricionista({
+        nombre: form.nombre,
+        email: form.email,
+        rol: form.rol,
+      });
+      if (data.code === 200) {
+        $q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'check_circle',
+          message: 'Nutricionista agregado correctamente',
+          position: 'top-right',
+        });
+        closeModal();
+      }
+    } catch (error) {
+      $q.notify({
+        color: 'red-4',
+        textColor: 'white',
+        icon: 'error',
+        message: 'Ocurrió un error',
+        position: 'top-right',
+      });
+      console.log(error);
+    }
+  }
 };
 
 /* WATCHERS */
